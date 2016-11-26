@@ -11,7 +11,32 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-            echo 'hej qka bone!!!';
+        spl_autoload_register(function ($class_name) {
+            include 'BL/'.$class_name . '.php';
+        });
+        /*$password = "Arber";
+        $salt="AmEl9596";
+        // Get the hash, letting the salt be automatically generated
+        $hash = crypt($password, $salt);
+       
+        if(password_verify($password, $hash))
+        {
+            echo "boni";
+        }
+        else
+        {
+            echo "nuk o ka bon";
+        }*/
+        
+            $f = new Fakullteti("SHKI");
+            if($f->insert($f))
+            {
+                echo "u regjistrua fk-ja";
+            }
+            else
+            {
+                echo "Nuk eshte regjistrua!!!";
+            }
         ?>
     </body>
 </html>
