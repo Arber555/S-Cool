@@ -7,33 +7,42 @@
  */
 
 /**
- * Description of Fakullteti
+ * Description of Grupi
  *
  * @author Arber
  */
-class Fakullteti {
-    
+class Grupi {
     private $emri;
+    private $orariKohes;
     
-    public function __construct($e)
+    public function __construct($e, $oK)
     {
-        $this->emri = $e;
+         $this->emri = $e;
+         $this->orariKohes = $oK;
     }
     
-    function setEmri($emri) {
-        $this->emri = $emri;
-    }
-
     function getEmri() {
         return $this->emri;
     }
 
-    function insert(Fakullteti $f)
+    function getOrariKohes() {
+        return $this->orariKohes;
+    }
+
+    function setEmri($emri) {
+        $this->emri = $emri;
+    }
+
+    function setOrariKohes($orariKohes) {
+        $this->orariKohes = $orariKohes;
+    }
+
+    function insert(Grupi $g)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Fakullteti(Emri) values (?)");
-        $stmt->bind_param("s",$f->emri);
+        $stmt = $con->prepare("INSERT INTO Fakullteti(Emri, Orari_Kohes) values (?,?)");
+        $stmt->bind_param("ss",$g->emri, $g->orariKohes);
         
         if($stmt->execute())
         {
@@ -43,13 +52,12 @@ class Fakullteti {
         return false;
     }
     
-    
     function delete($id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "DELETE FROM Fakulteti WHERE id=".$id."";
+        $sql = "DELETE FROM Grupi WHERE id=".$id."";
         
         if($con->query($sql) === true) 
         {
@@ -62,12 +70,12 @@ class Fakullteti {
         }
     }
     
-    function update(Fakullteti $f, $emri)
+    function update($emri, $orariKohes)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "UPDATE Fakullteti SET Emri='".$emri."' WHERE emri=".$f->emri."";
+        $sql = "UPDATE Grupi SET Emri='".$emri."', Orari_kohes='".$orariKohes."' WHERE id=".id."";
         
         if($con->query($sql) === TRUE) 
         {
