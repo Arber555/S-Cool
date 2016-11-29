@@ -10,6 +10,7 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
+        <a href="StudentiForm.php">Regjistro Student</a>
         <?php
         spl_autoload_register(function ($class_name) {
             include 'BL/'.$class_name . '.php';
@@ -28,7 +29,7 @@ and open the template in the editor.
             echo "nuk o ka bon";
         }*/
         
-            $f = new Fakullteti("SHKI");
+           /* $f = new Fakullteti("SHKI");
             if($f->insert($f))
             {
                 echo "u regjistrua fk-ja";
@@ -36,7 +37,7 @@ and open the template in the editor.
             else
             {
                 echo "Nuk eshte regjistrua!!!";
-            }
+            }*/
         ?>
     </body>
 </html>
