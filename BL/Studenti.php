@@ -1,11 +1,9 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  * Description of Studenti
  *
@@ -36,27 +34,21 @@ class Studenti{
     function getEmri() {
         return $this->emri;
     }
-
     function getMbiemri() {
         return $this->mbiemri;
     }
-
     function getUserName() {
         return $this->userName;
     }
-
     function getPassword() {
         return $this->password;
     }
-
     function getNrPersonal() {
         return $this->nrPersonal;
     }
-
     function getGjinia() {
         return $this->gjinia;
     }
-
     function getKryetar() {
         return $this->kryetar;
     }
@@ -64,23 +56,18 @@ class Studenti{
     function setEmri($emri) {
         $this->emri = $emri;
     }
-
     function setMbiemri($mbiemri) {
         $this->mbiemri = $mbiemri;
     }
-
     function setUserName($userName) {
         $this->userName = $userName;
     }
-
     function setPassword($password) {
         $this->password = $password;
     }
-
     function setNrPersonal($nrPersonal) {
         $this->nrPersonal = $nrPersonal;
     }
-
     function setGjinia($gjinia) {
         $this->gjinia = $gjinia;
     }
