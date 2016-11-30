@@ -260,7 +260,34 @@ and open the template in the editor.
                 v[6].value*/
             }
             
-            
+             // Get the modal
+            var modal = document.getElementById('myModal');
+            console.log("o mrenda");
+            // Get the button that opens the modal
+            var btn = document.getElementById("usBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = "block";
+                console.log("o mrenda metodes");
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+                //window.location.reload();
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                    //window.location.reload();
+                }
+            };
         </script>
          <?php
             $id1 = filter_input(INPUT_POST, 'id1');
@@ -305,7 +332,7 @@ and open the template in the editor.
         <script>
             // Get the modal
             var modal = document.getElementById('myModal');
-
+            console.log("o mrenda");
             // Get the button that opens the modal
             var btn = document.getElementById("usBtn");
 
@@ -315,6 +342,7 @@ and open the template in the editor.
             // When the user clicks the button, open the modal 
             btn.onclick = function() {
                 modal.style.display = "block";
+                console.log("o mrenda metodes");
             };
 
             // When the user clicks on <span> (x), close the modal

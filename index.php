@@ -38,6 +38,9 @@ and open the template in the editor.
             {
                 echo "Nuk eshte regjistrua!!!";
             }*/
+        
+            //$a = new About("1995-12-30", "Pejë", 49888595, "arbermullaa@gmail.com", "Esat Mekuli 53", "Pejë", "", "");
+            //$a->insertS($a, 4);
         ?>
     </body>
 </html>
