@@ -169,4 +169,22 @@ class About {
             //echo "Error updating record: " . $conn->error;
         }
     }
+    
+    public function delete($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "DELETE FROM About WHERE id=".$id."";
+        
+        if($con->query($sql) === true) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error deleting record: " . $conn->error;
+        }
+    }
 }
