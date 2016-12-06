@@ -24,10 +24,10 @@
                 </div><!-- navbar-header -->
                 <div class="collapse navbar-collapse" id="mynavbar">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.php"><i class="fa fa-home"></i> Dashboard</a></li>
+                        <li class="active"><a href="index.php"><i class="fa fa-home"></i> Dashboard</a></li>
                         <li><a href="studentet.php"><i class="glyphicon glyphicon-education"></i> Studentet</a></li>
                         <li><a href="fakultetet.php"><i class="fa fa-university"></i> Fakultetet</a></li>
-                        <li class="active"><a href="profesoret.php"><i class="fa fa-suitcase"></i> Profesorët</a></li>
+                        <li><a href="profesoret.php"><i class="fa fa-suitcase"></i> Profesorët</a></li>
                         <li><a href="drejtimet.php"><i class="fa fa-random"></i> Drejtimet</a></li>
                         <li><a href="grupet.php"><i class="fa fa-group"></i> Grupet</a></li>
                         <li><a href="vitet.php"><i class="fa fa-calendar"></i> Vitet e Studimit</a></li>
