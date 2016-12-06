@@ -1,0 +1,33 @@
+﻿body {
+    padding-top: 70px;
+}
+
+.navbar-collapse {
+    display: flex !important;
+    justify-content: flex-end;
+}
+
+.navbar-form {
+    display: inline-block;
+    margin-right: 0;
+}
+
+label{
+    float: left;
+    text-align: center;
+}
+
+footer{
+    display: flex;
+    height: 100px;
+    background-color: black;
+    color: white;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .navbar-collapse.collapse {
+        display: flex !important;
+    }
+}

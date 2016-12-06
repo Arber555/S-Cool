@@ -1,0 +1,199 @@
+body {
+    margin: 10px 0 0 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+#flex {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+    #flex div:first-child {
+        clear: right;
+        height: 50%;
+    }
+
+.col-md-8 {
+    background-color: rgb(245,246,248);
+}
+
+#imgContainer {
+    padding-left: 0;
+}
+
+h1 {
+    color: rgb(105, 139, 166);
+}
+
+h4 {
+    color: gray;
+}
+
+li {
+    text-decoration: none;
+    padding: 5px;
+    list-style: none;
+}
+
+#profile {
+    border-radius: 5px;
+}
+
+#ratings {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.info {
+    box-sizing: border-box;
+    margin-top: 50px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed silver;
+    overflow: auto;
+}
+
+    .info ul {
+        box-sizing: border-box;
+        float: left;
+        width: 40%;
+        border-right: 1px dashed silver;
+        padding: 0;
+    }
+
+        .info ul li:first-child {
+            color: black;
+        }
+
+    .info dl {
+        box-sizing: border-box;
+        width: 60%;
+        float: left;
+        padding-left: 30px;
+    }
+
+dt {
+    font-size: 40px;
+    color: rgb(105, 139, 166);
+}
+
+
+
+#sidebar {
+    background-color: white;
+}
+
+#profileImage {
+    width: 100%;
+    border-top-left-radius: 5px;
+}
+
+h4 i {
+    color: lightseagreen;
+}
+
+#ratings h4 {
+    color: black;
+}
+
+.btn {
+    width: 49%;
+}
+
+#others {
+    margin-top: 15px;
+    padding: 0;
+    background-color: rgb(245,246,248);
+}
+
+    #others i {
+        color: lightseagreen;
+    }
+
+    #others li {
+        font-size: 14px;
+        padding: 15px 20px;
+        border-bottom: 1px dashed silver;
+        cursor: pointer;
+        transition-duration: 1s;
+    }
+
+        #others li:hover {
+            background-color: lightgray;
+        }
+
+        #others li:last-child {
+            border-bottom: none;
+        }
+
+#social {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    padding: 0;
+    width: 100%;
+    color: white;
+    overflow: auto;
+}
+
+    #social li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+    }
+
+        #social li a {
+            color: white;
+        }
+
+#youtube {
+    background-color: darkred;
+    transition-duration: 0.3s;
+}
+
+    #youtube:hover {
+        font-size: 20px;
+    }
+
+#facebook {
+    background-color: darkblue;
+    transition-duration: 0.3s;
+}
+
+    #facebook:hover {
+        font-size: 20px;
+    }
+
+#linkedin {
+    background-color: blue;
+    transition-duration: 0.3s;
+}
+
+    #linkedin:hover {
+        font-size: 20px;
+    }
+
+#twitter {
+    background-color: deepskyblue;
+    transition-duration: 0.3s;
+}
+
+    #twitter:hover {
+        font-size: 20px;
+    }
+
+#flickr {
+    background-color: lightslategray;
+    transition-duration: 0.3s;
+}
+
+    #flickr:hover {
+        font-size: 20px;
+    }
