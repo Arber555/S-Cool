@@ -94,8 +94,7 @@ class Studenti{
         {
             echo "Error insert record: " . $con->error;
         }
-        return false;
-        
+        return false; 
     }
     
     public function update($id, $e, $m, $uN, $nrP, $gj, $k)
@@ -176,7 +175,7 @@ class Studenti{
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "SELECT Password FROM Studenti WHERE UserName = '$un'";
+        $sql = "SELECT Password FROM Studenti WHERE UserName = '.$un.'";
         
         if(($temp = $con->query($sql)) === true)
         {
@@ -185,6 +184,54 @@ class Studenti{
         else
         {
             return "Error";
+        }
+    }
+    
+    public static function returnID($userName)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT ID FROM Studenti WHERE UserName = '".$userName."'";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
+    public static function returnStudentin($userName)
+    {
+        $id = Studenti::returnID($userName);
+
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Studenti as s INNER JOIN About as a ON s.ID = ".$id."";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
         }
     }
 }

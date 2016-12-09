@@ -41,13 +41,17 @@ class Grupi {
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Fakullteti(Emri, Orari_Kohes) values (?,?)");
+        $stmt = $con->prepare("INSERT INTO Grupi(Emri_g, Orari_Kohes) values (?,?)");
         $stmt->bind_param("ss",$g->emri, $g->orariKohes);
         
         if($stmt->execute())
         {
             $stmt->close();
             return true;
+        }
+        else
+        {
+             echo $con->error;
         }
         return false;
     }
@@ -70,12 +74,12 @@ class Grupi {
         }
     }
     
-    function update($emri, $orariKohes)
+    function update($id, $emri, $orariKohes)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "UPDATE Grupi SET Emri='".$emri."', Orari_kohes='".$orariKohes."' WHERE id=".id."";
+        $sql = "UPDATE Grupi SET Emri_g='".$emri."', Orari_kohes='".$orariKohes."' WHERE id=".$id."";
         
         if($con->query($sql) === TRUE) 
         {
@@ -85,6 +89,27 @@ class Grupi {
         {
             return false;
             //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    
+    public function selectAll()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Grupi";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr onclick='indeksiReshtit(this)'><td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri_g']."</td>"
+                        . "<td>".$row['Orari_Kohes']."</td></tr>";
+            }
         }
     }
 }

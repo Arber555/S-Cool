@@ -28,7 +28,7 @@ class Drejtimi
         return $this->emri;
     }
 
-    function insert(Drejtimi $f)
+    public function insert(Drejtimi $f)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -62,12 +62,12 @@ class Drejtimi
         }
     }
     
-    function update(Drejtimi $f, $emri)
+    function update($id, $emri)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        
-        $sql = "UPDATE Drejtimi SET Emri='".$emri."' WHERE emri=".$f->emri."";
+        echo $id;
+        $sql = "UPDATE Drejtimi SET Emri='".$emri."' WHERE ID=".$id."";
         
         if($con->query($sql) === TRUE) 
         {
@@ -76,7 +76,26 @@ class Drejtimi
         else 
         {
             return false;
-            //echo "Error updating record: " . $conn->error;
+           // echo $con->error;
+        }
+    }
+    
+    public function selectAll()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Drejtimi";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr onclick='indeksiReshtit(this)'><td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri']."</td></tr>";
+            }
         }
     }
 }

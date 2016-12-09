@@ -123,32 +123,32 @@
 
         
         <?php
-        spl_autoload_register(function ($class_name) {
-        include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-        });
+            spl_autoload_register(function ($class_name) {
+                include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
+            });
 
-        $emri = filter_input(INPUT_POST, 'emri');
-        $mbiemri = filter_input(INPUT_POST, 'mbiemri');
-        $userName = filter_input(INPUT_POST, 'userName');
-        $password = filter_input(INPUT_POST, 'paswword');
-        $nrPersonal = filter_input(INPUT_POST, 'nrPersonal');
-        $gjinia = filter_input(INPUT_POST, 'gjinia');
-        $kryetari = filter_input(INPUT_POST, 'kryetari');
-        $rsBtn = filter_input(INPUT_POST, 'RsBtn');
-        $s = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
+            $emri = filter_input(INPUT_POST, 'emri');
+            $mbiemri = filter_input(INPUT_POST, 'mbiemri');
+            $userName = filter_input(INPUT_POST, 'userName');
+            $password = filter_input(INPUT_POST, 'paswword');
+            $nrPersonal = filter_input(INPUT_POST, 'nrPersonal');
+            $gjinia = filter_input(INPUT_POST, 'gjinia');
+            $kryetari = filter_input(INPUT_POST, 'kryetari');
+            $rsBtn = filter_input(INPUT_POST, 'RsBtn');
+            $s = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
 
-        
-        if(isset($rsBtn))
-        {
-            if($s->insert($s))
+
+            if(isset($rsBtn))
             {
-                Echo "<h3>U regjistrua Studenti</h3>";
+                if($s->insert($s))
+                {
+                    Echo "<h3>U regjistrua Studenti</h3>";
+                }
+                else
+                {
+                    Echo "<h3>Nuk u regjistrua Studenti</h3>";
+                }
             }
-            else
-            {
-                Echo "<h3>Nuk u regjistrua Studenti</h3>";
-            }
-        }
         ?>
         
 
