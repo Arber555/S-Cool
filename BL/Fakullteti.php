@@ -49,7 +49,7 @@ class Fakullteti {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "DELETE FROM Fakulteti WHERE id=".$id."";
+        $sql = "DELETE FROM Fakullteti WHERE id=".$id."";
         
         if($con->query($sql) === true) 
         {
@@ -62,12 +62,12 @@ class Fakullteti {
         }
     }
     
-    function update(Fakullteti $f, $emri)
+    function update($id,$emri)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "UPDATE Fakullteti SET Emri='".$emri."' WHERE emri=".$f->emri."";
+        $sql = "UPDATE Fakullteti SET Emri='".$emri."' WHERE ID=".$id."";
         
         if($con->query($sql) === TRUE) 
         {
@@ -77,6 +77,25 @@ class Fakullteti {
         {
             return false;
             //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    public function selectAll()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Fakullteti";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr onclick='indeksiReshtit(this)'><td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri']."</td>";
+            }
         }
     }
 }

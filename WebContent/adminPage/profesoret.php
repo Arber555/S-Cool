@@ -46,6 +46,7 @@
             </div><!-- container -->
         </nav><!-- navbar -->
     </div><!-- header -->
+    
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -56,7 +57,7 @@
                         </div>
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" action="profesorët.php" method="post">
+                        <form class="form-horizontal" role="form" action="profesoret.php" method="post">
                             <div class="form-group">
                                 <label for="emriProfesorit" class="col-sm-3 control-label">Emri</label>
                                 <div class="col-sm-9">
@@ -108,10 +109,10 @@
                 </div><!-- content-box -->
             </div><!-- col-md-6 -->
         </div><!-- row-->
-        <!--
+        
         <?php
         spl_autoload_register(function ($class_name) {
-        include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
+            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
         });
 
         $emri = filter_input(INPUT_POST, 'emri');
@@ -120,24 +121,30 @@
         $password = filter_input(INPUT_POST, 'paswword');
         $nrPersonal = filter_input(INPUT_POST, 'nrPersonal');
         $gjinia = filter_input(INPUT_POST, 'gjinia');
-        $kryetari = filter_input(INPUT_POST, 'kryetari');
         $rsBtn = filter_input(INPUT_POST, 'RsBtn');
-        $s = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
+        $s = new Profesori($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia);
 
 
         if(isset($rsBtn))
         {
-        if($s->insert($s))
-        {
-        Echo "<h3>U regjistrua Studenti</h3>";
-        }
-        else
-        {
-        Echo "<h3>Nuk u regjistrua Studenti</h3>";
-        }
+            if($s->insert($s))
+            {
+                Echo "<h3>U regjistrua Profesori</h3>";
+                $rsBtn = null;
+                $emri = null;
+                $mbiemri = null;
+                $userName = null;
+                $password = null;
+                $nrPersonal = null;
+                $gjinia = null;
+            }
+            else
+            {
+                Echo "<h3>Nuk u regjistrua Profesori</h3>";
+            }
         }
         ?>
-        -->
+        
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -156,151 +163,62 @@
                                 <th>Username</th>
                                 <th>Numri Personal</th>
                                 <th>Gjinia</th>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-                            <tr>
-                                <td>123456789</td>
-                                <td>Rilind</td>
-                                <td>Fetoshi</td>
-                                <td>rilindfetoshi</td>
-                                <td>rilind1996</td>
-                                <td>Mashkull</td>
-                            </tr>
-
-                            <!--
+                            </tr>                          
                             <?php
-                            $s->selectAll();
+                                $s->selectAll();
                             ?>
-                            -->
+                            
 
                         </table>
 
-                        <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-
-                        <input onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Profesorin"><br /><br /><br />
+                        <button class="btn btn-primary" onclick="reshtiTabele()">Edito Profesorin</button><br /><br /><br />
 
                         <form class="form-horizontal" role="form" action="profesoret.php" method="post">
                             <div class="form-group">
                                 <label for="idStudentit" class="col-sm-3 control-label">ID</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="idStudentit" name="id1" required="required" placeholder="Id e profesorit" readonly>
+                                    <input type="text" class="form-control" id="id1" name="id1" required="required" placeholder="Id e profesorit" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="emriProfesorit" class="col-sm-3 control-label">Emri</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="emriProfesorit" name="emri" required="required" placeholder="Emri i profesorit">
+                                    <input type="text" class="form-control" name="emri1" id="emri1" required="required" placeholder="Emri i profesorit">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="mbiemriProfesorit" class="col-sm-3 control-label">Mbiemri</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="mbiemriProfesorit" name="mbiemri" required="required" placeholder="Mbiemri i profesorit">
+                                    <input type="text" class="form-control" name="mbiemri1" id="mbiemri1" required="required" placeholder="Mbiemri i profesorit">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="usernameProfesorit" class="col-sm-3 control-label">Username</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="usernameProfesorit" name="userName" required="required" placeholder="Username">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="passwordProfesorit" class="col-sm-3 control-label">Password</label>
-                                <div class="col-sm-9">
-                                    <input type="password" class="form-control" id="passwordProfesorit" name="password" required="required" placeholder="Password">
+                                    <input type="text" class="form-control" name="userName1" id="userName1" required="required" placeholder="Username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="numriPersonalProfesorit" class="col-sm-3 control-label">Nr. Personal</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" id="numriPersonalProfesorit" name="nrPersonal" required="required" placeholder="Nr. Personal">
+                                    <input type="number" class="form-control" name="nrPersonal1" id="nrPersonal1" required="required" placeholder="Nr. Personal">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Gjinia</label>
                                 <div class="col-md-9">
                                     <label class="radio radio-inline">
-                                        <input name="gjinia" value="M" type="radio">Mashkull
+                                        <input name="gjinia1" class="gjinija1" value="M" type="radio">Mashkull
                                     </label>
                                     <label class="radio radio-inline">
-                                        <input name="gjinia" value="F" type="radio">Femer
+                                        <input name="gjinia1" class="gjinija1" value="F" type="radio">Femer
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" class="btn btn-primary" name="RsBtn" value="Regjistro">
+                                    <input type="submit" class="btn btn-primary" name="usBtn" value="Edito">
+                                    <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
                                 </div>
                             </div>
                         </form>
@@ -309,17 +227,16 @@
             </div><!-- col-md-10 -->
         </div><!-- row -->
     </div><!-- container -->
-    <!--
+    
         <script>
-            var v0 = document.getElementById('id');
-            var v1 = document.getElementById('emri');
-            var v2 = document.getElementById('mbiemri');
-            var v3 = document.getElementById('userName');
-            var v4 = document.getElementById('nrPersonal');
-            var v5 = document.getElementsByClassName('gjinija');
-            var v6 = document.getElementById('kryetar');
+            var v0 = document.getElementById('id1');
+            var v1 = document.getElementById('emri1');
+            var v2 = document.getElementById('mbiemri1');
+            var v3 = document.getElementById('userName1');
+            var v4 = document.getElementById('nrPersonal1');
+            var v5 = document.getElementsByClassName('gjinija1');
 
-            var tabelja = document.getElementById("example");
+            var tabelja = document.getElementById("tabelaProfesoreve");
             var reshti;
 
             function indeksiReshtit(x) {
@@ -329,7 +246,7 @@
             function reshtiTabele() {
                 var x = tabelja.rows[reshti].cells.length;
                 var z = [];
-                for (var i = 0; i < 7; i++) {
+                for (var i = 0; i < 6; i++) {
                     if (i !== 5) {
                         z[i] = tabelja.rows[reshti].cells[i].innerHTML;
                     }
@@ -348,11 +265,11 @@
                 v2.value = z[2];
                 v3.value = z[3];
                 v4.value = z[4];
+                console.log(z[5]);
                 if (z[5] === "M")
                     v5[0].checked = true;
                 else
                     v5[1].checked = true;
-                v6.checked = z[6] === "Po" ? true : false;
 
                 /* v[2].value
                  v[3].value
@@ -362,60 +279,57 @@
         </script>
 
         <?php
-        $id1 = filter_input(INPUT_POST, 'id1');
-        $emri1 = filter_input(INPUT_POST, 'emri1');
-        $mbiemri1 = filter_input(INPUT_POST, 'mbiemri1');
-        $userName1 = filter_input(INPUT_POST, 'userName1');
-        //$password = filter_input(INPUT_POST, 'paswword');
-        $nrPersonal1 = filter_input(INPUT_POST, 'nrPersonal1');
-        $gjinia1 = filter_input(INPUT_POST, 'gjinia1');
-        $kryetari1 = filter_input(INPUT_POST, 'kryetari1');
-        $usBtn = filter_input(INPUT_POST, 'usBtn');
+            $id1 = filter_input(INPUT_POST, 'id1');
+            $emri1 = filter_input(INPUT_POST, 'emri1');
+            $mbiemri1 = filter_input(INPUT_POST, 'mbiemri1');
+            $userName1 = filter_input(INPUT_POST, 'userName1');
+            //$password = filter_input(INPUT_POST, 'paswword');
+            $nrPersonal1 = filter_input(INPUT_POST, 'nrPersonal1');
+            $gjinia1 = filter_input(INPUT_POST, 'gjinia1');
+            $usBtn = filter_input(INPUT_POST, 'usBtn');
+            $fBtn = filter_input(INPUT_POST, 'fBtn');
+
+            if(isset($usBtn))
+            {
+                if($s->update($id1,$emri1, $mbiemri1, $userName1, $nrPersonal1, $gjinia1))
+            {
+                Echo "<h3>U editua Studenti</h3>";
+            }
+            else
+            {
+                Echo "<h3>Nuk u editua Studenti</h3>";
+            }
+            }
+
+            if(isset($fBtn))
+            {
+                if($s->delete($id1))
+                {
+                    Echo "<h3>U fshi Studenti</h3>";
+                }
+                else
+                {
+                    Echo "<h3>Nuk u fshi Studenti</h3>";
+                }
+            }
 
 
-        if(isset($usBtn))
-        {
-        if($s->update($id1,$emri1, $mbiemri1, $userName1, $nrPersonal1, $gjinia1, $kryetari1))
-        {
-        header("Refresh:0;");
-        Echo "<h3>U editua Studenti</h3>";
-        }
-        else
-        {
-        Echo "<h3>Nuk u editua Studenti</h3>";
-        }
-        }
-
-        if(isset($fBtn))
-        {
-        if($s->delete($id1))
-        {
-        header("Refresh:0;");
-        Echo "<h3>U fshi Studenti</h3>";
-        }
-        else
-        {
-        Echo "<h3>Nuk u fshi Studenti</h3>";
-        }
-        }
+            /*$s1 = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
 
 
-        /*$s1 = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
-
-
-        if(isset($usBtn))
-        {
-        if($s->update($s))
-        {
-        Echo "<h3>U regjistrua Studenti</h3>";
-        }
-        else
-        {
-        Echo "<h3>Nuk u regjistrua Studenti</h3>";
-        }
-        }*/
+            if(isset($usBtn))
+            {
+            if($s->update($s))
+            {
+            Echo "<h3>U regjistrua Studenti</h3>";
+            }
+            else
+            {
+            Echo "<h3>Nuk u regjistrua Studenti</h3>";
+            }
+            }*/
         ?>
-    -->
+    
 
     <footer>
         <div class="container">
@@ -428,6 +342,6 @@
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/tables.js"></script>
+    <!--<script src="js/tables.js"></script>-->
 </body>
 </html>
