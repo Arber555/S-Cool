@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="font/css/font-awesome.min.css">
     <link href="css/style.css" rel="stylesheet">
 
     <style>
