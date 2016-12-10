@@ -21,7 +21,7 @@ class Profesori {
     private $gjinia;
     private $salt = "AmEl9596";
     
-    public function __construct($e, $m, $uN, $p, $nrP, $gj, $k)
+    public function __construct($e, $m, $uN, $p, $nrP, $gj)
     {
         $this->emri = $e;
         $this->mbiemri = $m;
@@ -87,7 +87,7 @@ class Profesori {
         $this->salt = $salt;
     }
 
-     public function insert(Studenti $s){
+     public function insert(Profesori $s){
         
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -141,4 +141,46 @@ class Profesori {
             //echo "Error deleting record: " . $conn->error;
         }
     }
+    
+    public function selectAll()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Profesori";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                
+                echo "<tr onclick='indeksiReshtit(this)'><td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri']."</td>"
+                        . "<td>".$row['Mbiemri']."</td>"
+                        . "<td>".$row['UserName']."</td>"
+                        . "<td>".$row['Nr_personal']."</td>"
+                        . "<td>".$row['Gjinia']."</td>";
+            }
+        }
+    }
+    
+    public function returnPassword($un)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT Password FROM Profesori WHERE UserName = '$un'";
+        
+        if(($temp = $con->query($sql)) === true)
+        {
+            return $temp;
+        }
+        else
+        {
+            return "Error";
+        }
+    }
+    
 }
