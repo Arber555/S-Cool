@@ -25,7 +25,7 @@
                                     include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                                 });
             
-                                $data = Studenti::returnStudentin("ArberM");
+                                $data = Profesori::returnProfesorin("ccc");
                                 
                                 echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                         ."<h4 id='qyteti' name='qyteti'>".$data['vendBanimi']."</h4>";

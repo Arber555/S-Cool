@@ -217,7 +217,7 @@ class Studenti{
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "SELECT * FROM Studenti as s INNER JOIN About as a ON s.ID = ".$id."";
+        $sql = "SELECT * FROM Studenti as s INNER JOIN About as a ON s.ID = ".$id." && a.fr_Studenti = ".$id."";
         
         $result = mysqli_query($con, $sql);
         

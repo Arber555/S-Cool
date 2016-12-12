@@ -183,4 +183,51 @@ class Profesori {
         }
     }
     
+    public static function returnID($userName)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT ID FROM Profesori WHERE UserName = '".$userName."'";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
+    public static function returnProfesorin($userName)
+    {
+        $id = Profesori::returnID($userName);
+
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from Profesori p, About a where p.ID =".$id." && ".$id."= a.fk_Profesori";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
 }
