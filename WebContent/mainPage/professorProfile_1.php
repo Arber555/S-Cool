@@ -28,7 +28,7 @@
                                         });
 
                                         $data = Profesori::returnProfesorin("ccc");
-
+                                        $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
                                     ?>
@@ -40,11 +40,11 @@
                                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                             <div class="interactive"><div class="interactive2"></div></div>
                                         </a>
-                                        <button id="editAbout" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeAbout">
+                                       <!-- <button id="editAbout" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeAbout">
                                             <i class="fa fa-cog"></i>
-                                        </button>
+                                        </button>-->
                                     </h4>
-                                    <div class="modal fade" id="changeAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <!--<div class="modal fade" id="changeAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="form">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -62,7 +62,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div><!-- panel-heading -->
                                 <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="accordion-content">
@@ -89,40 +89,115 @@
                     <button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
                         <i class="fa fa-cog"></i>
                     </button>
+                        
                     <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="form">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="changeEmri">Name</label>
-                                            <input type="text" id="changeEmri" class="form-control" placeholder="Enter Name" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeMbiemri">Surname</label>
-                                            <input type="text" id="changeMbiemri" class="form-control" placeholder="Enter Surname" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeQyteti">City</label>
-                                            <input type="text" id="changeQyteti" class="form-control" placeholder="Enter City" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeProfilePicture">Profile Picture</label>
-                                            <input type="file" id="changeProfilePicture" class="form-control" placeholder="Upload Your Picture" />
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                                </div>                                 
+                                    <form action="test.php" method="post">
+                                    <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="changeEmri">Emri</label>
+                                                <input name="emri" type="text" id="changeEmri" class="form-control" value="<?php echo $data['Emri'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeMbiemri">Mbiemri</label>
+                                                <input name="mbiemri" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['Mbiemri'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeMbiemri">Username</label>
+                                                <input name="userName" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['UserName'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Vendlindja</label>
+                                                <input name="vendlindja" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Vendi_Lindjes'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Data lindjes</label>
+                                                <input name="dataLindjes" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Data_Lindjes'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Email</label>
+                                                <input name="email" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['email'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Vendbanimi</label>
+                                                <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['vendBanimi'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Relationship</label>
+                                                <input name="relationship" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Relationship'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Gjinia</label>
+                                                    <?php 
+                                                        if($data['Gjinia'] == 'M')
+                                                        {
+                                                            echo "<label class='radio radio-inline'>
+                                                                <input name='gjinia' value='M' type='radio' checked='true'>Mashkull
+                                                            </label>";
+                                                            echo "<label class='radio radio-inline'>
+                                                            <input name='gjinia' value='F' type='radio'>Femer</label>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<label class='radio radio-inline'>
+                                                                <input name='gjinia' value='M' type='radio'>Mashkull
+                                                            </label>";
+                                                            echo "<label class='radio radio-inline'>
+                                                            <input name='gjinia' value='F' type='radio' checked='true'>Femer</label>";
+                                                        }    
+                                                            
+                                                        ?>
+                                                
+                                                
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button name="usBtn" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                                    </div>
+                              </form>
                             </div>
                         </div>
                     </div><!-- modal -->
+                    
+                    
+                    
+                    <?php
+                        
+                        $emri = filter_input(INPUT_POST, 'emri');
+                        $mbiemri = filter_input(INPUT_POST, 'mbiemri');
+                        $userName = filter_input(INPUT_POST, 'userName');
+                        $gjinia = filter_input(INPUT_POST, 'gjinia');
+                        //$password = filter_input(INPUT_POST, 'paswword');
+                        $vendlindja = filter_input(INPUT_POST, 'vendlindja');
+                        $dataLindjes = filter_input(INPUT_POST, 'dataLindjes');
+                        $email = filter_input(INPUT_POST, 'email');
+                        $vendbanimi = filter_input(INPUT_POST, 'vendbanimi');
+                        $relationship = filter_input(INPUT_POST, 'relationship');
+                        $usBtn = filter_input(INPUT_POST, 'usBtn');
+                        $idProfit = Profesori::returnID($userName);
+
+                        if(isset($usBtn))
+                        {
+                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $nrPersonal1, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship))
+                            {
+                                Echo "<h3>U editua Profili i profit</h3>";
+                            }
+                            else
+                            {
+                                Echo "<h3>Nuk u editua Profili i profit</h3>";
+                            }
+                        }
+
+                        
+                    ?>
+                    
                     <div id="posts" class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">

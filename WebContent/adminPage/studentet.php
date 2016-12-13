@@ -171,11 +171,11 @@
                             ?>
                         </table>
                         <button id="editButton" class="btn btn-primary" data-toggle="modal" data-target="#changeStudenti" onclick="reshtiTabele()">Edito Studentin</button>
-                        <button class="btn btn-primary" onclick="refresh()">Refresh</button>
+                       
 		            </div><!-- panel-body -->
                 </div><!-- content-box-large -->
             </div><!-- col-md-10 -->
-             <div class="modal fade" id="changeStudenti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" id="changeStudenti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="form">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -329,22 +329,6 @@
                     Echo "<h3>Nuk u fshi Studenti</h3>";
                 }
             }
-
-
-        /*$s1 = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
-
-
-        if(isset($usBtn))
-        {
-        if($s->update($s))
-        {
-        Echo "<h3>U regjistrua Studenti</h3>";
-        }
-        else
-        {
-        Echo "<h3>Nuk u regjistrua Studenti</h3>";
-        }
-        }*/
         ?>
    
 
