@@ -36,13 +36,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -110,7 +103,7 @@
         ?>
 
         <div class="row">
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h3>Tabela e Grupeve</h3>
@@ -129,37 +122,40 @@
                         ?>
                     </table>
                     
-                    <input onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Grupin"><br /><br /><br />
+                    <button id="editButton" data-toggle="modal" data-target="#changeGrupi" onclick="reshtiTabele()" type="submit" class="btn btn-primary">Edito Grupin</button>
                 </div><!-- panel-body -->
             </div><!-- col-md-4 -->
-            <div id="side" class="col-md-6">
-                <form class="form-horizontal" role="form" action="grupet.php" method="post">
-                    <div class="form-group">
-                        <label for="idGrupit" class="col-sm-3 control-label">ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="idGrupit1" name="id1" required="required" placeholder="Id e grupit" readonly>
+            <div class="modal fade" id="changeGrupi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="form">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
                         </div>
+                         <form action="grupet.php" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idGrupit" control-label">ID</label>
+                                    <input type="text" class="form-control" id="idGrupit1" name="id1" required="required" placeholder="Id e grupit" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="emriGrupit" control-label">Emri</label>
+                                    <input type="text" class="form-control" id="emriGrupit1" name="emri1" required="required" placeholder="Emri i grupit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="orari" control-label">Emri</label>
+                                    <input type="text" class="form-control" id="orari1" name="orari1" required="required" placeholder="Orari">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" name="fBtn" class="btn btn-danger">Delete</button>
+                                <button type="submit" name="usBtn" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="emriGrupit" class="col-sm-3 control-label">Emri</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="emriGrupit1" name="emri1" required="required" placeholder="Emri i grupit">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="orari" class="col-sm-3 control-label">Emri</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="orari1" name="orari1" required="required" placeholder="Orari">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" class="btn btn-primary" name="editButton" value="Edito">
-                            <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-                        </div>
-                    </div>
-                </form>
-            </div><!-- col-md-6 -->
+                </div>
+            </div><!-- modal -->
         </div><!-- row -->
     </div><!-- container -->
     
@@ -192,13 +188,13 @@
             $id1 = filter_input(INPUT_POST, 'id1');
             $emri1 = filter_input(INPUT_POST, 'emri1');
             $orari1 = filter_input(INPUT_POST, 'orari1');
-            $uGBtn = filter_input(INPUT_POST, 'editButton');
+            $usBtn = filter_input(INPUT_POST, 'usBtn');
             $fBtn = filter_input(INPUT_POST, 'fBtn');
 
 
-            if(isset($uGBtn))
+            if(isset($usBtn))
             {
-                if($g->update($id1,$emri1, $orari1))
+                if($g->update($id1, $emri1, $orari1))
                 {
                     Echo "<h3>U editua Grupi</h3>";
                 }

@@ -38,13 +38,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -60,7 +53,7 @@
                         </div>
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" action="studentet.php" method="post">
+                        <form class="form-horizontal" action="studentet.php" method="post">
                             <div class="form-group">
                                 <label for="emriStudentit" class="col-sm-3 control-label">Emri</label>
                                 <div class="col-sm-9">
@@ -177,82 +170,78 @@
                                 $s->selectAll();
                             ?>
                         </table>
-
-                        <button class="btn btn-primary" onclick="reshtiTabele()">Edito Studentin</button><br /><br /><br />
-                        <button class="btn btn-primary" onclick="refresh()">Refresh</button><br /><br /><br />
-                        
-                        <form class="form-horizontal" role="form" action="studentet.php" method="post" onsubmit="refresh()">
-                            <div class="form-group">
-                                <label for="idStudentit" class="col-sm-3 control-label">ID</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="idStudentit1" name="id1" required="required" placeholder="Id e studentit" readonly>
+                        <button id="editButton" class="btn btn-primary" data-toggle="modal" data-target="#changeStudenti" onclick="reshtiTabele()">Edito Studentin</button>
+                        <button class="btn btn-primary" onclick="refresh()">Refresh</button>
+		            </div><!-- panel-body -->
+                </div><!-- content-box-large -->
+            </div><!-- col-md-10 -->
+             <div class="modal fade" id="changeStudenti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="form">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Editing Student...</h4>
+                        </div>
+					   <form action="studentet.php" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idStudentit" class="control-label">ID</label>
+                                    <input type="text" class="form-control" id="idStudentit1" name="id1" required="required" placeholder="ID e studentit" readonly>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="emriStudentit" class="col-sm-3 control-label">Emri</label>
-                                <div class="col-sm-9">
+                                <div class="form-group">
+                                    <label for="emriStudentit" class="control-label">Emri</label>
                                     <input type="text" class="form-control" id="emriStudentit1" name="emri1" required="required" placeholder="Emri i studentit">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="mbiemriStudentit" class="col-sm-3 control-label">Mbiemri</label>
-                                <div class="col-sm-9">
+                                <div class="form-group">
+                                    <label for="mbiemriStudentit" class="control-label">Mbiemri</label>
                                     <input type="text" class="form-control" id="mbiemriStudentit1" name="mbiemri1" required="required" placeholder="Mbiemri i studentit">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="usernameStudentit" class="col-sm-3 control-label">Username</label>
-                                <div class="col-sm-9">
+                                <div class="form-group">
+                                    <label for="usernameStudentit" class="control-label">Username</label>
                                     <input type="text" class="form-control" id="usernameStudentit1" name="userName1" required="required" placeholder="Username">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="numriPersonalStudentit" class="col-sm-3 control-label">Nr. Personal</label>
-                                <div class="col-sm-9">
+                                <div class="form-group">
+                                    <label for="numriPersonalStudentit" class="control-label">Nr. Personal</label>
                                     <input type="number" class="form-control" id="numriPersonalStudentit1" name="nrPersonal1" required="required" placeholder="Nr. Personal">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Gjinia</label>
-                                <div class="col-md-9">
+                                <div class="form-group">
+                                    <label class="control-label">Gjinia</label>                                        
                                     <label class="radio radio-inline">
-                                        <input name="gjinia1" value="M" type="radio" class="gjinija1">Mashkull
+                                        <input name="gjinia1" value="M" type="radio">Mashkull
                                     </label>
                                     <label class="radio radio-inline">
-                                        <input name="gjinia1" value="F" type="radio" class="gjinija1">Femer
+                                        <input name="gjinia1" value="F" type="radio">Femer
                                     </label>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
+                                <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="kryetari1" value="1" id="kryetar1">Kryetar i Grupit
+                                            <input type="checkbox" name="kryetari1" value="1">Kryetar i Grupit
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" class="btn btn-primary" name="editButton" value="Edito">
-                                    <input type="submit" value="Fshijë" class="btn btn-primary" name="fBtn">
+                                <div class="modal-footer">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" name="fBtn" class="btn btn-danger" onclick="refresh()">Delete</button>
+                                        <button type="submit" name="usBtn" class="btn btn-primary" onclick="refresh()">Save changes</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
-                    </div><!-- panel-body -->
-                </div><!-- content-box-large -->
-            </div><!-- col-md-10 -->
+                	</div><!-- panel-body -->
+                </div><!-- content-box-large -->    
+            </div><!-- col-md-6 -->
         </div><!-- row -->
     </div><!-- container -->
 
-    
         <script>
             var v0 = document.getElementById('idStudentit1');
             var v1 = document.getElementById('emriStudentit1');
             var v2 = document.getElementById('mbiemriStudentit1');
             var v3 = document.getElementById('usernameStudentit1');
             var v4 = document.getElementById('numriPersonalStudentit1');
-            var v5 = document.getElementsByClassName('gjinija1');
+            var v5 = document.getElementsByClassName('gjina1');
             var v6 = document.getElementById('kryetar1');
 
             var tabelja = document.getElementById("example");
@@ -306,40 +295,40 @@
         </script>
 
         <?php
-        $id1 = filter_input(INPUT_POST, 'id1');
-        $emri1 = filter_input(INPUT_POST, 'emri1');
-        $mbiemri1 = filter_input(INPUT_POST, 'mbiemri1');
-        $userName1 = filter_input(INPUT_POST, 'userName1');
-        //$password = filter_input(INPUT_POST, 'paswword');
-        $nrPersonal1 = filter_input(INPUT_POST, 'nrPersonal1');
-        $gjinia1 = filter_input(INPUT_POST, 'gjinia1');
-        $kryetari1 = filter_input(INPUT_POST, 'kryetari1');
-        $usBtn = filter_input(INPUT_POST, 'editButton');
-        $fBtn = filter_input(INPUT_POST, 'fBtn');
+            $id1 = filter_input(INPUT_POST, 'id1');
+            $emri1 = filter_input(INPUT_POST, 'emri1');
+            $mbiemri1 = filter_input(INPUT_POST, 'mbiemri1');
+            $userName1 = filter_input(INPUT_POST, 'userName1');
+            //$password = filter_input(INPUT_POST, 'paswword');
+            $nrPersonal1 = filter_input(INPUT_POST, 'nrPersonal1');
+            $gjinia1 = filter_input(INPUT_POST, 'gjinia1');
+            $kryetari1 = filter_input(INPUT_POST, 'kryetari1');
+            $usBtn = filter_input(INPUT_POST, 'usBtn');
+            $fBtn = filter_input(INPUT_POST, 'fBtn');
 
-        if(isset($usBtn))
-        {
-            if($s->update($id1,$emri1, $mbiemri1, $userName1, $nrPersonal1, $gjinia1, $kryetari1))
+            if(isset($usBtn))
             {
-                Echo "<h3>U editua Studenti</h3>";
+                if($s->update($id1,$emri1, $mbiemri1, $userName1, $nrPersonal1, $gjinia1, $kryetari1))
+                {
+                    Echo "<h3>U editua Studenti</h3>";
+                }
+                else
+                {
+                    Echo "<h3>Nuk u editua Studenti</h3>";
+                }
             }
-            else
+            
+            if(isset($fBtn))
             {
-                Echo "<h3>Nuk u editua Studenti</h3>";
+                if($s->delete($id1))
+                {
+                    Echo "<h3>U fshi Studenti</h3>";
+                }
+                else
+                {
+                    Echo "<h3>Nuk u fshi Studenti</h3>";
+                }
             }
-        }
-        
-        if(isset($fBtn))
-        {
-            if($s->delete($id1))
-            {
-                Echo "<h3>U fshi Studenti</h3>";
-            }
-            else
-            {
-                Echo "<h3>Nuk u fshi Studenti</h3>";
-            }
-        }
 
 
         /*$s1 = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);

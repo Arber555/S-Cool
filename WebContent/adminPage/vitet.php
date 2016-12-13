@@ -36,13 +36,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -99,7 +92,7 @@
         ?>
         
         <div class="row">
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h3>Tabela e Fakulteteve</h3>
@@ -116,31 +109,37 @@
                         ?>
 
                     </table>
-                    <input onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Vitin"><br /><br /><br />
+
+                    <input id="editButton" data-toggle="modal" data-target="#changeViti" onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Vitin"><br /><br /><br />
                 </div><!-- panel-body -->
             </div><!-- col-md-4 -->
-            <div id="side" class="col-md-6">
-                <form class="form-horizontal" role="form" action="vitet.php" method="post">
-                    <div class="form-group">
-                        <label for="idVitit" class="col-sm-3 control-label">ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="idVitit1" name="id1" required="required" placeholder="Id e vitit" readonly>
+            <div class="modal fade" id="changeViti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="form">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
                         </div>
+                        <form action="vitet.php" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idVitit" control-label">ID</label>
+                                    <input type="text" class="form-control" id="idVitit1" name="id1" required="required" placeholder="Id e vitit" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="viti" control-label">Viti</label>
+                                    <input type="text" class="form-control" id="viti1" name="viti1" required="required" placeholder="Viti">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" name="fBtn" class="btn btn-danger">Delete</button>
+                                <button type="submit" name="usBtn" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="viti" class="col-sm-3 control-label">Viti</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="viti1" name="viti1" required="required" placeholder="Viti">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" class="btn btn-primary" name="editButton" value="Edito">
-                            <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-                        </div>
-                    </div>
-                </form>
-            </div><!-- col-md-6 -->
+                </div>
+            </div>
         </div><!-- row -->
     </div><!-- container -->
     
@@ -176,10 +175,10 @@
         <?php
             $id1 = filter_input(INPUT_POST, 'id1');
             $viti1 = filter_input(INPUT_POST, 'viti1');
-            $uVBtn = filter_input(INPUT_POST, 'editButton');
+            $usBtn = filter_input(INPUT_POST, 'usBtn');
             $fBtn = filter_input(INPUT_POST, 'fBtn');
 
-            if(isset($uVBtn))
+            if(isset($usBtn))
             {
                 if($v->update($id1,$viti1))
                 {

@@ -36,13 +36,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -57,7 +50,7 @@
                         </div>
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" action="drejtimet.php" method="post">
+                        <form class="form-horizontal" action="drejtimet.php" method="post">
                             <div class="form-group">
                                 <label for="emriDrejtimit" class="col-sm-3 control-label">Emri</label>
                                 <div class="col-sm-9">
@@ -66,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" class="btn btn-primary" name="RDBtn" value="Regjistro">
+                                    <button id="rDBtn" type="submit" class="btn btn-primary" name="registerBtn">Regjistro</button>
                                 </div>
                             </div>
                         </form>
@@ -81,11 +74,11 @@
             });
 
             $emri = filter_input(INPUT_POST, 'emri');
-            $rDBtn = filter_input(INPUT_POST, 'RDBtn');
+            $registerBtn = filter_input(INPUT_POST, 'registerBtn');
             $d = new Drejtimi($emri);
 
 
-            if(isset($rDBtn))
+            if(isset($registerBtn))
             {
                 if($d->insert($d))
                 {
@@ -99,7 +92,7 @@
         ?>
 
         <div class="row">
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h3>Tabela e Drejtimeve</h3>
@@ -111,36 +104,43 @@
                             <th>ID</th>
                             <th>Emri</th>
                         </tr>
+
                         <?php
                             $d->selectAll();
                         ?>
 
                     </table>
                     
-                    <input onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Drejtimin"><br /><br /><br />
+                    <button onclick="reshtiTabele()" id="editButton" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#changeDrejtimi">Edito</button>
                 </div><!-- panel-body -->
             </div><!-- col-md-4 -->
-            <div id="side" class="col-md-6">
-                <form class="form-horizontal" role="form" action="drejtimet.php" method="post">
-                    <div class="form-group">
-                        <label for="idDrejtimit" class="col-sm-3 control-label">ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="idDrejtimit1" name="id1" required="required" placeholder="Id e drejtimit" readonly>
+                <div class="modal fade" id="changeDrejtimi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="form">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
+                            </div>
+                            <form action="drejtimet.php" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="idDrejtimit" control-label">ID</label>
+                                        <input type="text" class="form-control" id="idDrejtimit1" name="id1" required="required" placeholder="Id e drejtimit" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emriDrejtimit" control-label">Emri</label>
+                                        <input type="text" class="form-control" id="emriDrejtimit1" name="emri1" required="required" placeholder="Emri i drejtimit">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" name="fBtn" class="btn btn-danger">Delete</button>
+                                    <button type="submit" name="usBtn" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="emriDrejtimit" class="col-sm-3 control-label">Emri</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="emriDrejtimit1" name="emri1" required="required" placeholder="Emri i drejtimit">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" class="btn btn-primary" name="editButton" value="Edito">
-                            <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-                        </div>
-                    </div>
-                </form>
+                </div><!-- modal -->
             </div><!-- col-md-6 -->
         </div><!-- row -->
     </div><!-- container -->
@@ -176,11 +176,11 @@
        <?php
             $id1 = filter_input(INPUT_POST, 'id1');
             $emri1 = filter_input(INPUT_POST, 'emri1');
-            $eBtn = filter_input(INPUT_POST, 'editButton'); 
+            $usBtn = filter_input(INPUT_POST, 'usBtn'); 
             $fBtn = filter_input(INPUT_POST, 'fBtn');
 
 
-            if(isset($eBtn))
+            if(isset($usBtn))
             {
                 if($d->update($id1, $emri1))
                 {

@@ -1,3 +1,5 @@
+
+
 ﻿<!DOCTYPE html>
 <html>
 <head>
@@ -35,13 +37,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -163,7 +158,8 @@
                                 <th>Username</th>
                                 <th>Numri Personal</th>
                                 <th>Gjinia</th>
-                            </tr>                          
+                            </tr>  
+
                             <?php
                                 $s->selectAll();
                             ?>
@@ -171,57 +167,51 @@
 
                         </table>
 
-                        <button class="btn btn-primary" onclick="reshtiTabele()">Edito Profesorin</button><br /><br /><br />
-
-                        <form class="form-horizontal" role="form" action="profesoret.php" method="post">
-                            <div class="form-group">
-                                <label for="idStudentit" class="col-sm-3 control-label">ID</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="id1" name="id1" required="required" placeholder="Id e profesorit" readonly>
+                        <button id="editButton" data-toggle="modal" data-target="#changeProfesori" class="btn btn-primary" onclick="reshtiTabele()">Edito Profesorin</button>
+                        <div class="modal fade" id="changeProfesori" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="form">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
+                                    </div>
+                                    <form action="profesoret.php" method="post">
+                                        <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="idStudentit" control-label">ID</label>
+                                                    <input type="text" class="form-control" id="id1" name="id1" required="required" placeholder="Id e profesorit" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="emriProfesorit" control-label">Emri</label>
+                                                    <input type="text" class="form-control" name="emri1" id="emri1" required="required" placeholder="Emri i profesorit">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="mbiemriProfesorit" control-label">Mbiemri</label>
+                                                    <input type="text" class="form-control" name="mbiemri1" id="mbiemri1" required="required" placeholder="Mbiemri i profesorit">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="usernameProfesorit" control-label">Username</label>
+                                                    <input type="text" class="form-control" name="userName1" id="userName1" required="required" placeholder="Username">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="numriPersonalProfesorit" control-label>Nr. Personal</label>
+                                                    <input type="number" class="form-control" name="nrPersonal1" id="nrPersonal1" required="required" placeholder="Nr. Personal">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="gjiniaProfesorit" control-label">Gjinia</label>
+                                                    <input id="gjiniaProfesorit" name="gjinia" value="M" type="radio">Mashkull
+                                                    <input id="gjiniaProfesorit" name="gjinia" value="F" type="radio">Femer
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" name="fBtn" class="btn btn-danger" onclick="refresh()">Delete</button>
+                                            <button type="submit" name="usBtn" class="btn btn-primary" onclick="refresh()">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="emriProfesorit" class="col-sm-3 control-label">Emri</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="emri1" id="emri1" required="required" placeholder="Emri i profesorit">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="mbiemriProfesorit" class="col-sm-3 control-label">Mbiemri</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="mbiemri1" id="mbiemri1" required="required" placeholder="Mbiemri i profesorit">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="usernameProfesorit" class="col-sm-3 control-label">Username</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="userName1" id="userName1" required="required" placeholder="Username">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="numriPersonalProfesorit" class="col-sm-3 control-label">Nr. Personal</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="nrPersonal1" id="nrPersonal1" required="required" placeholder="Nr. Personal">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Gjinia</label>
-                                <div class="col-md-9">
-                                    <label class="radio radio-inline">
-                                        <input name="gjinia1" class="gjinija1" value="M" type="radio">Mashkull
-                                    </label>
-                                    <label class="radio radio-inline">
-                                        <input name="gjinia1" class="gjinija1" value="F" type="radio">Femer
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" class="btn btn-primary" name="usBtn" value="Edito">
-                                    <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-                                </div>
-                            </div>
-                        </form>
+                        </div><!-- modal -->
                     </div><!-- panel-body -->
                 </div><!-- content-box-large -->
             </div><!-- col-md-10 -->

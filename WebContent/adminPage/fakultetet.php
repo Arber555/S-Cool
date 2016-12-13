@@ -36,13 +36,6 @@
                         <li><a href="login.html"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                         <li><a href="signup.html"><i class="fa fa-user-plus"></i> Signup</a></li>
                     </ul>
-                    <!--<form class="navbar-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>-->
-                    <!-- search -->
                 </div><!-- navbar-collapse-->
             </div><!-- container -->
         </nav><!-- navbar -->
@@ -99,7 +92,7 @@
         ?>
         -->
         <div class="row">
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h3>Tabela e Fakulteteve</h3>
@@ -111,37 +104,43 @@
                             <th>ID</th>
                             <th>Emri</th>
                         </tr>
+
                         <?php
                             $s->selectAll();
                         ?>
 
                     </table>
-                    <input onclick="reshtiTabele()" type="submit" class="btn btn-primary" value="Edito Fakultetin"><br /><br /><br />
+                    <button onclick="reshtiTabele()" id="editButton" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#changeFakulteti">Edito</button>
                 </div><!-- panel-body -->
             </div><!-- col-md-4 -->
-            <div id="side" class="col-md-6">
-                <form class="form-horizontal" role="form" action="fakultetet.php" method="post">
-                    <div class="form-group">
-                        <label for="idFakultetit" class="col-sm-3 control-label">ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="id1" name="id1" required="required" placeholder="Id e fakultetit" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="emriFakultetit" class="col-sm-3 control-label">Emri</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="emri1" name="emri1" required="required" placeholder="Emri i fakultetit">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" class="btn btn-primary" name="eBtn" value="Edito">
-                            <input type="submit" class="btn btn-primary" name="fBtn" value="Fshij">
-                        </div>
-                    </div>
-                </form>
-            </div><!-- col-md-6 -->
         </div><!-- row -->
+        <div class="modal fade" id="changeFakulteti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
+                    </div>
+                    <form action="fakultetet.php" method="post">
+                        <div class="modal-body">                            
+                            <div class="form-group">
+                                <label for="idFakultetit" control-label">ID</label>
+                                <input type="text" class="form-control" id="id1" name="id1" required="required" placeholder="Id e fakultetit" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="emriFakultetit" control-label">Emri</label>
+                                <input type="text" class="form-control" id="emri1" name="emri1" required="required" placeholder="Emri i fakultetit">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" name="fBtn" class="btn btn-danger">Delete</button>
+                            <button type="submit" name="usBtn" class="btn btn-primary">Save changes</button>
+                        </div>
+                     </form>
+                </div>
+            </div>
+        </div><!-- modal -->
     </div><!-- container -->
     
         <script>
@@ -172,37 +171,38 @@
         </script>
 
         <?php
-        $id1 = filter_input(INPUT_POST, 'id1');
-        $emri1 = filter_input(INPUT_POST, 'emri1');
-        $eBtn = filter_input(INPUT_POST, 'eBtn');
-        $fBtn = filter_input(INPUT_POST, 'fBtn');
+            $id1 = filter_input(INPUT_POST, 'id1');
+            $emri1 = filter_input(INPUT_POST, 'emri1');
+            $usBtn = filter_input(INPUT_POST, 'usBtn');
+            $fBtn = filter_input(INPUT_POST, 'fBtn');
 
 
-        if(isset($eBtn))
-        {
-            if($s->update($id1,$emri1))
+            if(isset($usBtn))
             {
-                //header("Refresh:0;");
-                Echo "<h3>U editua Fakulteti</h3>";
+                if($s->update($id1, $emri1))
+                {
+                    //header("Refresh:0;");
+                    Echo "<h3>U editua Fakulteti</h3>";
+                }
+                
+                else
+                {
+                    Echo "<h3>Nuk u editua Fakulteti</h3>";
+                }
             }
-            else
-            {
-                Echo "<h3>Nuk u editua Fakulteti</h3>";
-            }
-        }
 
-        if(isset($fBtn))
-        {
-            if($s->delete($id1))
+            if(isset($fBtn))
             {
-                //header("Refresh:0;");
-                Echo "<h3>U fshi Fakulteti</h3>";
+                if($s->delete($id1))
+                {
+                    //header("Refresh:0;");
+                    Echo "<h3>U fshi Fakulteti</h3>";
+                }
+                else
+                {
+                    Echo "<h3>Nuk u fshi Fakulteti</h3>";
+                }
             }
-            else
-            {
-                Echo "<h3>Nuk u fshi Fakulteti</h3>";
-            }
-        }
 
 
         /*$s1 = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
