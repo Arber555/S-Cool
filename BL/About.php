@@ -21,8 +21,7 @@ class About {
     private $vendBanimi;
     private $relationship;
     private $detaje;
-    
-    
+   
     public function __construct($dL, $vL, $nTel, $e, $a, $vB, $r, $d)
     {
         $this->dataLindjes = $dL;
@@ -130,6 +129,7 @@ class About {
         
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
+        
         if($a->relationship === ""){
             $a->relationship = null;}
         else if($a->detaje === ""){   
@@ -152,6 +152,8 @@ class About {
         }
         return false;
     }
+    
+    
     
     public function update($id, $dL, $vL, $nTel, $e, $a, $vB, $r, $d)
     {
@@ -185,6 +187,29 @@ class About {
         {
             return false;
             //echo "Error deleting record: " . $conn->error;
+        }
+    }
+    
+    public function getId1($fk_Profit)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from About where fk_Profesori=".$fk_Profit."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
         }
     }
 }

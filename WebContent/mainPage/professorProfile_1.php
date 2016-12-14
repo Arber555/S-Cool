@@ -27,7 +27,7 @@
                                             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                                         });
 
-                                        $data = Profesori::returnProfesorin("ccc");
+                                        $data = Profesori::returnProfesorin("ArberM");
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
@@ -97,7 +97,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
                                 </div>                                 
-                                    <form action="test.php" method="post">
+                                <form action="professorProfile_1.php" method="post">
                                     <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="changeEmri">Emri</label>
@@ -151,15 +151,12 @@
                                                             <input name='gjinia' value='F' type='radio' checked='true'>Femer</label>";
                                                         }    
                                                             
-                                                        ?>
-                                                
-                                                
+                                                    ?>
                                             </div>
-
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="usBtn" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                                        <button name="usBtn" type="sumit" class="btn btn-primary">Save changes</button>
                                     </div>
                               </form>
                             </div>
@@ -184,8 +181,8 @@
                         $idProfit = Profesori::returnID($userName);
 
                         if(isset($usBtn))
-                        {
-                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $nrPersonal1, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship))
+                        {          
+                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
                             {
                                 Echo "<h3>U editua Profili i profit</h3>";
                             }

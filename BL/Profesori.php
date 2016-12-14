@@ -124,67 +124,6 @@ class Profesori {
         }
     }
     
-    public function returnAboutId($id)
-    {
-        $sqlConnection = new SQLConnection();
-        $con = $sqlConnection->connection();
-        
-        $sql = "SELECT a.fk_Profesori FROM Profesori p , Abut a WHERE a.fk_Profesori = ".$id."";
-        
-        $result = mysqli_query($con, $sql);
-        
-        if(mysqli_num_rows($result) > 0)
-        {
-            $row = mysqli_fetch_assoc($result);
-            if(isset($row))
-            {
-                return $row['ID'];
-            }
-        }
-        else
-        {
-            return "No results found.";
-        }
-    }
-    
-    public function updateMeAbout($id, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r)
-    {
-        $sqlConnection = new SQLConnection();
-        $con = $sqlConnection->connection();
-       
-        $id_FkProfi = Profesori::returnID($id);
-        
-        $sql = "UPDATE Profesori SET Emri='".$e."', Mbiemri='".$m."', UserName='".$uN."',Gjinia='".$gj."' WHERE ID=".$id."";
-        $sql1 = "UPDATE About SET Vendi_Lindjes='".$VL."', Data_Lindjes=".$DL.", email='".$em."', vendBanimi='".$VB."', Relationship='".$r."' WHERE fk_Profesori=".$id_FkProfi."";
-        
-        if($con->query($sql) === TRUE && $con->query($sql1) === TRUE) 
-        {
-            return true;
-        } 
-        else {
-            return false;
-            //echo "Error updating record: " . $conn->error;
-        }
-    }
-    
-    public function delete($id)
-    {
-        $sqlConnection = new SQLConnection();
-        $con = $sqlConnection->connection();
-        
-        $sql = "DELETE FROM Profesori WHERE id=".$id."";
-        
-        if($con->query($sql) === true) 
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
-            //echo "Error deleting record: " . $conn->error;
-        }
-    }
-    
     public function selectAll()
     {
         $sqlConnection = new SQLConnection();
@@ -226,7 +165,25 @@ class Profesori {
         }
     }
     
-    public static function returnID($userName)
+    public function delete($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "DELETE FROM Profesori WHERE id=".$id."";
+        
+        if($con->query($sql) === true) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error deleting record: " . $conn->error;
+        }
+    }
+    
+        public static function returnID($userName)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -256,12 +213,13 @@ class Profesori {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "Select * from Profesori p, About a where p.ID =".$id." && ".$id."= a.fk_Profesori";
+        $sql = "Select * from Profesori as p, About as a where p.ID =".$id." and ".$id."=a.fk_Profesori";
         
         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
-        
+
         if(mysqli_num_rows($result) > 0)
         {
+            
             $row = mysqli_fetch_assoc($result);
             if(isset($row))
             {
@@ -274,7 +232,53 @@ class Profesori {
         }
     }
     
-    public static function returnIDProfesorit($us)
+    public function returnAboutId($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT a.fk_Profesori FROM Profesori p , Abut a WHERE a.fk_Profesori = ".$id."";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
+    public function updateMeAbout($id, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r, $nTel, $a, $d)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $ab = new About($DL, $VL, $nTel, $em, $a, $VB, $r, $d);
+        $idAbout = $ab->getId1($id);
+        $temp = $ab->update($idAbout, $DL, $VL, $nTel, $em, $a, $VB, $r, $d);
+        
+        $sql = "UPDATE Profesori SET Emri='".$e."', Mbiemri='".$m."', UserName='".$uN."',Gjinia='".$gj."' WHERE ID=".$id."";
+        
+        
+        if($con->query($sql) === TRUE && isset($temp)) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    /*public static function returnIDProfesorit($us)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -295,5 +299,5 @@ class Profesori {
         {
             return "No results found.";
         }
-    }
+    }*/
 }
