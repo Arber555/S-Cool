@@ -31,6 +31,14 @@
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
+                                        /*if(Postimet::insertPTekst("Postimi i par nga profi dikushi!!!!", 1))
+                                        {
+                                            echo "U shtu postimi!!!";
+                                        }
+                                        else
+                                        {
+                                            echo "Nuk u shtu postimi!!!";
+                                        }*/
                                     ?>
                                 </div>
                             </div><!-- col-md-12 -->
@@ -216,7 +224,10 @@
                                 </form>
                             </div>
                         </div><!-- panel -->
-                        <div class="panel panel-default post">
+                        <?php
+                            $p->getPostimin("ArberM");
+                        ?>
+                        <!--<div class="panel panel-default post">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-2">
@@ -246,7 +257,7 @@
                                                     <button type="submit" class="btn btn-default">Add</button>
                                                 </div>
                                             </form>
-                                        </div><!-- comment-form end -->
+                                        </div><!-- comment-form end 
                                         <div class="clearfix"></div>
                                         <div class="comments">
                                             <div class="comment">
@@ -301,7 +312,7 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-default">Add</button>
                                             </form>
-                                        </div><!-- comment-form end -->
+                                        </div><!-- comment-form end 
                                         <div class="clearfix"></div>
                                         <div class="comments">
                                             <div class="comment">
@@ -356,7 +367,7 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-default">Add</button>
                                             </form>
-                                        </div><!-- comment-form end -->
+                                        </div><!-- comment-form end 
                                         <div class="clearfix"></div>
                                         <div class="comments">
                                             <div class="comment">
@@ -370,7 +381,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

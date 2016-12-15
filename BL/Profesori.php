@@ -183,7 +183,7 @@ class Profesori {
         }
     }
     
-        public static function returnID($userName)
+    public static function returnID($userName)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -232,7 +232,7 @@ class Profesori {
         }
     }
     
-    public function returnAboutId($id)
+    /*public function returnAboutId($id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -253,7 +253,7 @@ class Profesori {
         {
             return "No results found.";
         }
-    }
+    }*/
     
     public function updateMeAbout($id, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r, $nTel, $a, $d)
     {
@@ -278,26 +278,72 @@ class Profesori {
         }
     }
     
-    /*public static function returnIDProfesorit($us)
+    public function getPostimin($userName)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "Select ID from Profesori where UserName=".$us."";
+        $idP = Profesori::returnID($userName);
         
-        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $sql = "SELECT * FROM profesori as p INNER JOIN postimi as pos ON p.ID = ".$idP." AND pos.FK_Profi = ".$idP."";
+        
+        $result = mysqli_query($con, $sql);
         
         if(mysqli_num_rows($result) > 0)
         {
-            $row = mysqli_fetch_assoc($result);
-            if(isset($row))
+            while($row = mysqli_fetch_assoc($result))
             {
-                return $row;
+                echo "<div class='panel panel-default post'>"
+                            ."<div class='panel-body'>"
+                                ."<div class='row'>"
+                                    ."<div class='col-sm-2'>"
+                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                            ."<img src='img/user.png'>"
+                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                        ."</a>"
+                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                    ."</div>"
+                                    ."<div class='col-sm-10'>"
+                                        ."<div class='bubble'>"
+                                            ."<div class='pointer'>"
+                                                ."<p>"
+                                                    .$row["Tekst"]
+                                                ."</p>"
+                                            ."</div>"
+                                            ."<div class='pointer-border'></div>"
+                                        ."</div>"
+                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a href='#'>Follow</a> - <a href='#'>Share</a></p>"
+                                        ."<div class='comment-form'>"
+                                            ."<form class='form-inline'>"
+                                                ."<div class='form-group'>"
+                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                ."</div>"
+                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                            ."</form>"
+                                        ."</div><!-- comment-form end -->"
+                                        ."<div class='clearfix'></div>"
+                                        ."<div class='comments'>"
+                                            ."<div class='comment'>"
+                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                ."<div class='comment-text'>"
+                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                ."</div>"
+                                            ."</div>"
+                                            ."<div class='clearfix'></div>"
+
+                                            ."<div class='comment'>"
+                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                ."<div class='comment-text'>"
+                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                               ."</div>"
+                                            ."</div>"
+                                            ."<div class='clearfix'></div>"
+                                        ."</div>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div>"
+                        ."</div>";
             }
         }
-        else
-        {
-            return "No results found.";
-        }
-    }*/
+    }
 }
