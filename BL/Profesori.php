@@ -285,7 +285,7 @@ class Profesori {
         
         $idP = Profesori::returnID($userName);
         
-        $sql = "SELECT * FROM profesori as p INNER JOIN postimi as pos ON p.ID = ".$idP." AND pos.FK_Profi = ".$idP."";
+        $sql = "SELECT * FROM profesori as p INNER JOIN postimi as pos ON p.ID = ".$idP." AND pos.FK_Profi = ".$idP." ORDER BY pos.ID DESC";
         
         $result = mysqli_query($con, $sql);
         

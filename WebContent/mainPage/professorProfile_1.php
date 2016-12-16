@@ -31,7 +31,7 @@
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
-                                        /*if(Postimet::insertPTekst("Postimi i par nga profi dikushi!!!!", 1))
+                                        /*if(Postimet::insertPTekst("Postimi i dyt nga profi dikushi!!!!", 1))
                                         {
                                             echo "U shtu postimi!!!";
                                         }
@@ -209,11 +209,11 @@
                                 <h3 class="panel-title">Posts</h3>
                             </div>
                             <div class="panel-body">
-                                <form>
+                                <form action="professorProfile_1.php" method="post">
                                     <div class="form-group">
-                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?"></textarea>
+                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-default pull-left">Submit</button>
+                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
                                     <div class="post-buttons">
                                         <div class="btn-group pull-right">
                                             <button type="button" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> Text</button>
@@ -225,6 +225,23 @@
                             </div>
                         </div><!-- panel -->
                         <?php
+                            $textPostimi = filter_input(INPUT_POST, 'textPostimi');
+                            $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
+                            $idP = Profesori::returnID("ArberM");
+                            if(isset($submitPostimi))
+                            {
+                                if(isset($textPostimi) && $textPostimi !== "")
+                                {
+                                    Postimet::insertPTekst($textPostimi, $idP);
+                                }
+                                else
+                                {
+                                    echo "Shkruaj ne Postim!!!";
+                                }
+                            }
+         
+                            
+                            //leximet e postimeve te profit
                             $p->getPostimin("ArberM");
                         ?>
                         <!--<div class="panel panel-default post">
