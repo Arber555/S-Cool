@@ -232,29 +232,6 @@ class Profesori {
         }
     }
     
-    /*public function returnAboutId($id)
-    {
-        $sqlConnection = new SQLConnection();
-        $con = $sqlConnection->connection();
-        
-        $sql = "SELECT a.fk_Profesori FROM Profesori p , Abut a WHERE a.fk_Profesori = ".$id."";
-        
-        $result = mysqli_query($con, $sql);
-        
-        if(mysqli_num_rows($result) > 0)
-        {
-            $row = mysqli_fetch_assoc($result);
-            if(isset($row))
-            {
-                return $row['ID'];
-            }
-        }
-        else
-        {
-            return "No results found.";
-        }
-    }*/
-    
     public function updateMeAbout($id, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r, $nTel, $a, $d)
     {
         $sqlConnection = new SQLConnection();

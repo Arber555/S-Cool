@@ -26,8 +26,10 @@
                                         spl_autoload_register(function ($class_name) {
                                             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                                         });
-
-                                        $data = Profesori::returnProfesorin("ArberM");
+                                        
+                                        $uN= filter_input(INPUT_GET, 'un');
+                                        $thisPage = "professorProfile_1.php?un=".$uN;
+                                        $data = Profesori::returnProfesorin($uN);
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
@@ -105,7 +107,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
                                 </div>                                 
-                                <form action="professorProfile_1.php" method="post">
+                                <form action="<?php echo $thisPage; ?>" method="post">
                                     <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="changeEmri">Emri</label>
@@ -209,7 +211,7 @@
                                 <h3 class="panel-title">Posts</h3>
                             </div>
                             <div class="panel-body">
-                                <form action="professorProfile_1.php" method="post">
+                                <form action="<?php echo $thisPage; ?>" method="post">
                                     <div class="form-group">
                                         <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
                                     </div>
@@ -227,7 +229,7 @@
                         <?php
                             $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                             $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
-                            $idP = Profesori::returnID("ArberM");
+                            $idP = Profesori::returnID($uN);
                             if(isset($submitPostimi))
                             {
                                 if(isset($textPostimi) && $textPostimi !== "")
@@ -242,7 +244,7 @@
          
                             
                             //leximet e postimeve te profit
-                            $p->getPostimin("ArberM");
+                            $p->getPostimin($uN);
                         ?>
                         <!--<div class="panel panel-default post">
                             <div class="panel-body">
