@@ -238,7 +238,7 @@ class Profesori {
         $con = $sqlConnection->connection();
         
         $ab = new About($DL, $VL, $nTel, $em, $a, $VB, $r, $d);
-        $idAbout = $ab->getId1($id);
+        $idAbout = $ab->getIdFromP($id);
         $temp = $ab->update($idAbout, $DL, $VL, $nTel, $em, $a, $VB, $r, $d);
         
         $sql = "UPDATE Profesori SET Emri='".$e."', Mbiemri='".$m."', UserName='".$uN."',Gjinia='".$gj."' WHERE ID=".$id."";

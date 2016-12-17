@@ -234,4 +234,58 @@ class Studenti{
             return "No results found.";
         }
     }
+    
+    public function updateMeAbout($id, $kryetar, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r, $nTel, $a, $d)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $ab = new About($DL, $VL, $nTel, $em, $a, $VB, $r, $d);
+        $idAbout = $ab->getIdFromS($id);
+        $temp = $ab->update($idAbout, $DL, $VL, $nTel, $em, $a, $VB, $r, $d);
+        
+        $sql = "UPDATE Studenti SET Kryetar='".$kryetar."', Emri='".$e."', Mbiemri='".$m."', UserName='".$uN."',Gjinia='".$gj."' WHERE ID=".$id."";
+        
+        if($con->query($sql) === TRUE && isset($temp)) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    public function findByEmriEndMbiemri($emri, $mbiemri)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = null;
+        if((isset($emri) && $emri !== "")&&(isset($mbiemri) && $mbiemri !== "")){
+            $sql = "SELECT * FROM Studenti WHERE Emri = ".$emri." and Mbiemri = ".$mbiemri."";
+        }
+        else if(isset($emri) && $emri !== ""){
+            $sql = "SELECT * FROM Studenti WHERE Emri = ".$emri."";
+        }
+        else if(isset($mbiemri) && $mbiemri !== ""){
+            $sql = "SELECT * FROM Studenti WHERE Mbiemri = ".$mbiemri."";
+        }
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
 }

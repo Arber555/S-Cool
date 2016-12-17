@@ -110,4 +110,57 @@ class Postimet {
             return false;
         }
     }
+    
+    public function deleteP($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "DELETE FROM Postimi WHERE id=".$id."";
+        
+        if($con->query($sql) === true) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error deleting record: " . $conn->error;
+        }
+    }
+    
+    public function updatePTekst($tekst, $id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+       
+        $sql = "UPDATE Postimi SET Tekst='".$tekst."' WHERE ID=".$id."";
+        
+        if($con->query($sql) === TRUE) 
+        {
+            return true;
+        } 
+        else {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    public function updateP($tekst, $fileName, $fileType, $fileSize, $content, $id)
+    {
+         $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+       
+        $sql = "UPDATE Postimi SET Tekst='".$tekst."', File_Name='".$fileName."', File_Type='".$fileType."', File_Size='".$fileSize."', Content='".$content."' WHERE ID=".$id."";
+        
+        if($con->query($sql) === TRUE) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
 }

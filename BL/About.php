@@ -190,12 +190,35 @@ class About {
         }
     }
     
-    public function getId1($fk_Profit)
+    public function getIdFromP($fk_Profit)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
         $sql = "Select * from About where fk_Profesori=".$fk_Profit."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
+    public function getIdFromS($fk_Studenti)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from About where fk_Studenti=".$fk_Studenti."";
         
         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
         
