@@ -54,5 +54,44 @@ and open the template in the editor.
             </tr>
             </table>
         </form>
+        
+        <?php
+            if(isset($_POST['upload']) && $_FILES['userfile']['size'] > 0)
+            {
+                $fileName = $_FILES['userfile']['name'];
+                $tmpName  = $_FILES['userfile']['tmp_name'];
+                $fileSize = $_FILES['userfile']['size'];
+                $fileType = $_FILES['userfile']['type'];
+
+                $fp      = fopen($tmpName, 'r');
+                $content1 = fread($fp, filesize($tmpName));
+                $content = addslashes($content1);
+                fclose($fp);
+
+                if(!get_magic_quotes_gpc())
+                {
+                    $fileName = addslashes($fileName);
+                }
+                
+                $p = new Postimet("teksti abc", $fileName, $fileType, $fileSize, $content);
+                if($p->insertP($p, 1))
+                {
+                    echo "U upload fajlli!!!";
+                }
+                else
+                {
+                    echo "nuk u bo upload";
+                }
+            }
+
+            Postimet::returnIdAndEmri();
+            
+            $id= filter_input(INPUT_GET, 'id');
+            
+            if(isset($id))
+            {
+                Postimet::downloadFile($id);
+            }
+        ?>
     </body>
 </html>

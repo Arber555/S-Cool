@@ -75,7 +75,7 @@ class Postimet {
     private $content;
      */
     
-    function insertP(Postimet $p, $idP)
+    public function insertP(Postimet $p, $idP)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -148,7 +148,7 @@ class Postimet {
     
     public function updateP($tekst, $fileName, $fileType, $fileSize, $content, $id)
     {
-         $sqlConnection = new SQLConnection();
+        $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
        
         $sql = "UPDATE Postimi SET Tekst='".$tekst."', File_Name='".$fileName."', File_Type='".$fileType."', File_Size='".$fileSize."', Content='".$content."' WHERE ID=".$id."";
@@ -161,6 +161,46 @@ class Postimet {
         {
             return false;
             //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    public static function downloadFile($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT File_Name, File_Type, File_Size, Content FROM Postimi WHERE ID = '$id'";
+        
+        $result = mysqli_query($con, $sql);
+        if(isset($result))
+        {
+            list($name, $type, $size, $content) = mysqli_fetch_array($result);
+        
+            header("Content-length: $size");
+            header("Content-type: $type");
+            header("Content-Disposition: attachment; filename=$name");
+            echo $content;
+        }
+    }
+    
+    public static function returnIdAndEmri() //metod testuese
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT id, File_Name FROM Postimi";
+        $result = mysqli_query($con, $sql) or die('Error, query failed');
+        
+        if(mysqli_num_rows($result) == 0)
+        {
+            echo "Database is empty <br>";
+        } 
+        else
+        {
+            while(list($id, $name) = mysqli_fetch_array($result))
+            {
+                echo "<a href='index.php?id=".$id."'>".$name."</a> <br>";
+            }
         }
     }
 }
