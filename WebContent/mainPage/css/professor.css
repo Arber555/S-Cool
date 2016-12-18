@@ -147,6 +147,11 @@ h4 a {
     height: 20px;
 }
 
+#plus{
+    display: none;
+    cursor: pointer;
+}
+
 .interactive,
 .interactive2 {
     width: 30px;
@@ -156,13 +161,13 @@ h4 a {
     transition-duration: 0.5s;
 }
 
-h4 a:active .interactive2,
-h4 a:focus .interactive2 {
-    transform: rotate(0deg);
+.interactive2
+{
+    transform: rotate(90deg);
 }
 
-.interactive2 {
-    transform: rotate(90deg);
+h4 a:active ~ .interactive2 {
+    transform: rotate(0deg);
 }
 
 #collapseOne {

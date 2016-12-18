@@ -173,8 +173,6 @@
                         </div>
                     </div><!-- modal -->
                     
-                    
-                    
                     <?php
                         
                         $emri = filter_input(INPUT_POST, 'emri');
@@ -218,9 +216,8 @@
                                     <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
                                     <div class="post-buttons">
                                         <div class="btn-group pull-right">
-                                            <button type="button" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> Text</button>
                                             <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            <button type="button" class="btn btn-default"><i class="fa fa-video-camera" aria-hidden="true"></i> Video</button>
+                                            <button type="button" class="btn btn-default"><i class="fa fa-file" aria-hidden="true"></i> File</button>
                                         </div>
                                     </div>
                                 </form>
@@ -242,165 +239,9 @@
                                 }
                             }
          
-                            
                             //leximet e postimeve te profit
                             $p->getPostimin($uN);
                         ?>
-                        <!--<div class="panel panel-default post">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <a class="post-avatar thumbnail" href="#">
-                                            <img src="img/user.png">
-                                            <div class="text-center">User1</div>
-                                        </a>
-                                        <div class="likes text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 20 likes</div>
-                                    </div>
-                                    <div class="col-sm-10">
-                                        <div class="bubble">
-                                            <div class="pointer">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Maecenas vulputate quam est, a elementum tortor interdum non.
-                                                    Sed ut elementum justo, non facilisis sem.
-                                                    Nam congue purus in arcu congue rhoncus.
-                                                </p>
-                                            </div>
-                                            <div class="pointer-border"></div>
-                                        </div>
-                                        <p class="post-actions"><a href="#">Comment</a> - <a href="#">Like</a> - <a href="#">Follow</a> - <a href="#">Share</a></p>
-                                        <div class="comment-form">
-                                            <form class="form-inline">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="inputComment" placeholder="Write a comment...">
-                                                    <button type="submit" class="btn btn-default">Add</button>
-                                                </div>
-                                            </form>
-                                        </div><!-- comment-form end 
-                                        <div class="clearfix"></div>
-                                        <div class="comments">
-                                            <div class="comment">
-                                                <a class="comment-avatar pull-left" href="#"><img src="img/user.png"></a>
-                                                <div class="comment-text">
-                                                    <p>Sed convallis est in ante sodales</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-
-                                            <div class="comment">
-                                                <a class="comment-avatar pull-left" href="#"><img src="img/user.png"></a>
-                                                <div class="comment-text">
-                                                    <p>Sed convallis est in ante sodales</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default post">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <a class="post-avatar thumbnail" href="#">
-                                            <img src="img/user.png">
-                                            <div class="text-center">User2</div>
-                                        </a>
-                                        <div class="likes text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 50 likes</div>
-                                    </div>
-                                    <div class="col-sm-10">
-                                        <div class="bubble">
-                                            <div class="pointer">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Maecenas vulputate quam est, a elementum tortor interdum non.
-                                                    Sed ut elementum justo, non
-                                                </p>
-                                            </div>
-                                            <div class="pointer-border">
-
-                                            </div>
-                                        </div>
-                                        <p class="post-actions"><a href="#">Comment</a> - <a href="#">Like</a> - <a href="#">Follow</a> - <a href="#">Share</a></p>
-                                        <div class="comment-form">
-                                            <form class="form-inline">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Write a comment...">
-                                                </div>
-                                                <button type="submit" class="btn btn-default">Add</button>
-                                            </form>
-                                        </div><!-- comment-form end 
-                                        <div class="clearfix"></div>
-                                        <div class="comments">
-                                            <div class="comment">
-                                                <a class="comment-avatar pull-left" href="#"><img src="img/user.png"></a>
-                                                <div class="comment-text">
-                                                    <p>Sed convallis est in ante sodales</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-
-                                            <div class="comment">
-                                                <a class="comment-avatar pull-left" href="#"><img src="img/user.png"></a>
-                                                <div class="comment-text">
-                                                    <p>Sed convallis est in ante sodales</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default post">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <a class="post-avatar thumbnail" href="#">
-                                            <img src="img/user.png">
-                                            <div class="text-center">User3</div>
-                                        </a>
-                                        <div class="likes text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 30 likes</div>
-                                    </div>
-                                    <div class="col-sm-10">
-                                        <div class="bubble">
-                                            <div class="pointer">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Maecenas vulputate quam est,
-                                                    Nam congue purus in arcu congue rhoncus.
-                                                </p>
-                                            </div>
-                                            <div class="pointer-border">
-
-                                            </div>
-                                        </div>
-                                        <p class="post-actions"><a href="#">Comment</a> - <a href="#">Like</a> - <a href="#">Follow</a> - <a href="#">Share</a></p>
-                                        <div class="comment-form">
-                                            <form class="form-inline">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Write a comment...">
-                                                </div>
-                                                <button type="submit" class="btn btn-default">Add</button>
-                                            </form>
-                                        </div><!-- comment-form end 
-                                        <div class="clearfix"></div>
-                                        <div class="comments">
-                                            <div class="comment">
-                                                <a class="comment-avatar pull-left" href="#"><img src="img/user.png"></a>
-                                                <div class="comment-text">
-                                                    <p>Sed convallis est in ante sodales</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
             </div>
