@@ -16,14 +16,14 @@ class Postimet {
     private $fileName;
     private $fileType;
     private $fileSize;
-    private $content;
+   //private $content;
     
-    function __construct($tekst, $fileName, $fileType, $fileSize, $content) {
+    function __construct($tekst, $fileName, $fileType, $fileSize) {
         $this->tekst = $tekst;
         $this->fileName = $fileName;
         $this->fileType = $fileType;
         $this->fileSize = $fileSize;
-        $this->content = $content;
+        //$this->content = $content;
     }
     
     function getTekst() {
@@ -42,9 +42,9 @@ class Postimet {
         return $this->fileSize;
     }
 
-    function getContent() {
+    /*function getContent() {
         return $this->content;
-    }
+    }*/
 
     function setTekst($tekst) {
         $this->tekst = $tekst;
@@ -62,9 +62,10 @@ class Postimet {
         $this->fileSize = $fileSize;
     }
 
-    function setContent($content) {
+
+    /*function setContent($content) {
         $this->content = $content;
-    }
+    }*/
 
     /*
      * 
@@ -75,12 +76,12 @@ class Postimet {
     private $content;
      */
     
-    public function insertP(Postimet $p, $idP)
+    public static function insertP(Postimet $p, $idP)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, Content, FK_Profi) values (?,?,?,?,?,?)");
-        $stmt->bind_param("sssisi",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $p->content, $idP);
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, FK_Profi) values (?,?,?,?,?)");
+        $stmt->bind_param("sssii",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $idP);
         
         if($stmt->execute())
         {
@@ -199,7 +200,8 @@ class Postimet {
         {
             while(list($id, $name) = mysqli_fetch_array($result))
             {
-                echo "<a href='index.php?id=".$id."'>".$name."</a> <br>";
+                //echo "<a href='index.php?id=".$id."' download='".$name."'>".$name."</a> <br>";
+                echo "<a href='Files/".$name."' download='".$name."'>".$name."</a> <br>";
             }
         }
     }

@@ -11,6 +11,7 @@
  *
  * @author Arber
  */
+include 'Postimet.php';
 class Profesori {
     
     private $emri;
@@ -270,6 +271,7 @@ class Profesori {
         {
             while($row = mysqli_fetch_assoc($result))
             {
+                if($row['File_Name']===null){
                 echo "<div class='panel panel-default post'>"
                             ."<div class='panel-body'>"
                                 ."<div class='row'>"
@@ -284,7 +286,7 @@ class Profesori {
                                         ."<div class='bubble'>"
                                             ."<div class='pointer'>"
                                                 ."<p>"
-                                                    .$row["Tekst"]
+                                                    .$row["Tekst"]."</br>"
                                                 ."</p>"
                                             ."</div>"
                                             ."<div class='pointer-border'></div>"
@@ -345,6 +347,86 @@ class Profesori {
                                 ."</div>"
                             ."</div>"
                         ."</div>";
+                }
+                else
+                {
+                    echo "<div class='panel panel-default post'>"
+                            ."<div class='panel-body'>"
+                                ."<div class='row'>"
+                                    ."<div class='col-sm-2'>"
+                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                            ."<img src='img/user.png'>"
+                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                        ."</a>"
+                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                    ."</div>"
+                                    ."<div class='col-sm-10'>"
+                                        ."<div class='bubble'>"
+                                            ."<div class='pointer'>"
+                                                ."<p>"
+                                                    .$row["Tekst"]."</br>"
+                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                ."</p>"
+                                            ."</div>"
+                                            ."<div class='pointer-border'></div>"
+                                        ."</div>"
+                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost' href='#'>Edit</a></p>"
+                                        ."<div class='modal fade' id='editPost' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                            ."<div class='modal-dialog' role='form'>"
+                                                ."<div class='modal-content'>"
+                                                    ."<div class='modal-header'>"
+                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                   ."</div>"                                 
+                                                    ."<form action='professorProfile.php' method='post'>"
+                                                        ."<div class='modal-body'>"
+                                                            ."<div class='form-group'>"
+                                                                ."<input type='text' id='editPost' class='form-control' placeholder='Enter text' />"
+                                                            ."</div>"
+                                                            ."<div class='form-group'>"
+                                                                ."<label for='changeFile'>File</label>"
+                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' />"
+                                                            ."</div>"
+                                                        ."</div>"
+                                                        ."<div class='modal-footer'>"
+                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                                                            ."<button type='submit' class='btn btn-primary' name='save'>Save changes</button>"
+                                                        ."</div>"
+                                                    ."</form>"
+                                                ."</div>"
+                                            ."</div>"
+                                       ."</div>"                          
+                                        ."<div class='comment-form'>"
+                                            ."<form class='form-inline'>"
+                                                ."<div class='form-group'>"
+                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                ."</div>"
+                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                            ."</form>"
+                                        ."</div><!-- comment-form end -->"
+                                        ."<div class='clearfix'></div>"
+                                        ."<div class='comments'>"
+                                            ."<div class='comment'>"
+                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                ."<div class='comment-text'>"
+                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                ."</div>"
+                                            ."</div>"
+                                            ."<div class='clearfix'></div>"
+
+                                            ."<div class='comment'>"
+                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                ."<div class='comment-text'>"
+                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                               ."</div>"
+                                            ."</div>"
+                                            ."<div class='clearfix'></div>"
+                                        ."</div>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div>"
+                        ."</div>";
+                }
             }
         }
     }

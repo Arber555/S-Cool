@@ -209,17 +209,20 @@
                                 <h3 class="panel-title">Posts</h3>
                             </div>
                             <div class="panel-body">
-                                <form action="<?php echo $thisPage; ?>" method="post">
+                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
+                                    
                                     <div class="post-buttons">
                                         <div class="btn-group pull-right">
                                             <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            <button type="button" class="btn btn-default"><i class="fa fa-file" aria-hidden="true"></i> File</button>
+                                            <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>-->
+                                            <label class="btn btn-default btn-file">
+                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
                                         </div>
                                     </div>
+                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
                                 </form>
                             </div>
                         </div><!-- panel -->
@@ -227,9 +230,46 @@
                             $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                             $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
                             $idP = Profesori::returnID($uN);
+                            //echo $_FILES['file']['name'];
                             if(isset($submitPostimi))
                             {
-                                if(isset($textPostimi) && $textPostimi !== "")
+                                echo $_FILES['file']['name'];
+                            }
+                            
+                            
+                            if(isset($submitPostimi) && $_FILES['file']['size'] > 0)
+                            {
+
+                                $fileName = $_FILES['file']['name'];
+                                $tmpName  = $_FILES['file']['tmp_name'];
+                                $fileSize = $_FILES['file']['size'];
+                                $fileType = $_FILES['file']['type'];
+                                //$folder = "files/";
+                                $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\";
+                                $target_file = $folder.$fileName;
+                                if(file_exists($target_file))
+                                {
+                                    echo "Sorry, file already exists.";
+                                }
+                                else
+                                {
+                                    if(move_uploaded_file($tmpName,$target_file) !== null)
+                                    {
+                                        $pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
+                                        if($pos->insertP($pos, $idP))
+                                        {
+                                            echo "U upload fajlli!!!";
+                                        }
+                                        else
+                                        {
+                                            echo "nuk u bo upload";
+                                        }
+                                    }
+                                }
+                            }
+                            else if(isset($textPostimi))
+                            {
+                                if($textPostimi !== "")
                                 {
                                     Postimet::insertPTekst($textPostimi, $idP);
                                 }
@@ -238,7 +278,9 @@
                                     echo "Shkruaj ne Postim!!!";
                                 }
                             }
-         
+                            
+                            
+                            
                             //leximet e postimeve te profit
                             $p->getPostimin($uN);
                         ?>

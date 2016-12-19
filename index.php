@@ -43,7 +43,7 @@ and open the template in the editor.
             //$a->insertS($a, 4);
         ?>
         
-        <form method="post" enctype="multipart/form-data">
+        <!--<form method="post" enctype="multipart/form-data">
             <table width="350" border="0" cellpadding="1" cellspacing="1" class="box">
             <tr> 
             <td width="246">
@@ -53,27 +53,59 @@ and open the template in the editor.
             <td width="80"><input name="upload" type="submit" class="box" id="upload" value=" Upload "></td>
             </tr>
             </table>
+        </form>-->
+        
+        <form action="index.php" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" />
+            <button type="submit" name="upload">upload</button>
         </form>
         
         <?php
-            if(isset($_POST['upload']) && $_FILES['userfile']['size'] > 0)
+            $a = filter_input(INPUT_POST,'upload');
+            
+            if(isset($a) && $_FILES['file']['size'] > 0)
             {
-                $fileName = $_FILES['userfile']['name'];
-                $tmpName  = $_FILES['userfile']['tmp_name'];
-                $fileSize = $_FILES['userfile']['size'];
-                $fileType = $_FILES['userfile']['type'];
+                $fileName = $_FILES['file']['name'];
+                $tmpName  = $_FILES['file']['tmp_name'];
+                $fileSize = $_FILES['file']['size'];
+                $fileType = $_FILES['file']['type'];
+                $folder = "files/";
+                
+                $target_file = $folder.$fileName;
 
-                $fp      = fopen($tmpName, 'r');
-                $content1 = fread($fp, filesize($tmpName));
-                $content = addslashes($content1);
-                fclose($fp);
+                if(file_exists($target_file))
+                {
+                    echo "Sorry, file already exists.";
+                }
+                else
+                {
+                    if(move_uploaded_file($tmpName,$target_file) !== null)
+                    {
+                        $p = new Postimet("teksti abc", $fileName, $fileType, $fileSize);
+                        if($p->insertP($p, 1))
+                        {
+                            echo "U upload fajlli!!!";
+                        }
+                        else
+                        {
+                            echo "nuk u bo upload";
+                        }
+                    }
+                }
 
-                if(!get_magic_quotes_gpc())
+               
+                /*echo $tmpName;
+                $fp = fopen($tmpName, 'r');
+                $content = fread($fp, filesize($tmpName));
+                $content = addslashes($content);
+                fclose($fp);*/
+
+                /*if(!get_magic_quotes_gpc())
                 {
                     $fileName = addslashes($fileName);
-                }
-                
-                $p = new Postimet("teksti abc", $fileName, $fileType, $fileSize, $content);
+                }*/
+
+                /*$p = new Postimet("teksti abc", $fileName, $fileType, $fileSize, $content);
                 if($p->insertP($p, 1))
                 {
                     echo "U upload fajlli!!!";
@@ -81,17 +113,18 @@ and open the template in the editor.
                 else
                 {
                     echo "nuk u bo upload";
-                }
+                }*/
             }
 
             Postimet::returnIdAndEmri();
             
-            $id= filter_input(INPUT_GET, 'id');
+            /*$id= filter_input(INPUT_GET, 'id');
             
             if(isset($id))
             {
                 Postimet::downloadFile($id);
-            }
+                echo "hini";
+            }*/
         ?>
     </body>
 </html>
