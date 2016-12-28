@@ -213,11 +213,10 @@ class Studenti{
     public static function returnStudentin($userName)
     {
         $id = Studenti::returnID($userName);
-
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "SELECT * FROM Studenti as s INNER JOIN About as a ON s.ID = ".$id." && a.fr_Studenti = ".$id."";
+        $sql = "Select * from Studenti as s, About as a where s.ID =".$id." and ".$id."=a.fk_Studenti";
         
         $result = mysqli_query($con, $sql);
         
@@ -227,6 +226,29 @@ class Studenti{
             if(isset($row))
             {
                 return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
+    public static function returnStudentiKryetar($userName)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT Kryetar FROM Studenti WHERE UserName = '".$userName."'";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['Kryetar'];
             }
         }
         else
@@ -257,11 +279,11 @@ class Studenti{
         }
     }
     
-    public function findByEmriEndMbiemri($emri, $mbiemri)
+    public function findByEmriAndMbiemri($emri, $mbiemri)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        
+        echo "hini metod";
         $sql = null;
         if((isset($emri) && $emri !== "")&&(isset($mbiemri) && $mbiemri !== "")){
             $sql = "SELECT * FROM Studenti WHERE Emri = ".$emri." and Mbiemri = ".$mbiemri."";
@@ -277,10 +299,17 @@ class Studenti{
         
         if(mysqli_num_rows($result) > 0)
         {
-            $row = mysqli_fetch_assoc($result);
-            if(isset($row))
+            while($row = mysqli_fetch_assoc($result))
             {
-                return $row;
+                echo "<tr>"
+                        ."<td>"
+                            ."<img src='img/user.png' alt=''>"
+                        ."</td>"
+                        ."<td>".row['ID']."</td>"
+                        ."<td>".row['Emri']."</td>"
+                        ."<td>".row['Mbiemri']."</td>"
+                        ."<td><button class='btn btn-primary'>Add</button></td>"
+                    ."</tr>";
             }
         }
         else
@@ -288,4 +317,46 @@ class Studenti{
             return "No results found.";
         }
     }
+    
+    public static function shtoStudentNeGrup($emriGrupit, $userNameStudenti)
+    {
+        $idStudentit = Studenti::returnID($userNameStudenti);
+        $idGrupit = Grupi::returnID($emriGrupit);
+        
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "UPDATE studenti SET FK_Grupi =".$idGrupit." where ID = ".$idStudentit."";
+        
+        if($con->query($sql) === TRUE) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
+    
+    public static function fshijStudentNgaGrup($userNameStudenti)
+    {
+        $idStudentit = Studenti::returnID($userNameStudenti);
+        
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "UPDATE studenti SET FK_Grupi = null where ID = ".$idStudentit."";
+        
+        if($con->query($sql) === TRUE) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error updating record: " . $conn->error;
+        }
+    }
+
 }

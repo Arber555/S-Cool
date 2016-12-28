@@ -22,6 +22,7 @@ class Profesori {
     private $gjinia;
     private $salt = "AmEl9596";
     
+    private $var;
     public function __construct($e, $m, $uN, $p, $nrP, $gj)
     {
         $this->emri = $e;
@@ -256,7 +257,7 @@ class Profesori {
         }
     }
     
-    public function getPostimin($userName)
+    /*public function getPostimin($userName)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -266,12 +267,13 @@ class Profesori {
         $sql = "SELECT * FROM profesori as p INNER JOIN postimi as pos ON p.ID = ".$idP." AND pos.FK_Profi = ".$idP." ORDER BY pos.ID DESC";
         
         $result = mysqli_query($con, $sql);
-        
+        $count = 0;
         if(mysqli_num_rows($result) > 0)
         {
             while($row = mysqli_fetch_assoc($result))
             {
-                if($row['File_Name']===null){
+                if($row['File_Name']===null && !isset($row['File_Name'])){
+                    
                 echo "<div class='panel panel-default post'>"
                             ."<div class='panel-body'>"
                                 ."<div class='row'>"
@@ -285,13 +287,13 @@ class Profesori {
                                     ."<div class='col-sm-10'>"
                                         ."<div class='bubble'>"
                                             ."<div class='pointer'>"
-                                                ."<p>"
+                                                ."<p id='textP'>"
                                                     .$row["Tekst"]."</br>"
                                                 ."</p>"
                                             ."</div>"
                                             ."<div class='pointer-border'></div>"
                                         ."</div>"
-                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost' href='#'>Edit</a></p>"
+                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost' href='#' id='".$row['ID']."' onclick='getID(this)'>Edit</a></p>"
                                         ."<div class='modal fade' id='editPost' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
                                             ."<div class='modal-dialog' role='form'>"
                                                 ."<div class='modal-content'>"
@@ -299,14 +301,10 @@ class Profesori {
                                                         ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
                                                         ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
                                                    ."</div>"                                 
-                                                    ."<form action='professorProfile.php' method='post'>"
+                                                    ."<form action=". $thisPage filter_input(INPUT_GET, 'post') ." method='post'>"
                                                         ."<div class='modal-body'>"
                                                             ."<div class='form-group'>"
-                                                                ."<input type='text' id='editPost' class='form-control' placeholder='Enter text' />"
-                                                            ."</div>"
-                                                            ."<div class='form-group'>"
-                                                                ."<label for='changeFile'>File</label>"
-                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' />"
+                                                                ."<input type='text' id='editPost' class='form-control' name='editPost".$count."'/>"
                                                             ."</div>"
                                                         ."</div>"
                                                         ."<div class='modal-footer'>"
@@ -347,7 +345,16 @@ class Profesori {
                                 ."</div>"
                             ."</div>"
                         ."</div>";
-                }
+                        $count++;
+                        /*. "<?php"
+                        . " $editText = filter_input(INPUT_POST, 'postime".$count++."');"
+                        . " $BtnSave = filter_input(INPUT_POST, 'save');"
+                        . " if(isset($BtnSave))"
+                        . " {"
+                        . "     $p->updatePTekst($editText, ".row['ID'].");"
+                        . " }"
+                        . "?>";*/
+                /*}
                 else
                 {
                     echo "<div class='panel panel-default post'>"
@@ -370,7 +377,7 @@ class Profesori {
                                             ."</div>"
                                             ."<div class='pointer-border'></div>"
                                         ."</div>"
-                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost' href='#'>Edit</a></p>"
+                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost' href='#' id='".$row['ID']."' onclick='getID(this)'>Edit</a></p>"
                                         ."<div class='modal fade' id='editPost' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
                                             ."<div class='modal-dialog' role='form'>"
                                                 ."<div class='modal-content'>"
@@ -378,10 +385,10 @@ class Profesori {
                                                         ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
                                                         ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
                                                    ."</div>"                                 
-                                                    ."<form action='professorProfile.php' method='post'>"
+                                                    ."<form action=\"<?php echo \$thisPage.filter_input(INPUT_GET,'post'); ?>\" method='post'>"
                                                         ."<div class='modal-body'>"
                                                             ."<div class='form-group'>"
-                                                                ."<input type='text' id='editPost' class='form-control' placeholder='Enter text' />"
+                                                                ."<input type='text' id='editPost' class='form-control' name='postime".$count."'/>"
                                                             ."</div>"
                                                             ."<div class='form-group'>"
                                                                 ."<label for='changeFile'>File</label>"
@@ -426,8 +433,44 @@ class Profesori {
                                 ."</div>"
                             ."</div>"
                         ."</div>";
+                    $count++;
                 }
             }
         }
+    }*/
+    
+    public function getPostimin($userName)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $idP = Profesori::returnID($userName);
+        
+        $sql = "SELECT * FROM profesori as p INNER JOIN postimi as pos ON p.ID = ".$idP." AND pos.FK_Profi = ".$idP." ORDER BY pos.ID DESC";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            $this->setVar(mysqli_num_rows($result));
+            
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
+    }
+    public function setVar($v)
+    {
+        $this->var = $v;
+    }
+    
+    public function getVar()
+    {
+        return $this->var;
     }
 }

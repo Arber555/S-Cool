@@ -112,4 +112,27 @@ class Grupi {
             }
         }
     }
+
+    public static function returnID($emri)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT ID FROM Grupi WHERE Emri_g = '".$emri."'";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
 }

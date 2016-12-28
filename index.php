@@ -125,6 +125,13 @@ and open the template in the editor.
                 Postimet::downloadFile($id);
                 echo "hini";
             }*/
+            $str = "Edit.11";
+            $strA = explode(".", $str);
+            echo $strA[1];
+            $HTTP_HOST = filter_input(INPUT_SERVER, 'HTTP_HOST');
+            $REQUEST_URI = filter_input(INPUT_SERVER, 'REQUEST_URI');
+            $url = "http://$HTTP_HOST$REQUEST_URI";
+            var_dump(parse_url($url));
         ?>
     </body>
 </html>

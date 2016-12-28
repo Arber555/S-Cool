@@ -138,8 +138,16 @@
                                                 <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['vendBanimi'] ?>"/>
                                             </div>
                                             <div class="form-group">
+                                                <label for="changeQyteti">Adresa </label>
+                                                <input name="adresa" type="text" id="adresa" class="form-control" value="<?php echo $data['adresa'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="changeQyteti">Relationship</label>
                                                 <input name="relationship" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Relationship'] ?>"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Nr. Telefonit</label>
+                                                <input name="nrTel" type="text" id="nrTel" class="form-control" value="<?php echo $data['Nr_tel'] ?>"/>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Gjinia</label>
@@ -163,10 +171,14 @@
                                                             
                                                     ?>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="changeQyteti">Detaje tjera</label>
+                                                <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
+                                            </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="usBtn" type="sumit" class="btn btn-primary">Save changes</button>
+                                        <button name="usBtn" type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                               </form>
                             </div>
@@ -198,9 +210,7 @@
                             {
                                 Echo "<h3>Nuk u editua Profili i profit</h3>";
                             }
-                        }
-
-                        
+                        } 
                     ?>
                     
                     <div id="posts" class="col-md-12">
@@ -280,14 +290,308 @@
                             }
                             
                             
-                            
+                            //$idPostit = filter_input(INPUT_GET,"post");
+                            //echo $idPostit;
                             //leximet e postimeve te profit
-                            $p->getPostimin($uN);
+                            $postimet = $p->getPostimin($uN);
+                            
+                            for($i=0;$i<count($postimet);$i++)
+                            { 
+                                $row = $postimet[$i];     // && 
+                               // echo $row['File_Name'];
+                                if(!isset($row['File_Name'])){
+                                echo "<div class='panel panel-default post'>"
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                                            ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                                        ."</a>"
+                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p id='textP'>"
+                                                                    .$row["Tekst"]."</br>"
+                                                                ."</p>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
+                                                                    ."<form onclick='getAction(this)' method='post'>"
+                                                                        ."<div class='modal-body'>" 
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
+                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                          
+                                                        ."<div class='comment-form'>"
+                                                            ."<form class='form-inline'>"
+                                                                ."<div class='form-group'>"
+                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                                ."</div>"
+                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                                            ."</form>"
+                                                        ."</div><!-- comment-form end -->"
+                                                        ."<div class='clearfix'></div>"
+                                                        ."<div class='comments'>"
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                               ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+
+                                        /*. "<?php"
+                                        . " $editText = filter_input(INPUT_POST, 'postime".$count++."');"
+                                        . " $BtnSave = filter_input(INPUT_POST, 'save');"
+                                        . " if(isset($BtnSave))"
+                                        . " {"
+                                        . "     $p->updatePTekst($editText, ".row['ID'].");"
+                                        . " }"
+                                        . "?>";*/
+                                }
+                                else
+                                {
+                                    echo "<div class='panel panel-default post'>"
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                                            ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                                        ."</a>"
+                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p>"
+                                                                    .$row["Tekst"]."</br>"
+                                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                                ."</p>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
+                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
+                                                                        ."<div class='modal-body'>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
+                                                                            ."</div>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<label for='changeFile'>File</label>"
+                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                          
+                                                        ."<div class='comment-form'>"
+                                                            ."<form class='form-inline'>"
+                                                                ."<div class='form-group'>"
+                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                                ."</div>"
+                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                                            ."</form>"
+                                                        ."</div><!-- comment-form end -->"
+                                                        ."<div class='clearfix'></div>"
+                                                        ."<div class='comments'>"
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                               ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+                                }
+                            }
                         ?>
                     </div>
                 </div>
             </div>
-
+            <script>
+                //var x = document.getElementById("editPost");
+                var idPost;
+                var namePost;
+                var action;
+                function getID(element) {
+                    //alert(element.id);
+                    //var a = window.location.href;
+                     //window.location.href="<//?php echo $thisPage?>&post="+element.id;
+                     //window.location.assign("<//?php echo $thisPage?>&post="+element.id)
+                     var x =window.location.href;
+                     idPost = element.id;
+                     window.history.pushState(null, null, "<?php echo $thisPage?>&post="+idPost);
+                     //$.post('<//?php echo $thisPage?>', {post: element.id});
+                }
+                
+                function setURL()
+                {
+                    window.location.href = "<?php echo $thisPage?>&post="+idPost;
+                }
+                
+                function getName(element)
+                {
+                    namePost = element.name;
+                    //window.history.pushState(null, null, "<//?php echo $thisPage?>&post="+namePost);
+                    console.log(namePost);
+                }
+                
+                function setInput()
+                {
+                    var x = document.getElementById("hPost").value = namePost;
+                }
+                
+                function setAction(element)
+                {
+                    action = window.location.href;
+                    element.action = action;
+                }
+            </script>
+            
+            <?php
+                //$idPostit = filter_input(INPUT_POST,"post");
+               // $idPostit = filter_input(INPUT_POST,"hiddenInput");
+                //$idPos = explode(".",$idPostit);
+                
+               // $textPost = filter_input(INPUT_POST,"textField".$idPostit);
+                //$BtnSave = filter_input(INPUT_POST, "saveBtn".$idPostit);
+                $idPostit = filter_input(INPUT_GET,"post");
+                //$BtnEdit = filter_input(INPUT_POST, "Edit");
+                if(isset($idPostit))
+                {
+                    $HTTP_HOST = filter_input(INPUT_SERVER, 'HTTP_HOST');
+                    $REQUEST_URI = filter_input(INPUT_SERVER, 'REQUEST_URI');
+                    $url = "http://$HTTP_HOST$REQUEST_URI";
+                    //var_dump(parse_url($url));
+                    $urlArray = parse_url($url);
+                    $urlSplit = explode("=", $urlArray["query"]);
+                    //echo $urlSplit[2];
+                    
+                    
+                    $textPost = filter_input(INPUT_POST,"textField".$idPostit);
+                    $BtnSave = filter_input(INPUT_POST, "saveBtn".$idPostit);
+                    $file = filter_input(INPUT_POST, "hiddenInput");
+                    if(!isset($file))
+                    {
+                        if(isset($BtnSave))
+                        {
+                            echo $idPostit;
+                            Postimet::updatePTekst($textPost, $urlSplit[2]);
+                        }
+                        else
+                        {
+                            echo "</br>nuk u modifikua";
+                        }
+                    }
+                    else
+                    {
+                        //duhet me modifiku se sosht e bome mir!!!
+                        if(isset($BtnSave) && $_FILES['file'.$idPostit]['size'] > 0)
+                        {
+                            $fileName = $_FILES['file'.$idPostit]['name'];
+                            $tmpName  = $_FILES['file'.$idPostit]['tmp_name'];
+                            $fileSize = $_FILES['file'.$idPostit]['size'];
+                            $fileType = $_FILES['file'.$idPostit]['type'];
+                            $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\";
+                            $target_file = $folder.$fileName;
+                            
+                            /*if(file_exists($target_file))
+                            {
+                                echo "Sorry, file already exists.";
+                            }*/
+                            //else
+                            //{
+                            
+                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                {
+                                    //$pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
+                                    if(Postimet::updateP($textPost, $fileName, $fileType, $fileSize, $file, $idPostit))
+                                    {
+                                        echo "U editua postimi me file!!!";
+                                        $splitURL = explode("&", $url);
+                                        ?>
+                                            <script>
+                                                window.location.href = "<?php echo$splitURL[0]?>";
+                                            </script>
+                                        <?php
+                                        /*flush(); // Flush the buffer
+                                        ob_flush();
+                                        header("Location: $splitURL[0]");
+                                        die;*/
+                                    }
+                                    else
+                                    {
+                                        echo "nuk u editua postimi me file!!!";
+                                    }
+                                }
+                            //}
+                        }
+                        else
+                        {
+                            echo "</br>nuk u modifikua";
+                        }
+                    }
+                }
+            ?>
             <div id="sidebar" class="col-md-4">
                 <button class="btn btn-primary">Test button 1</button>
                 <button class="btn btn-primary">Test button 2</button>

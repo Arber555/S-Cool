@@ -130,7 +130,7 @@ class Postimet {
         }
     }
     
-    public function updatePTekst($tekst, $id)
+    public static function updatePTekst($tekst, $id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -147,12 +147,18 @@ class Postimet {
         }
     }
     
-    public function updateP($tekst, $fileName, $fileType, $fileSize, $content, $id)
+    public static function updateP($tekst, $fileName, $fileType, $fileSize, $oldFile, $id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-       
-        $sql = "UPDATE Postimi SET Tekst='".$tekst."', File_Name='".$fileName."', File_Type='".$fileType."', File_Size='".$fileSize."', Content='".$content."' WHERE ID=".$id."";
+        $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\".$oldFile;
+        
+        if(unlink($folder))
+        {
+            echo "u fshi file";
+        }
+        
+        $sql = "UPDATE Postimi SET Tekst='".$tekst."', File_Name='".$fileName."', File_Type='".$fileType."', File_Size='".$fileSize."' WHERE ID=".$id."";
         
         if($con->query($sql) === TRUE) 
         {
