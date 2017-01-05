@@ -172,7 +172,7 @@
                         </table>
                         <button id="editButton" class="btn btn-primary" data-toggle="modal" data-target="#changeStudenti" onclick="reshtiTabele()">Edito Studentin</button>
                        
-		            </div><!-- panel-body -->
+		    </div><!-- panel-body -->
                 </div><!-- content-box-large -->
             </div><!-- col-md-10 -->
             <div class="modal fade" id="changeStudenti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -182,7 +182,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">Editing Student...</h4>
                         </div>
-					   <form action="studentet.php" method="post">
+			<form action="studentet.php" method="post">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="idStudentit" class="control-label">ID</label>
@@ -250,11 +250,10 @@
             function indeksiReshtit(x) {
                 reshti = x.rowIndex;
             }
-
+                console.log(reshti);
             function reshtiTabele() {
                 var x = tabelja.rows[reshti].cells.length;
                 var z = [];
-                console.log(reshti);
                 for (var i = 0; i < 7; i++) {
 
                     if (i !== 5) {
@@ -269,7 +268,7 @@
                         }
                     }
                 }
-
+                
                 v0.value = z[0];
                 v1.value = z[1];
                 v2.value = z[2];
@@ -281,16 +280,7 @@
                     v5[1].checked = true;
                 v6.checked = z[6] === "Po" ? true : false;
                 
-                function refresh()
-                {
-                    location.reload(true);
-                    tabelja.refresh();
-                }
                 
-                /* v[2].value
-                 v[3].value
-                 v[4].value
-                 v[6].value*/
             }
         </script>
 

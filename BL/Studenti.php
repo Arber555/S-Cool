@@ -28,7 +28,6 @@ class Studenti{
         $this->password = $p;
         $this->nrPersonal = $nrP;
         $this->gjinia = $gj;
-        
         $this->kryetar = $k;
     }
     function getEmri() {
@@ -317,10 +316,9 @@ class Studenti{
             return "No results found.";
         }
     }
-    
-    public static function shtoStudentNeGrup($emriGrupit, $userNameStudenti)
+        
+    public static function shtoStudentNeGrup($emriGrupit, $idStudentit)
     {
-        $idStudentit = Studenti::returnID($userNameStudenti);
         $idGrupit = Grupi::returnID($emriGrupit);
         
         $sqlConnection = new SQLConnection();
@@ -339,10 +337,8 @@ class Studenti{
         }
     }
     
-    public static function fshijStudentNgaGrup($userNameStudenti)
-    {
-        $idStudentit = Studenti::returnID($userNameStudenti);
-        
+    public static function fshijStudentNgaGrup($idStudentit)
+    {        
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
@@ -355,8 +351,57 @@ class Studenti{
         else 
         {
             return false;
-            //echo "Error updating record: " . $conn->error;
         }
     }
-
+    
+    public static function selectAllStudentsForGroupR()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi = 13";
+        //fk_grupi = 13 osht e duhet me ndreq me grup taman me bo qysh duhet jo veq per 13
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr onclick='indeksiReshtit1(this)'>"
+                        //. "<td><img alt='foto'></td>"
+                        . "<td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri']."</td>"
+                        . "<td>".$row['Mbiemri']."</td>"
+                        . "<td>".$row['Emri_Drejtimit']."</td>"
+                        . "<td>".$row['email']."</td></tr>";
+                        //. "<td><button name='remove' class='btn btn-danger'>Remove</button></td></tr>";
+            }
+        }
+    }
+    
+    public static function selectAllStudentsForGroupA()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi IS NULL";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr onclick='indeksiReshtit(this)'>"
+                        //. "<td><img alt='foto'></td>"
+                        . "<td>".$row['ID']."</td>"
+                        . "<td>".$row['Emri']."</td>"
+                        . "<td>".$row['Mbiemri']."</td>"
+                        . "<td>".$row['Emri_Drejtimit']."</td>"
+                        . "<td>".$row['email']."</td></tr>";
+                        //. "<td><button name= 'add".$row['ID']."' class='btn btn-primary' onclick='reshtiTabele()'> Add</button></td></tr>";
+            }
+        }
+    }
+    
 }
