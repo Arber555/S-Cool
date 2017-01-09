@@ -21,7 +21,7 @@
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
             });
         ?>
-        <!--<div id="posts" class="col-md-8 col-md-offset-1">
+        <div id="posts" class="col-md-8 col-md-offset-1">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -101,7 +101,7 @@
                     </div>
                     
                 
-                </div>-->
+                </div>
 
                 <div id="sidebar">
                     <div class="col-sm-2">

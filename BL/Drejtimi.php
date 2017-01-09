@@ -94,7 +94,7 @@ class Drejtimi
             while($row = mysqli_fetch_assoc($result))
             {
                 echo "<tr onclick='indeksiReshtit(this)'><td>".$row['ID']."</td>"
-                        . "<td>".$row['Emri']."</td></tr>";
+                        . "<td>".$row['Emri_Drejtimit']."</td></tr>";
             }
         }
     }

@@ -15,11 +15,12 @@ and open the template in the editor.
         spl_autoload_register(function ($class_name) {
             include 'BL/'.$class_name . '.php';
         });
-        /*$password = "Arber";
+        $password = "Arber";
         $salt="AmEl9596";
         // Get the hash, letting the salt be automatically generated
         $hash = crypt($password, $salt);
-       
+        //echo $hash;
+       // AmE/9Fv0HEEZ.
         if(password_verify($password, $hash))
         {
             echo "boni";
@@ -27,7 +28,7 @@ and open the template in the editor.
         else
         {
             echo "nuk o ka bon";
-        }*/
+        }
         
            /* $f = new Fakullteti("SHKI");
             if($f->insert($f))

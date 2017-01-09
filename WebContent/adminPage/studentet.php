@@ -124,11 +124,15 @@
             $emri = filter_input(INPUT_POST, 'emri');
             $mbiemri = filter_input(INPUT_POST, 'mbiemri');
             $userName = filter_input(INPUT_POST, 'userName');
-            $password = filter_input(INPUT_POST, 'paswword');
+            $password = filter_input(INPUT_POST, 'password');
             $nrPersonal = filter_input(INPUT_POST, 'nrPersonal');
             $gjinia = filter_input(INPUT_POST, 'gjinia');
             $kryetari = filter_input(INPUT_POST, 'kryetari');
             $rsBtn = filter_input(INPUT_POST, 'RsBtn');
+            
+            $salt="AmEl9596";
+            // Get the hash, letting the salt be automatically generated
+            $hash = crypt($password, $salt);
             $s = new Studenti($emri, $mbiemri, $userName, $password, $nrPersonal, $gjinia, $kryetari);
 
 
@@ -137,6 +141,7 @@
                 if($s->insert($s))
                 {
                     Echo "<h3>U regjistrua Studenti</h3>";
+                    echo $hash;
                 }
                 else
                 {
