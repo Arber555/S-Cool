@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+ ﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Profile</title>
@@ -218,12 +218,8 @@
                                 }
                             }
                         }
-
-                        
                     ?>
-                    
-                    
-                    
+
                     <div id="posts" class="col-md-10 col-md-offset-1" style="padding-left: 0px;">
 
                         <div class="panel panel-default">

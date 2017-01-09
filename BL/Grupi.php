@@ -17,8 +17,8 @@ class Grupi {
     
     public function __construct($e, $oK)
     {
-         $this->emri = $e;
-         $this->orariKohes = $oK;
+        $this->emri = $e;
+        $this->orariKohes = $oK;
     }
     
     function getEmri() {
@@ -134,5 +134,30 @@ class Grupi {
         {
             return "No results found.";
         }
+    }
+    
+    public static function getPostimin($idG)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        //$idG = Grupi::returnID($id);
+        
+        $sql = "SELECT * FROM grupi as g INNER JOIN postimi as pos ON g.ID = ".$idG." AND pos.FK_Grupi = ".$idG." ORDER BY pos.ID DESC";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0; 
+        if(mysqli_num_rows($result) > 0)
+        {
+            //$this->setVar(mysqli_num_rows($result));
+            
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
     }
 }

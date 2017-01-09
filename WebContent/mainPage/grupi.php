@@ -19,9 +19,9 @@
         <?php
             spl_autoload_register(function ($class_name) {
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-            });
+            });   
         ?>
-        <!--<div id="posts" class="col-md-8 col-md-offset-1">
+        <div id="posts" class="col-md-8 col-md-offset-1">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -52,6 +52,95 @@
                     </div>
                 
             </div>
+            
+            <?php
+                $textPostimi = filter_input(INPUT_POST, 'textPostimi');
+                $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
+                
+                $idG = filter_input(INPUT_GET, "id");
+                
+                if(isset($submitPostimi) && $_FILES['file']['size'] > 0)
+                {
+                    $fileName = $_FILES['file']['name'];
+                    $tmpName  = $_FILES['file']['tmp_name'];
+                    $fileSize = $_FILES['file']['size'];
+                    $fileType = $_FILES['file']['type'];
+                    //$folder = "files/";
+                    $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\";
+                    $target_file = $folder.$fileName;
+                    if(file_exists($target_file))
+                    {
+                        echo "Sorry, file already exists.";
+                    }
+                    else
+                    {
+                        if(move_uploaded_file($tmpName,$target_file) !== null)
+                        {
+                            $pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
+                            if($pos->insertP($pos, $idG))
+                            {
+                                echo "U upload fajlli!!!";
+                            }
+                            else
+                            {
+                                echo "nuk u bo upload";
+                            }
+                        }
+                    }
+                }
+                else if(isset($textPostimi))
+                {
+                    if($textPostimi !== "")
+                    {
+                        Postimet::insertPTekst($textPostimi, $idG);
+                    }
+                    else
+                    {
+                        echo "Shkruaj ne Postim!!!";
+                    }
+                }
+                
+                
+                $postimet = Grupi::getPostimin($idG);
+                            
+                for($i=0;$i<count($postimet);$i++)
+                { 
+                    $row = $postimet[$i];
+                    
+                    if(!isset($row['File_Name']))
+                    {
+                        
+                        echo "<div class='panel panel-default post'>" 
+                                ."<div class='panel-body'>"
+                                    ."<div class='row'>"
+                                        ."<div class='col-sm-2'>"
+                                           ."<a class='post-avata-r thumbnail' href='#'>"
+                                               ."<img src='img/user.png'>"
+                                                ."<div class='text-center'>User2</div>"
+                                            ."</a>"
+
+                                        ."</div>"
+                                        ."<div class='col-sm-10'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                        .$row['Tekst']
+                                                    ."</p>"
+                                                ."</div>"
+                                                ."<div class='pointer-border'></div>"
+                                            ."</div>"
+                                        ."</div>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div>";
+                    }
+                    else
+                    {
+
+                    }
+                }
+            ?>
+            <!--
             <div class="panel panel-default post">  
                     <div class="panel-body">
                         <div class="row">
