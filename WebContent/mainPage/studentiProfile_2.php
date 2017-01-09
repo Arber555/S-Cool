@@ -27,6 +27,7 @@
                                         spl_autoload_register(function ($class_name) {
                                             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                                         });
+                                        session_start();
                                         
                                         $uN= filter_input(INPUT_GET, 'un');
                                         $thisPage = "studentiProfile.php?un=".$uN;
@@ -224,42 +225,27 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Wall</h3>
+                                <h3 class="panel-title">Posts</h3>
                             </div>
                             <div class="panel-body">
-                                <div>       
-                              <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#myposts" aria-controls="myposts" role="tab" data-toggle="tab">My Posts</a></li>
-                              </ul>
-                              <br>
-                              <!-- Tab panes -->
-                              <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="myposts">
-                                    <div class="panel panel-default">
-
-                                        <div class="panel-body">
-                                            <form action="<?php echo $thisPage; ?>" method="post">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
-                                                <div class="post-buttons">
-                                                    <div class="btn-group pull-right">
-                                                        <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                                        <button type="button" class="btn btn-default"><i class="fa fa-file" aria-hidden="true"></i> File</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
+                                    </div>
+                                    
+                                    <div class="post-buttons">
+                                        <div class="btn-group pull-right">
+                                            <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
+                                            <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>-->
+                                            <label class="btn btn-default btn-file">
+                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
                                         </div>
-
-                
-                                    </div><!-- panel -->
-                                </div>
-                                </div>
-                              </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
+                                </form>
                             </div>
-                            </div>
-                                <div class="panel panel-default post">  
+                        </div><!-- panel -->
+                <!--<div class="panel panel-default post">  
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-2">
@@ -283,32 +269,237 @@
                     </div>
                 </div>
                     <div class="clearfix"></div>
-                <div class="panel panel-default post">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <a class="post-avatar thumbnail" href="#">
-                                    <img src="img/user.png">
-                                    <div class="text-center">User2</div>
-                                </a>
-                                
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="bubble">
-                                    <div class="pointer">
-                                        <p>
-                                            BLLAH BLLAH BLLAH POSTE PER MATEMATIK
-                                        </p>
-                                    </div>
-                                    <div class="pointer-border"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                        </div><!-- panel -->
+                -->
+                
+                <?php
+                            $textPostimi = filter_input(INPUT_POST, 'textPostimi');
+                            $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
+                            $idP = Studenti::returnID($uN);
+                            //echo $_FILES['file']['name'];
+                            if(isset($submitPostimi))
+                            {
+                                echo $_FILES['file']['name'];
+                            }
+                            
+                            
+                            if(isset($submitPostimi) && $_FILES['file']['size'] > 0)
+                            {
 
-                    </div><!-- col-md-10 col-md-offset-1 end-->
+                                $fileName = $_FILES['file']['name'];
+                                $tmpName  = $_FILES['file']['tmp_name'];
+                                $fileSize = $_FILES['file']['size'];
+                                $fileType = $_FILES['file']['type'];
+                                //$folder = "files/";
+                                $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\";
+                                $target_file = $folder.$fileName;
+                                if(file_exists($target_file))
+                                {
+                                    echo "Sorry, file already exists.";
+                                }
+                                else
+                                {
+                                    if(move_uploaded_file($tmpName,$target_file) !== null)
+                                    {
+                                        $pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
+                                        if($pos->insertP($pos, $idP))
+                                        {
+                                            echo "U upload fajlli!!!";
+                                        }
+                                        else
+                                        {
+                                            echo "nuk u bo upload";
+                                        }
+                                    }
+                                }
+                            }
+                            else if(isset($textPostimi))
+                            {
+                                if($textPostimi !== "")
+                                {
+                                    Postimet::insertPTekst($textPostimi, $idP);
+                                }
+                                else
+                                {
+                                    echo "Shkruaj ne Postim!!!";
+                                }
+                            }
+                            
+                            
+                            //$idPostit = filter_input(INPUT_GET,"post");
+                            //echo $idPostit;
+                            //leximet e postimeve te profit
+                            $postimet = $p->getPostimin($uN);
+                            
+                            for($i=0;$i<count($postimet);$i++)
+                            { 
+                                $row = $postimet[$i];     // && 
+                               // echo $row['File_Name'];
+                                if(!isset($row['File_Name'])){
+                                echo "<div class='panel panel-default post'>"
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                                            ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                                        ."</a>"
+                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p id='textP'>"
+                                                                    .$row["Tekst"]."</br>"
+                                                                ."</p>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
+                                                                    ."<form onclick='getAction(this)' method='post'>"
+                                                                        ."<div class='modal-body'>" 
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
+                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                          
+                                                        ."<div class='comment-form'>"
+                                                            ."<form class='form-inline'>"
+                                                                ."<div class='form-group'>"
+                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                                ."</div>"
+                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                                            ."</form>"
+                                                        ."</div><!-- comment-form end -->"
+                                                        ."<div class='clearfix'></div>"
+                                                        ."<div class='comments'>"
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                               ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+
+                                        /*. "<?php"
+                                        . " $editText = filter_input(INPUT_POST, 'postime".$count++."');"
+                                        . " $BtnSave = filter_input(INPUT_POST, 'save');"
+                                        . " if(isset($BtnSave))"
+                                        . " {"
+                                        . "     $p->updatePTekst($editText, ".row['ID'].");"
+                                        . " }"
+                                        . "?>";*/
+                                }
+                                else
+                                {
+                                    echo "<div class='panel panel-default post'>"
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                        ."<a class='post-avatar thumbnail' href='#'>"
+                                                            ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                                        ."</a>"
+                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p>"
+                                                                    .$row["Tekst"]."</br>"
+                                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                                ."</p>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
+                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
+                                                                        ."<div class='modal-body'>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
+                                                                            ."</div>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<label for='changeFile'>File</label>"
+                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                          
+                                                        ."<div class='comment-form'>"
+                                                            ."<form class='form-inline'>"
+                                                                ."<div class='form-group'>"
+                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
+                                                                ."</div>"
+                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
+                                                            ."</form>"
+                                                        ."</div><!-- comment-form end -->"
+                                                        ."<div class='clearfix'></div>"
+                                                        ."<div class='comments'>"
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+
+                                                            ."<div class='comment'>"
+                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
+                                                                ."<div class='comment-text'>"
+                                                                    ."<p>Sed convallis est in ante sodales</p>"
+                                                               ."</div>"
+                                                            ."</div>"
+                                                            ."<div class='clearfix'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+                                }
+                            }
+                        ?>
+                        </div><!-- panel -->
 
                 </div><!-- row -->
 

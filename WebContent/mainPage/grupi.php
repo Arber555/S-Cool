@@ -190,7 +190,7 @@
                     </div>
                     
                 
-                </div>-->
+                </div>
 
                 <div id="sidebar">
                     <div class="col-sm-2">

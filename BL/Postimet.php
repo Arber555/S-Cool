@@ -94,12 +94,30 @@ class Postimet {
         }
     }
     
-    public static function insertPTekst($tekst, $idP)
+    public static function insertP(Postimet $p, $idP)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Profi) values (?,?)");
-        $stmt->bind_param("si",$tekst, $idP);
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, FK_Profi) values (?,?,?,?,?)");
+        $stmt->bind_param("sssii",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $idP);
+        
+        if($stmt->execute())
+        {
+            $stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static function insertPTekstStudent($tekst, $idS)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Studenti) values (?,?)");
+        $stmt->bind_param("si",$tekst, $idS);
         
         if($stmt->execute())
         {

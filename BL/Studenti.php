@@ -17,7 +17,7 @@ class Studenti{
     private $password;
     private $nrPersonal;
     private $gjinia;
-    private $salt = "AmEl9596";
+    private $salt = 'AmEl9596';
     private $kryetar;
     
     public function __construct($e, $m, $uN, $p, $nrP, $gj, $k)
@@ -169,20 +169,35 @@ class Studenti{
         }
     }
     
-    public function returnPassword($un)
+    public static function returnPassword($un)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "SELECT Password FROM Studenti WHERE UserName = '.$un.'";
+        $sql = "SELECT Password FROM Studenti WHERE UserName = '".$un."'";
         
-        if(($temp = $con->query($sql)) === true)
+        /*if(($temp = $con->query($sql)) === true)
         {
             return $temp;
         }
         else
         {
             return "Error";
+        }*/
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['Password'];
+            }
+        }
+        else
+        {
+            return "No results found.";
         }
     }
     
@@ -403,5 +418,4 @@ class Studenti{
             }
         }
     }
-    
 }
