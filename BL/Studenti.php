@@ -229,7 +229,6 @@ class Studenti{
         $id = Studenti::returnID($userName);
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        
         $sql = "Select * from Studenti as s, About as a where s.ID =".$id." and ".$id."=a.fk_Studenti";
         
         $result = mysqli_query($con, $sql);
@@ -418,4 +417,28 @@ class Studenti{
             }
         }
     }
+    
+    public function getPostimin($userName)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $idP = Studenti::returnID($userName);
+        
+        $sql = "SELECT * FROM Studenti as s INNER JOIN postimi as pos ON s.ID = ".$idP." AND pos.FK_Studenti = ".$idP." ORDER BY pos.ID DESC";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
+    }   
 }

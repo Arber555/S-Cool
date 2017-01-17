@@ -94,12 +94,12 @@ class Postimet {
         }
     }
     
-    public static function insertP(Postimet $p, $idP)
+    public static function insertPFileStudenti(Postimet $p, $idS, $idG)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, FK_Profi) values (?,?,?,?,?)");
-        $stmt->bind_param("sssii",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $idP);
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, FK_Studenti, FK_Grupi) values (?,?,?,?,?,?)");
+        $stmt->bind_param("sssiii",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $idS, $idG);
         
         if($stmt->execute())
         {
@@ -112,12 +112,31 @@ class Postimet {
         }
     }
     
-    public static function insertPTekstStudent($tekst, $idS)
+    
+    public static function insertPTekst($tekst, $idP)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Studenti) values (?,?)");
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Profi) values (?,?)");
         $stmt->bind_param("si",$tekst, $idS);
+        
+        if($stmt->execute())
+        {
+            $stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+     public static function insertPTekstStudenti($tekst, $idS, $idG)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Studenti, FK_Grupi) values (?,?,?)");
+        $stmt->bind_param("sii",$tekst, $idS, $idG);
         
         if($stmt->execute())
         {

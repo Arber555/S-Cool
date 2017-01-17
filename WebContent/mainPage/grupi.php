@@ -20,6 +20,11 @@
             spl_autoload_register(function ($class_name) {
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
             });   
+            
+            $idG = filter_input(INPUT_GET, "idG");
+            $idS = filter_input(INPUT_GET, "idS"); // me sessjone e bojm tona
+            
+            $thisPage = "grupi.php?idG=".$idG."&idS=".$idS."";
         ?>
         <div id="posts" class="col-md-8 col-md-offset-1">
 
@@ -32,7 +37,7 @@
                     <div>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <form action="grupi.php" method="post" enctype="multipart/form-data">
+                                <form action="<?php echo $thisPage?>" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
                                     </div>
@@ -57,8 +62,6 @@
                 $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                 $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
                 
-                $idG = filter_input(INPUT_GET, "id");
-                
                 if(isset($submitPostimi) && $_FILES['file']['size'] > 0)
                 {
                     $fileName = $_FILES['file']['name'];
@@ -77,7 +80,7 @@
                         if(move_uploaded_file($tmpName,$target_file) !== null)
                         {
                             $pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
-                            if($pos->insertP($pos, $idG))
+                            if($pos->insertPFileStudenti($pos, $idS, $idG))
                             {
                                 echo "U upload fajlli!!!";
                             }
@@ -92,7 +95,7 @@
                 {
                     if($textPostimi !== "")
                     {
-                        Postimet::insertPTekst($textPostimi, $idG);
+                        Postimet::insertPTekstStudenti($textPostimi, $idS, $idG);
                     }
                     else
                     {
@@ -136,10 +139,72 @@
                     }
                     else
                     {
+                        echo "<div class='panel panel-default post'>" 
+                                ."<div class='panel-body'>"
+                                    ."<div class='row'>"
+                                        ."<div class='col-sm-2'>"
+                                           ."<a class='post-avata-r thumbnail' href='#'>"
+                                               ."<img src='img/user.png'>"
+                                                ."<div class='text-center'>User2</div>"
+                                            ."</a>"
 
+                                        ."</div>"
+                                        ."<div class='col-sm-10'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                        .$row['Tekst']
+                                                    ."</p>"
+                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                ."</div>"
+                                                ."<div class='pointer-border'></div>"
+                                            ."</div>"
+                                        ."</div>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div>";
                     }
                 }
             ?>
+             <script>
+                //var x = document.getElementById("editPost");
+                var idPost;
+                var namePost;
+                var action;
+                function getID(element) {
+                    //alert(element.id);
+                    //var a = window.location.href;
+                     //window.location.href="<//?php echo $thisPage?>&post="+element.id;
+                     //window.location.assign("<//?php echo $thisPage?>&post="+element.id)
+                     var x =window.location.href;
+                     idPost = element.id;
+                     window.history.pushState(null, null, "<?php echo $thisPage?>&post="+idPost);
+                     //$.post('<//?php echo $thisPage?>', {post: element.id});
+                }
+                
+                function setURL()
+                {
+                    window.location.href = "<?php echo $thisPage?>&post="+idPost;
+                }
+                
+                function getName(element)
+                {
+                    namePost = element.name;
+                    //window.history.pushState(null, null, "<//?php echo $thisPage?>&post="+namePost);
+                    console.log(namePost);
+                }
+                
+                function setInput()
+                {
+                    var x = document.getElementById("hPost").value = namePost;
+                }
+                
+                function setAction(element)
+                {
+                    action = window.location.href;
+                    element.action = action;
+                }
+            </script>
             <!--
             <div class="panel panel-default post">  
                     <div class="panel-body">

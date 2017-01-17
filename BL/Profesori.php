@@ -464,6 +464,7 @@ class Profesori {
         }
         return $post;
     }
+    
     public function setVar($v)
     {
         $this->var = $v;

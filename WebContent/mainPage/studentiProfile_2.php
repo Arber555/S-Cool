@@ -14,8 +14,20 @@
         <div class="row">
             <div id="profile" class="col-md-12">
                 <div class="row">
+                    <?php
+                        spl_autoload_register(function ($class_name) {
+                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
+                        });
+                        session_start();
+
+                        $uN= filter_input(INPUT_GET, 'un');
+                        $thisPage = "studentiProfile_2.php?un=".$uN;
+                        $data = Studenti::returnStudentin($uN);
+                        $idStudentit = Studenti::returnID($uN);
+                        $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
+                    ?>
                     <div id="imgContainer" class="col-md-4 col-md-offset-1">
-                        <img id="profileImage" src="https://pbs.twimg.com/profile_images/447126660161093632/-ZDDkOo_.jpeg">
+                        <img id="profileImage" src="<?php echo $fotoS?>">
                     </div><!-- col-md-5 -->
                     <div class="col-md-5">
                         <div class="row">
@@ -24,14 +36,6 @@
                                     <!--<h1 id="emri">Ragip Topalli</h1>
                                     <h4 id="qyteti">Pejë</h4>-->
                                     <?php
-                                        spl_autoload_register(function ($class_name) {
-                                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-                                        });
-                                        session_start();
-                                        
-                                        $uN= filter_input(INPUT_GET, 'un');
-                                        $thisPage = "studentiProfile.php?un=".$uN;
-                                        $data = Studenti::returnStudentin($uN);
                                         $p = new Studenti($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia'], $data['Kryetar']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Student</h4>";
@@ -91,7 +95,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
                                 </div>                                 
-                                <form action="<?php echo $thisPage; ?>" method="post">
+                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
                                     <div class="modal-body">
                                         <!--<div class="form-group">
                                             <label for="changeEmri">Name</label>
@@ -176,6 +180,12 @@
                                                 <label for="changeQyteti">Detaje tjera</label>
                                                 <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
                                             </div>
+                                            <div class="form-group">
+                                                <label for=changeFoto">Fotoja Profilit
+                                                <br>
+                                                <label class="btn btn-default btn-file">
+                                                <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
+                                            </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -202,12 +212,45 @@
                         $adresa = filter_input(INPUT_POST, 'adresa');
                         $detajet = filter_input(INPUT_POST, 'detaje');
                         $usBtn = filter_input(INPUT_POST, 'usBtn');
-                        $idStudentit = Studenti::returnID($userName);
+                        //$idStudentit = Studenti::returnID($userName);
                         $kryetar = Studenti::returnStudentiKryetar($userName);
+                        ///
+                        $foto;
                         
+                        ///
                         if(isset($usBtn))
-                        {          
-                            if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                        {        
+                            if($_FILES['file']['size'] > 0)
+                            {
+                                $fileName = $_FILES['file']['name'];
+                                $tmpName  = $_FILES['file']['tmp_name'];
+                                $fileSize = $_FILES['file']['size'];
+                                $fileType = $_FILES['file']['type'];
+                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                $target_file = $folderFoto.$fileName;
+                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                {
+                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                    if($f->insertS($f, $idStudentit))
+                                    {
+                                        echo "U upload foto!!!";
+                                    }
+                                    else
+                                    {
+                                        echo "nuk u bo foto";
+                                    }
+                                }
+                                    
+                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                {
+                                    Echo "<h3>U editua Profili i studentit</h3>";
+                                }
+                                else
+                                {
+                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                }
+                            }
+                            else
                             {
                                 if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
                                 {
@@ -221,9 +264,9 @@
                         }
                     ?>
 
-                    <div id="posts" class="col-md-10 col-md-offset-1" style="padding-left: 0px;">
+                   <div id="posts" class="col-md-10 col-md-offset-1" style="padding-left: 0px;">
 
-                        <div class="panel panel-default">
+                        <!--<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Posts</h3>
                             </div>
@@ -237,7 +280,7 @@
                                         <div class="btn-group pull-right">
                                             <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
                                             <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>-->
-                                            <label class="btn btn-default btn-file">
+                                           <!-- <label class="btn btn-default btn-file">
                                             <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
                                         </div>
                                     </div>
@@ -272,7 +315,7 @@
                 -->
                 
                 <?php
-                            $textPostimi = filter_input(INPUT_POST, 'textPostimi');
+                            /*$textPostimi = filter_input(INPUT_POST, 'textPostimi');
                             $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
                             $idP = Studenti::returnID($uN);
                             //echo $_FILES['file']['name'];
@@ -322,7 +365,7 @@
                                 {
                                     echo "Shkruaj ne Postim!!!";
                                 }
-                            }
+                            }*/
                             
                             
                             //$idPostit = filter_input(INPUT_GET,"post");
@@ -335,162 +378,51 @@
                                 $row = $postimet[$i];     // && 
                                // echo $row['File_Name'];
                                 if(!isset($row['File_Name'])){
-                                echo "<div class='panel panel-default post'>"
+                                    echo "<div class='panel panel-default post'>" 
                                             ."<div class='panel-body'>"
                                                 ."<div class='row'>"
                                                     ."<div class='col-sm-2'>"
-                                                        ."<a class='post-avatar thumbnail' href='#'>"
-                                                            ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
+                                                       ."<a class='post-avata-r thumbnail' href='#'>"
+                                                           ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>User2</div>"
                                                         ."</a>"
-                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p id='textP'>"
-                                                                    .$row["Tekst"]."</br>"
-                                                                ."</p>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
-                                                                    ."<form onclick='getAction(this)' method='post'>"
-                                                                        ."<div class='modal-body'>" 
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
-                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                          
-                                                        ."<div class='comment-form'>"
-                                                            ."<form class='form-inline'>"
-                                                                ."<div class='form-group'>"
-                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
-                                                                ."</div>"
-                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
-                                                            ."</form>"
-                                                        ."</div><!-- comment-form end -->"
-                                                        ."<div class='clearfix'></div>"
-                                                        ."<div class='comments'>"
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
 
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                               ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
-                                                ."</div>"
-                                            ."</div>"
-                                        ."</div>";
-
-                                        /*. "<?php"
-                                        . " $editText = filter_input(INPUT_POST, 'postime".$count++."');"
-                                        . " $BtnSave = filter_input(INPUT_POST, 'save');"
-                                        . " if(isset($BtnSave))"
-                                        . " {"
-                                        . "     $p->updatePTekst($editText, ".row['ID'].");"
-                                        . " }"
-                                        . "?>";*/
-                                }
-                                else
-                                {
-                                    echo "<div class='panel panel-default post'>"
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                        ."<a class='post-avatar thumbnail' href='#'>"
-                                                            ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
-                                                        ."</a>"
-                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
                                                     ."</div>"
                                                     ."<div class='col-sm-10'>"
                                                         ."<div class='bubble'>"
                                                             ."<div class='pointer'>"
                                                                 ."<p>"
-                                                                    .$row["Tekst"]."</br>"
-                                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                                    .$row['Tekst']
                                                                 ."</p>"
                                                             ."</div>"
                                                             ."<div class='pointer-border'></div>"
                                                         ."</div>"
-                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
-                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
-                                                                        ."<div class='modal-body'>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
-                                                                            ."</div>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<label for='changeFile'>File</label>"
-                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
-                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                          
-                                                        ."<div class='comment-form'>"
-                                                            ."<form class='form-inline'>"
-                                                                ."<div class='form-group'>"
-                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
-                                                                ."</div>"
-                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
-                                                            ."</form>"
-                                                        ."</div><!-- comment-form end -->"
-                                                        ."<div class='clearfix'></div>"
-                                                        ."<div class='comments'>"
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+                                }
+                                else
+                                {
+                                    echo "<div class='panel panel-default post'>" 
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                       ."<a class='post-avata-r thumbnail' href='#'>"
+                                                           ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>User2</div>"
+                                                        ."</a>"
 
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                               ."</div>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p>"
+                                                                    .$row['Tekst']
+                                                                ."</p>"
+                                                                ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
                                                             ."</div>"
-                                                            ."<div class='clearfix'></div>"
+                                                            ."<div class='pointer-border'></div>"
                                                         ."</div>"
                                                     ."</div>"
                                                 ."</div>"
@@ -499,6 +431,7 @@
                                 }
                             }
                         ?>
+                    </div>
                         </div><!-- panel -->
 
                 </div><!-- row -->
