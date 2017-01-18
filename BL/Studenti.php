@@ -441,4 +441,26 @@ class Studenti{
         }
         return $post;
     }   
+    
+    public static function getStudentiById($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $sql = "Select * from Studenti as s  where s.ID =".$id."";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
 }
