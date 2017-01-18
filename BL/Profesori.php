@@ -471,13 +471,27 @@ class Profesori {
         return $post;
     }
     
-    public function setVar($v)
+    public static function returnProfesoriById($id)
     {
-        $this->var = $v;
-    }
-    
-    public function getVar()
-    {
-        return $this->var;
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from Profesori as p where p.ID =".$id."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
     }
 }
