@@ -7,6 +7,13 @@
 	    <link rel="stylesheet" href="css/login.css"/>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+                $( function() {
+                    $( "input" ).checkboxradio();
+                  });
+            </script>
 	</head>
 	<body>
     	<div class="container">
@@ -28,6 +35,21 @@
                                     <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
                                 </div>
                                 <div class="form-group">
+                                    <!--<label class="control-label">Ju jeni :</label>
+                                    <label class='radio radio-inline'>
+                                        <input name='stu' value='P' type='radio'>Profesor
+                                    </label>
+                                    <label class='radio radio-inline'>
+                                        <input name='stu' value='S' type='radio'>Student
+                                    </label>-->
+                                    <label for="radio-1"> Profesor
+                                        <input class="a" type="radio" name="stu" value='P'>
+                                    </label>
+                                    <label for="radio-1"> Student
+                                        <input class="a" type="radio" name="stu" value='S'>
+                                    </label>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-12 controls">
                                         <button type="submit" name ="login" id="btn-login" class="btn btn-success">Login  </button>
                                     </div>
@@ -46,43 +68,77 @@
                     });
                 
                     $login = filter_input(INPUT_POST, 'login');
+                    $prof = filter_input(INPUT_POST, 'prof');
+                    $stu = filter_input(INPUT_POST, 'stu');
+                    
                     if(isset($login))
                     {
-                        
-                        $userNameField = filter_input(INPUT_POST, 'username');
-                        $passwordField = filter_input(INPUT_POST, 'password');
-                        $hash = Studenti::returnPassword($userNameField);
-                        
-                        if(password_verify($passwordField, $hash))
+                        if($stu === "S")
                         {
-                            $sqlConnection = new SQLConnection();
-                            $con = $sqlConnection->connection();
+                            $userNameField = filter_input(INPUT_POST, 'username');
+                            $passwordField = filter_input(INPUT_POST, 'password');
+                            $hash = Studenti::returnPassword($userNameField);
 
-                            $sql = "SELECT * from studenti s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
-
-                            $result = mysqli_query($con, $sql);
-
-                            if(mysqli_num_rows($result) > 0)
+                            if(password_verify($passwordField, $hash))
                             {
-                                while($row = mysqli_fetch_assoc($result))
+                                $sqlConnection = new SQLConnection();
+                                $con = $sqlConnection->connection();
+
+                                $sql = "SELECT * from studenti s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
+
+                                $result = mysqli_query($con, $sql);
+
+                                if(mysqli_num_rows($result) > 0)
                                 {
-                                    session_start();
-                                    $_SESSION['username'] = $row['UserName'];
-                                    $_SESSION['emri'] = $row['Emri'];
-                                    $_SESSION['mbiemri'] = $row['Mbiemri'];
-                                    $_SESSION['btnLogin_status'] = true;
-                                    header('Location: studentiProfile_2.php?un='.$row['UserName']);
+                                    while($row = mysqli_fetch_assoc($result))
+                                    {
+                                        session_start();
+                                        $_SESSION['username'] = $row['UserName'];
+                                        $_SESSION['emri'] = $row['Emri'];
+                                        $_SESSION['mbiemri'] = $row['Mbiemri'];
+                                        $_SESSION['btnLogin_status'] = true;
+                                        header('Location: studentiProfile_2.php?un='.$row['UserName']);
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                echo "Student does not exist";
                             }
                         }
                         else
                         {
-                            echo "Account does not exist";
+                            $userNameField = filter_input(INPUT_POST, 'username');
+                            $passwordField = filter_input(INPUT_POST, 'password');
+                            $hash = Profesori::returnPassword($userNameField);
+
+                            if(password_verify($passwordField, $hash))
+                            {
+                                $sqlConnection = new SQLConnection();
+                                $con = $sqlConnection->connection();
+
+                                $sql = "SELECT * from profesori s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
+
+                                $result = mysqli_query($con, $sql);
+
+                                if(mysqli_num_rows($result) > 0)
+                                {
+                                    while($row = mysqli_fetch_assoc($result))
+                                    {
+                                        session_start();
+                                        $_SESSION['username'] = $row['UserName'];
+                                        $_SESSION['emri'] = $row['Emri'];
+                                        $_SESSION['mbiemri'] = $row['Mbiemri'];
+                                        $_SESSION['btnLogin_status'] = true;
+                                        header('Location: professorProfile_1.php?un='.$row['UserName']);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                echo "Proffessor does not exist ".$hash;
+                            }
                         }
-                    }
-                    else 
-                    {
-                        echo 'Nuk o hi hiqq .';
                     }
                 ?>
     	</div>

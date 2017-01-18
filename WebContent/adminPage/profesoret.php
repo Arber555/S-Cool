@@ -113,7 +113,7 @@
         $emri = filter_input(INPUT_POST, 'emri');
         $mbiemri = filter_input(INPUT_POST, 'mbiemri');
         $userName = filter_input(INPUT_POST, 'userName');
-        $password = filter_input(INPUT_POST, 'paswword');
+        $password = filter_input(INPUT_POST, 'password');
         $nrPersonal = filter_input(INPUT_POST, 'nrPersonal');
         $gjinia = filter_input(INPUT_POST, 'gjinia');
         $rsBtn = filter_input(INPUT_POST, 'RsBtn');

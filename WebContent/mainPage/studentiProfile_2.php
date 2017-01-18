@@ -20,14 +20,16 @@
                         });
                         session_start();
 
-                        $uN= filter_input(INPUT_GET, 'un');
-                        $thisPage = "studentiProfile_2.php?un=".$uN;
-                        $data = Studenti::returnStudentin($uN);
-                        $idStudentit = Studenti::returnID($uN);
+                        //$uN= filter_input(INPUT_GET, 'un');
+                        $thisPage = "studentiProfile_2.php?un=".$_SESSION['username'];
+                        $data = Studenti::returnStudentin($_SESSION['username']);
+                        $idStudentit = Studenti::returnID($_SESSION['username']);
+                        echo $idStudentit;
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
                     ?>
                     <div id="imgContainer" class="col-md-4 col-md-offset-1">
                         <img id="profileImage" src="<?php echo $fotoS?>">
+                        <!--<img id="profileImage" src="/../S-Cool/foto/486373086.png">-->
                     </div><!-- col-md-5 -->
                     <div class="col-md-5">
                         <div class="row">
@@ -38,7 +40,7 @@
                                     <?php
                                         $p = new Studenti($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia'], $data['Kryetar']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
-                                                ."<h4>Student</h4>";
+                                                ."<h4>Student</h4>"."  <h4><a href='logout.php'>Log out</a><h4>";
                                         /*if(Postimet::insertPTekst("Postimi i dyt nga profi dikushi!!!!", 1))
                                         {
                                             echo "U shtu postimi!!!";
@@ -371,8 +373,7 @@
                             //$idPostit = filter_input(INPUT_GET,"post");
                             //echo $idPostit;
                             //leximet e postimeve te profit
-                            $postimet = $p->getPostimin($uN);
-                            
+                            $postimet = $p->getPostimin($_SESSION['username']);
                             for($i=0;$i<count($postimet);$i++)
                             { 
                                 $row = $postimet[$i];     // && 

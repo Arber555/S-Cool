@@ -145,6 +145,8 @@ class Grupi {
         
         $sql = "SELECT * FROM grupi as g INNER JOIN postimi as pos ON g.ID = ".$idG." AND pos.FK_Grupi = ".$idG." ORDER BY pos.ID DESC";
         
+        //$sql = "SELECT * FROM grupi as g, postimi as pos where g.ID = 13 AND pos.FK_Grupi = 13 ORDER BY pos.ID DESC";
+        
         $post = array();
         
         $result = mysqli_query($con, $sql);

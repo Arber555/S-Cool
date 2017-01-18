@@ -13,8 +13,23 @@
         <div class="row">
             <div id="profile" class="col-md-8">
                 <div class="row">
+                    <?php
+                        spl_autoload_register(function ($class_name) 
+                        {
+                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
+                        });
+
+                        session_start();
+                        
+                        //$uN= filter_input(INPUT_GET, 'un');
+                        $thisPage = "professorProfile_1.php?un=".$_SESSION['username'];
+                        $data = Profesori::returnProfesorin($_SESSION['username']);
+                        $idProfit = Profesori::returnID($_SESSION['username']);
+                        $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idProfit);
+                    ?>
                     <div id="imgContainer" class="col-md-5">
-                        <img id="profileImage" src="https://pbs.twimg.com/profile_images/447126660161093632/-ZDDkOo_.jpeg">
+                        <img id="profileImage" src="<?php echo $fotoS?>">
+                        <!--<img id="profileImage" src="/../S-Cool/foto/220px-Antonio_Conte.jpg">-->
                     </div><!-- col-md-5 -->
                     <div class="col-md-7">
                         <div class="row">
@@ -23,16 +38,10 @@
                                     <!--<h1 id="emri">Ragip Topalli</h1>
                                     <h4 id="qyteti">Pejë</h4>-->
                                     <?php
-                                        spl_autoload_register(function ($class_name) {
-                                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-                                        });
                                         
-                                        $uN= filter_input(INPUT_GET, 'un');
-                                        $thisPage = "professorProfile_1.php?un=".$uN;
-                                        $data = Profesori::returnProfesorin($uN);
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
-                                                ."<h4>Profesor</h4>";
+                                                ."<h4>Profesor</h4>"."  <h4><a href='logout.php'>Log out</a><h4>";
                                         /*if(Postimet::insertPTekst("Postimi i dyt nga profi dikushi!!!!", 1))
                                         {
                                             echo "U shtu postimi!!!";
@@ -175,6 +184,12 @@
                                                 <label for="changeQyteti">Detaje tjera</label>
                                                 <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
                                             </div>
+                                            <div class="form-group">
+                                                <label for=changeFoto">Fotoja Profilit
+                                                <br>
+                                                <label class="btn btn-default btn-file">
+                                                <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
+                                            </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -201,14 +216,47 @@
                         $idProfit = Profesori::returnID($userName);
 
                         if(isset($usBtn))
-                        {          
-                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
+                        {
+                            if($_FILES['file']['size'] > 0)
                             {
-                                Echo "<h3>U editua Profili i profit</h3>";
+                                $fileName = $_FILES['file']['name'];
+                                $tmpName  = $_FILES['file']['tmp_name'];
+                                $fileSize = $_FILES['file']['size'];
+                                $fileType = $_FILES['file']['type'];
+                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                $target_file = $folderFoto.$fileName;
+                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                {
+                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                    if($f->insertP($f, $idProfit))
+                                    {
+                                        echo "U upload foto!!!";
+                                    }
+                                    else
+                                    {
+                                        echo "nuk u bo foto";
+                                    }
+                                }
+                                    
+                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
+                                {
+                                    Echo "<h3>U editua Profili i studentit</h3>";
+                                }
+                                else
+                                {
+                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                }
                             }
                             else
                             {
-                                Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
+                                {
+                                    Echo "<h3>U editua Profili i profit</h3>";
+                                }
+                                else
+                                {
+                                    Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                }
                             }
                         } 
                     ?>
@@ -239,7 +287,7 @@
                         <?php
                             $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                             $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
-                            $idP = Profesori::returnID($uN);
+                            $idP = Profesori::returnID($_SESSION['username']);
                             //echo $_FILES['file']['name'];
                             if(isset($submitPostimi))
                             {
@@ -293,7 +341,7 @@
                             //$idPostit = filter_input(INPUT_GET,"post");
                             //echo $idPostit;
                             //leximet e postimeve te profit
-                            $postimet = $p->getPostimin($uN);
+                            $postimet = $p->getPostimin($_SESSION['username']);
                             
                             for($i=0;$i<count($postimet);$i++)
                             { 

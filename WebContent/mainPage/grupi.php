@@ -205,8 +205,8 @@
                     element.action = action;
                 }
             </script>
-            <!--
-            <div class="panel panel-default post">  
+            
+            <!--<div class="panel panel-default post">  
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-2">
@@ -252,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                    </div>-->
                     
                 
                 </div>
@@ -271,7 +271,7 @@
 
                                     <h4 class="modal-title" id="myModalLabel">Add Students</h4>
                                 </div>                                 
-                                <form action="grupi.php" method="post">
+                                <form action= "<?php echo $thisPage; ?>" method="post">
                                     <div class="modal-body">
                                         <div>
                                             <div class="search-bar">
@@ -350,6 +350,7 @@
                         if(isset($addBtn))
                         {
                             Studenti::shtoStudentNeGrup("G2", $id);
+                            
                         }
                         
                     ?>
@@ -368,7 +369,7 @@
 
                                     <h4 class="modal-title" id="myModalLabel">Remove Students</h4>
                                 </div>                                 
-                                <form action="grupi.php" method="post">
+                                <form action= "<?php echo $thisPage; ?>" method="post">
                                     <div class="modal-body">
                                         <div>
                                             <div class="search-bar">
@@ -444,6 +445,7 @@
                         if(isset($RBtn))
                         {
                             Studenti::fshijStudentNgaGrup($id);
+                            
                         }
                         
                     ?>

@@ -126,4 +126,24 @@ class Foto {
             }
         }
     }
+    
+    public static function getFotoP($idP)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Foto Where FK_Profi = ".$idP."";
+        
+        //$post = array();
+        
+        $result = mysqli_query($con, $sql);
+        //$count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result)) // mundem if
+            {
+                return $row['File_Name'];
+            }
+        }
+    }
 }

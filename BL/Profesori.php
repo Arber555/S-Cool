@@ -150,20 +150,26 @@ class Profesori {
         }
     }
     
-    public function returnPassword($un)
+    public static function returnPassword($un)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "SELECT Password FROM Profesori WHERE UserName = '$un'";
+        $sql = "SELECT Password FROM Profesori WHERE UserName = '".$un."'";
         
-        if(($temp = $con->query($sql)) === true)
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
         {
-            return $temp;
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['Password'];
+            }
         }
         else
         {
-            return "Error";
+            return "No results found.";
         }
     }
     
