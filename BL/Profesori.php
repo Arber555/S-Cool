@@ -11,7 +11,7 @@
  *
  * @author Arber
  */
-include 'Postimet.php';
+//include 'Postimet.php';
 class Profesori {
     
     private $emri;
@@ -22,7 +22,6 @@ class Profesori {
     private $gjinia;
     private $salt = "AmEl9596";
     
-    private $var;
     public function __construct($e, $m, $uN, $p, $nrP, $gj)
     {
         $this->emri = $e;
@@ -461,8 +460,6 @@ class Profesori {
         if(mysqli_num_rows($result) > 0)
         {
             
-            $this->setVar(mysqli_num_rows($result));
-            
             while($row = mysqli_fetch_assoc($result))
             {
                 $post[$count++] = $row;
@@ -493,5 +490,43 @@ class Profesori {
         {
             return "No results found.";
         }
+    }
+    
+    
+    public static function findByEmriAndMbiemri($fjala)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $sql = null;
+        
+        if(isset($fjala) && strpos($fjala, ' ')){
+            list($emri, $mbiemri) = explode(' ', $fjala);
+            $sqlp = "SELECT * FROM profesori WHERE Emri = '".$emri."' and Mbiemri = '".$mbiemri."'";
+        }
+        else if(isset($fjala)){
+            $sqlp = "SELECT * FROM profesori WHERE Emri = '".$fjala."'";
+        }
+        
+        $njerzt = array();
+        $count = 0;
+        $resultp = mysqli_query($con, $sqlp);
+        
+        if(mysqli_num_rows($resultp) > 0)
+        {
+            while($row = mysqli_fetch_assoc($resultp))
+            {
+                /*echo "<tr>"
+                        //."<td>".$row['ID']." </td>"
+                        ."<td>".$row['Emri']." </td>"
+                        ."<td>".$row['Mbiemri']."</td>"
+                    ."</tr>";*/
+                $njerzt[$count++] = $row;
+            }
+        }
+        //else
+        //{
+            //return "No results found.";
+        //}
+        return $njerzt;
     }
 }

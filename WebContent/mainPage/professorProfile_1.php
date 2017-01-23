@@ -1,14 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Profile</title>
-    <meta charset="UTF-8">
+    <!--<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
+    
+    <?php include "headd.php" ?>
     <link rel="stylesheet" href="css/professor.css" />
-    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />
 </head>
-<body>
+<body style="padding-top: 65px;">
+    <?php include "headerBar.php" ?>
     <div class="container">
         <div class="row">
             <div id="profile" class="col-md-8">
@@ -19,7 +23,6 @@
                             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                         });
 
-                        session_start();
                         
                         //$uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "professorProfile_1.php?un=".$_SESSION['username'];
@@ -41,7 +44,7 @@
                                         
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
-                                                ."<h4>Profesor</h4>"."  <h4><a href='logout.php'>Log out</a><h4>";
+                                                ."<h4>Profesor</h4>";
                                         /*if(Postimet::insertPTekst("Postimi i dyt nga profi dikushi!!!!", 1))
                                         {
                                             echo "U shtu postimi!!!";
@@ -679,8 +682,5 @@
 
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

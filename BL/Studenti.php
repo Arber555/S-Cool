@@ -292,53 +292,52 @@ class Studenti{
         }
     }
     
-    public function findByEmriAndMbiemri($emri, $mbiemri)
+    public static function findByEmriAndMbiemri($fjala)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        echo "hini metod";
         $sql = null;
-        if((isset($emri) && $emri !== "")&&(isset($mbiemri) && $mbiemri !== "")){
-            $sql = "SELECT * FROM Studenti WHERE Emri = ".$emri." and Mbiemri = ".$mbiemri."";
+        
+        if(isset($fjala) && strpos($fjala, ' ')){
+            list($emri, $mbiemri) = explode(' ', $fjala);
+            $sql = "SELECT * FROM Studenti WHERE Emri = '".$emri."' and Mbiemri = '".$mbiemri."'";
         }
-        else if(isset($emri) && $emri !== ""){
-            $sql = "SELECT * FROM Studenti WHERE Emri = ".$emri."";
-        }
-        else if(isset($mbiemri) && $mbiemri !== ""){
-            $sql = "SELECT * FROM Studenti WHERE Mbiemri = ".$mbiemri."";
+        else if(isset($fjala)){
+            $sql = "SELECT * FROM Studenti WHERE Emri = '".$fjala."'";
         }
         
+        $njerzt = array();
+        $count = 0;
         $result = mysqli_query($con, $sql);
         
         if(mysqli_num_rows($result) > 0)
         {
             while($row = mysqli_fetch_assoc($result))
             {
-                echo "<tr>"
-                        ."<td>"
-                            ."<img src='img/user.png' alt=''>"
-                        ."</td>"
-                        ."<td>".row['ID']."</td>"
-                        ."<td>".row['Emri']."</td>"
-                        ."<td>".row['Mbiemri']."</td>"
-                        ."<td><button class='btn btn-primary'>Add</button></td>"
-                    ."</tr>";
+                /*echo "<tr>"
+                        //."<td>".$row['ID']." </td>"
+                        ."<td>".$row['Emri']." </td>"
+                        ."<td>".$row['Mbiemri']."</td>"
+                    ."</tr>";*/
+                $njerzt[$count++] = $row;
             }
         }
-        else
-        {
-            return "No results found.";
-        }
+        //else
+        //{
+            //return "No results found.";
+        //}
+        
+        return $njerzt;
     }
         
-    public static function shtoStudentNeGrup($emriGrupit, $idStudentit)
+    public static function shtoStudentNeGrup($id, $idStudentit)
     {
-        $idGrupit = Grupi::returnID($emriGrupit);
+        //$idGrupit = Grupi::returnID($emriGrupit);
         
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "UPDATE studenti SET FK_Grupi =".$idGrupit." where ID = ".$idStudentit."";
+        $sql = "UPDATE studenti SET FK_Grupi =".$id." where ID = ".$idStudentit."";
         
         if($con->query($sql) === TRUE) 
         {
@@ -368,12 +367,12 @@ class Studenti{
         }
     }
     
-    public static function selectAllStudentsForGroupR()
+    public static function selectAllStudentsForGroupR($id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi = 13";
+        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi =".$id;
         //fk_grupi = 13 osht e duhet me ndreq me grup taman me bo qysh duhet jo veq per 13
         $result = mysqli_query($con, $sql);
         
@@ -398,7 +397,7 @@ class Studenti{
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi IS NULL";
+        $sql = "Select s.ID,s.Emri,s.Mbiemri,d.Emri_Drejtimit, a.email from studenti s, drejtimi d, about a where s.fk_Drejtimi = d.ID and s.ID = a.fk_Studenti and s.FK_Grupi IS NULL ";
         
         $result = mysqli_query($con, $sql);
         

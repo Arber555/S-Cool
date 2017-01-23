@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
 <?php  
         spl_autoload_register(function ($class_name) {
             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
@@ -7,53 +7,35 @@
 <html>
   <head>
     <title>S-Cool</title>
-      <link rel="stylesheet" href="css/main.css"/>
+      <!--<link rel="stylesheet" href="css/main.css"/>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      
+      <style>
+          #posto{
+              margin-top: 2%;
+          }
+          
+          #ll{
+              margin-top: 1%;
+          }
+          
+      </style>-->
+      
+      <?php include "headd.php" ?>
+      <style>
+          body{
+              padding-top: 65px;
+          }
+      </style>
   </head>
   <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">S-Cool</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Messages <span class="badge">3</span></a></li>
-            <li><a href="#">Notifications <span class="badge">7</span></a></li>
-            <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile<span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">My Profile</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Logout</a></li>
-                  </ul>
-            </li>
-          </ul>
-
-         <form class="navbar-form">
-            <div class="form-group" style="display:inline;">
-              <div class="input-group col-md-4">
-                <input class="form-control" name="search" placeholder="Search" type="text">
-                <span class="input-group-addon" style="width: 1%;"><span class="glyphicon glyphicon-search"></span></span>
-              </div>
-            </div>
-          </form>
-        </div><!-- end of nav-collapse -->
-      </div>
-    </div>
+    <?php include "headerBar.php"  ?>
     
     <div class="page-container">
-      <div class="col-md-2 main-sidebar">
+        <div class="col-md-2 main-sidebar" id="ll">
         <ul class="nav nav-pills nav-stacked">
           <li role="presentation" class="active"><a href="#newsfeed" aria-controls="newsfeed" role="tab" data-toggle="tab">News Feed</a></li>
           <li><a href="#">Latest posts</a></li>
@@ -71,17 +53,27 @@
           <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Grupet<span class="caret"></span></a>
               <ul class="dropdown-menu dropdown-menu-left">
-                <li><a href="#">Dizellasht</a></li>
+                <!--<li><a href="#">Dizellasht</a></li>
                 <li><a href="#">Kullerat</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Create a Group</a></li>
+                <li><a href="#">Create a Group</a></li>-->
+                <?php
+                    $grupet = Grupi::getGrupet();
+                    $userId = Studenti::returnID($_SESSION['username']);
+                    
+                    for($i = 0; $i < count($grupet); $i++)
+                    {
+                        $row = $grupet[$i];
+                        echo "<li><a href = 'grupi.php?idG=".$row['ID']."&idS=".$userId."'>".$row['Emri_g']."</a></li>";
+                    }
+                ?>
               </ul>
             </li>
         </ul>
       </div><!-- end of main-sidebar-->
 
       <div class="col-md-6">
-        <div class="panel panel-primary">
+          <!--<div class="panel panel-primary" >
           <div class="panel-heading">
                 <h3 class="panel-title">Create a post</h3>
           </div>
@@ -101,7 +93,7 @@
           </div>   
         </div><!-- panel-primary -->
 
-        <div class="tab-content">
+        <div class="tab-content" id="posto">
             <div role="tabpanel" class="tab-pane fade in active" id="newsfeed">
             <?php
                 $postimet = Postimet::getPostimet();
@@ -117,7 +109,7 @@
                     }
                     else
                     {
-                        $useri = Profesori::returnProfesoriById($row["FK_Studenti"]);
+                        $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
                     }
                     
                     
@@ -128,7 +120,7 @@
                                         ."<div class='col-sm-2'>"
                                            ."<a class='post-avata-r thumbnail' href='#'>"
                                                ."<img src='img/user.png'>"
-                                               ."<div class='text-center'>".$useri["emri"]." ".$useri["Mniemri"]."</div>"
+                                               ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
                                             ."</a>"
 
                                         ."</div>"
@@ -154,7 +146,7 @@
                                         ."<div class='col-sm-2'>"
                                            ."<a class='post-avata-r thumbnail' href='#'>"
                                                ."<img src='img/user.png'>"
-                                                ."<div class='text-center'>".$useri["emri"]." ".$useri["Mniemri"]."</div>"
+                                                ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
                                             ."</a>"
 
                                         ."</div>"
@@ -174,159 +166,7 @@
                             ."</div>";
                     }
                 }
-            ?>
-              <!--<div class="panel panel-default post">  
-                  <div class="panel-body">
-                      <div class="row">
-                          <div class="col-sm-2">
-                              <a class="post-avatar thumbnail" href="#">
-                                  <img src="img/user.png">
-                                  <div class="text-center">User2</div>
-                              </a>
-                              
-                          </div>
-                          <div class="col-sm-10">
-                              <div class="bubble">
-                                  <div class="pointer">
-                                      <p>
-                                          BLLAH BLLAH BLLAH POSTE PER JAVA
-                                      </p>
-                                  </div>
-                                  <div class="pointer-border"></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="panel panel-default post">
-                  <div class="panel-body">
-                      <div class="row">
-                          <div class="col-sm-2">
-                              <a class="post-avatar thumbnail" href="#">
-                                  <img src="img/user.png">
-                                  <div class="text-center">User2</div>
-                              </a>
-                              
-                          </div>
-                          <div class="col-sm-10">
-                              <div class="bubble">
-                                  <div class="pointer">
-                                      <p>
-                                          BLLAH BLLAH BLLAH POSTE PER MATEMATIK
-                                      </p>
-                                  </div>
-                                  <div class="pointer-border"></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="panel panel-default post">
-                  <div class="panel-body">
-                      <div class="row">
-                          <div class="col-sm-2">
-                              <a class="post-avatar thumbnail" href="#">
-                                  <img src="img/user.png">
-                                  <div class="text-center">User2</div>
-                              </a>
-                              
-                          </div>
-                          <div class="col-sm-10">
-                              <div class="bubble">
-                                  <div class="pointer">
-                                      <p>
-                                          BLLAH BLLAH BLLAH POSTE PER BTI
-                                      </p>
-                                  </div>
-                                  <div class="pointer-border"></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            
-
-
-                <div role="tabpanel" class="tab-pane fade" id="java">
-                  <div class="panel panel-default post">  
-                      <div class="panel-body">
-                          <div class="row">
-                              <div class="col-sm-2">
-                                  <a class="post-avatar thumbnail" href="#">
-                                      <img src="img/user.png">
-                                      <div class="text-center">User2</div>
-                                  </a>
-                                  
-                              </div>
-                              <div class="col-sm-10">
-                                  <div class="bubble">
-                                      <div class="pointer">
-                                          <p>
-                                              BLLAH BLLAH BLLAH POSTE PER JAVA
-                                          </p>
-                                      </div>
-                                      <div class="pointer-border"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-
-                <div role="tabpanel" class="tab-pane fade" id="math">
-                    <div class="panel panel-default post">
-                      <div class="panel-body">
-                          <div class="row">
-                              <div class="col-sm-2">
-                                  <a class="post-avatar thumbnail" href="#">
-                                      <img src="img/user.png">
-                                      <div class="text-center">User2</div>
-                                  </a>
-                                  
-                              </div>
-                              <div class="col-sm-10">
-                                  <div class="bubble">
-                                      <div class="pointer">
-                                          <p>
-                                              BLLAH BLLAH BLLAH POSTE PER MATEMATIK
-                                          </p>
-                                      </div>
-                                      <div class="pointer-border"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="bti">
-                    <div class="panel panel-default post">
-                      <div class="panel-body">
-                          <div class="row">
-                              <div class="col-sm-2">
-                                  <a class="post-avatar thumbnail" href="#">
-                                      <img src="img/user.png">
-                                      <div class="text-center">User2</div>
-                                  </a>
-                                  
-                              </div>
-                              <div class="col-sm-10">
-                                  <div class="bubble">
-                                      <div class="pointer">
-                                          <p>
-                                              BLLAH BLLAH BLLAH POSTE PER BTI
-                                          </p>
-                                      </div>
-                                      <div class="pointer-border"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>-->
-               
+            ?>               
             </div>
         </div> <!--end of tab-content-->
       </div><!-- end of col-md-6-->

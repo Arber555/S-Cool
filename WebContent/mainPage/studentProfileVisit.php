@@ -23,11 +23,11 @@
                         spl_autoload_register(function ($class_name) {
                             include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
                         });
-
-                        //$uN= filter_input(INPUT_GET, 'un');
-                        $thisPage = "studentiProfile_2.php?un=".$_SESSION['username'];
-                        $data = Studenti::returnStudentin($_SESSION['username']);
-                        $idStudentit = Studenti::returnID($_SESSION['username']);
+                        
+                        $uN= filter_input(INPUT_GET, 'un');
+                        $thisPage = "studentProfileVisit.php?un=".$uN;
+                        $data = Studenti::returnStudentin($uN);
+                        $idStudentit = Studenti::returnID($uN);
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
                     ?>
                     <div id="imgContainer" class="col-md-4 col-md-offset-1">
@@ -90,9 +90,9 @@
                             </div><!-- accordion -->
                         </div><!-- row -->
                     </div><!-- col-md-7 -->
-                    <button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
+                    <!--<button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
                         <i class="fa fa-cog"></i>
-                    </button>
+                    </button>-->
                     <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="form">
                             <div class="modal-content">
@@ -376,7 +376,7 @@
                             //$idPostit = filter_input(INPUT_GET,"post");
                             //echo $idPostit;
                             //leximet e postimeve te profit
-                            $postimet = $p->getPostimin($_SESSION['username']);
+                            $postimet = $p->getPostimin($uN);
                             for($i=0;$i<count($postimet);$i++)
                             { 
                                 $row = $postimet[$i];     // && 
@@ -443,20 +443,17 @@
             </div><!-- profile -->
             
         </div> <!-- row -->
-        <div class="col-sm-2" class="content">
+        <!--<div class="col-sm-2" class="content">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Faculty Groups</h3>
                     </div>
                     <ul class="nav nav-pills nav-stacked">
-                        <!--<li><a href="javaPage.html">Java</a></li>
-                        <li><a href="#">Math</a></li>
-                        <li><a href="#">BTI</a></li>
-                        <li><a href="#">BQK</a></li>-->
+                        
                         <?php
                             
                             $grupet = Grupi::getGrupet();
-                            $userId = Studenti::returnID($_SESSION['username']);
+                            $userId = Studenti::returnID($uN);
 
                             for($i = 0; $i < count($grupet); $i++)
                             {
@@ -478,7 +475,7 @@
                         <li><a href="#">Kullerat</a></li>
                     </ul>
                 </div>
-        </div>
+        </div>-->
     </div><!-- col-md-10 col-md-offset-1 -->
 </body>
 </html>

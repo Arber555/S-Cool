@@ -1,27 +1,26 @@
 body {
-	background: linear-gradient(#4CA1AF, #C4E0E5) no-repeat;
+    background: linear-gradient(red, blue) no-repeat;
 }
 
 .container {
-	width: 100%;
-	height: 650px;
+    width: 100%;
+    height: 100%;
 }
 
 #loginbox {
-
-	margin-top:50px;
+    margin-top:50px;
 }
 
 .panel-body {
-	padding-top:30px;
+    padding-top:30px;
 }
 
 .input-group {
-	margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
-.form-group {
-	margin-top:10px;
+#btn-login{
+    margin-top: 10px !important;
 }
 
 /*#intro-writing {

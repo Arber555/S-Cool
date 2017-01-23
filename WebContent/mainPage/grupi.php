@@ -21,8 +21,9 @@
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
             });   
             
+            session_start();
             $idG = filter_input(INPUT_GET, "idG");
-            $idS = filter_input(INPUT_GET, "idS"); // me sessjone e bojm tona
+            $idS = filter_input(INPUT_GET, $_SESSION['ID']); 
             
             $thisPage = "grupi.php?idG=".$idG."&idS=".$idS."";
         ?>
@@ -30,31 +31,39 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="studentiProfile.php?un=ArberM"><h3 class="panel-title" style="float: right;">Back to profile</h3></a>
+                    <!--<a href="studentiProfile.php?un=ArberM"><h3 class="panel-title" style="float: right;">Back to profile</h3></a>-->
                     <h3 class="panel-title">Grupi</h3>
                 </div>
-                <div class="panel-body">      
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <form action="<?php echo $thisPage?>" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
-                                     <div class="post-buttons">
-                                        <div class="btn-group pull-right">
-                                            <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            
-                                            <label class="btn btn-default btn-file">
-                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                
+                <?php
+                    if($_SESSION['Kryetar'] == 1)
+                    {
+                ?>
+                    <div class="panel-body">      
+                        <div>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <form action="<?php echo $thisPage?>" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
                                         </div>
-                                    </div>
-                                </form>
+                                        <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
+                                         <div class="post-buttons">
+                                            <div class="btn-group pull-right">
+                                                <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
+
+                                                <label class="btn btn-default btn-file">
+                                                <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
+                <?php
+                    }
+                ?>
                 
             </div>
             
@@ -256,7 +265,11 @@
                     
                 
                 </div>
-
+                
+                <?php
+                    if($_SESSION['Kryetar'] == 1)
+                    {
+                ?>
                 <div id="sidebar">
                     <div class="col-sm-2">
                         <button id="editButton" type="button" class="btn btn-default" data-toggle="modal" data-target="#changeInfoAdd">
@@ -349,8 +362,7 @@
                         $id = filter_input(INPUT_POST, 'hiddenInput');
                         if(isset($addBtn))
                         {
-                            Studenti::shtoStudentNeGrup("G2", $id);
-                            
+                            Studenti::shtoStudentNeGrup($idG, $id);
                         }
                         
                     ?>
@@ -397,7 +409,7 @@
                                                         <th>E-mail</th>
                                                     </tr>
                                                     <?php
-                                                        Studenti::selectAllStudentsForGroupR();
+                                                        Studenti::selectAllStudentsForGroupR($idG);
                                                     ?>
                                                 </table>
                                             </div>
@@ -413,8 +425,11 @@
                         </div>
                         </div><!-- modal -->
                     </div>
-                    </div>
                 </div>
+        
+                <?php
+                }
+                ?>
                 <script>
                         var tabelja1 = document.getElementById("tablee");
                         var reshti1;

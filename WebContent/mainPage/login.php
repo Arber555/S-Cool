@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>login</title>
-		<meta charset="UTF-8">
+            <title>login</title>
+            <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <link rel="stylesheet" href="css/login.css"/>
+	    
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link rel="stylesheet" href="css/login.css"/>
 	    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />
-            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script>
-                $( function() {
-                    $( "input" ).checkboxradio();
-                  });
-            </script>
 	</head>
 	<body>
     	<div class="container">
@@ -34,21 +28,18 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                     <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
                                 </div>
-                                <div class="form-group">
-                                    <!--<label class="control-label">Ju jeni :</label>
                                     <label class='radio radio-inline'>
                                         <input name='stu' value='P' type='radio'>Profesor
                                     </label>
                                     <label class='radio radio-inline'>
                                         <input name='stu' value='S' type='radio'>Student
-                                    </label>-->
-                                    <label for="radio-1"> Profesor
+                                    </label>
+                                    <!--<label for="radio-1"> Profesor
                                         <input class="a" type="radio" name="stu" value='P'>
                                     </label>
                                     <label for="radio-1"> Student
                                         <input class="a" type="radio" name="stu" value='S'>
-                                    </label>
-                                </div>
+                                    </label>-->
                                 <div class="form-group">
                                     <div class="col-sm-12 controls">
                                         <button type="submit" name ="login" id="btn-login" class="btn btn-success">Login  </button>
@@ -93,11 +84,24 @@
                                     while($row = mysqli_fetch_assoc($result))
                                     {
                                         session_start();
+                                        $_SESSION['ID'] = $row['ID'];
                                         $_SESSION['username'] = $row['UserName'];
                                         $_SESSION['emri'] = $row['Emri'];
                                         $_SESSION['mbiemri'] = $row['Mbiemri'];
                                         $_SESSION['btnLogin_status'] = true;
-                                        header('Location: studentiProfile_2.php?un='.$row['UserName']);
+                                        $_SESSION['isStudent'] = true;
+                                        $_SESSION['Kryetar'] = $row['Kryetar'];
+                                        
+                                        /*if($row['Kryetar'] == 1)
+                                        {
+                                            echo "Hini";
+                                        }
+                                        else
+                                        {
+                                            echo "sosht";
+                                        }*/
+                                        
+                                        header('Location: index.php?un='.$_SESSION['username']);
                                     }
                                 }
                             }
@@ -130,7 +134,8 @@
                                         $_SESSION['emri'] = $row['Emri'];
                                         $_SESSION['mbiemri'] = $row['Mbiemri'];
                                         $_SESSION['btnLogin_status'] = true;
-                                        header('Location: professorProfile_1.php?un='.$row['UserName']);
+                                        $_SESSION['isStudent'] = false;
+                                        header('Location: index.php?un='.$_SESSION['username']);
                                     }
                                 }
                             }
@@ -142,5 +147,5 @@
                     }
                 ?>
     	</div>
-	</body>
+    </body>
 </html>
