@@ -11,7 +11,7 @@
  *
  * @author Arber
  */
-include 'Postimet.php';
+//include 'Postimet.php';
 class Profesori {
     
     private $emri;
@@ -453,10 +453,7 @@ class Profesori {
         $result = mysqli_query($con, $sql);
         $count = 0;
         if(mysqli_num_rows($result) > 0)
-        {
-            
-            $this->setVar(mysqli_num_rows($result));
-            
+        {   
             while($row = mysqli_fetch_assoc($result))
             {
                 $post[$count++] = $row;

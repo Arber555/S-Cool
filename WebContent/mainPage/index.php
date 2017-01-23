@@ -63,7 +63,7 @@
           <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lendet<span class="caret"></span></a>
               <ul class="dropdown-menu dropdown-menu-left">
-                <li role="presentation"><a href="#java" aria-controls="java" role="tab" data-toggle="tab">Java</a></li>
+                <li role="presentation"><a href="http://localhost:8080/S-Cool/WebContent/mainPage/lendet.php?lenda=Java&idP=1" aria-controls="java" role="tab" data-toggle="tab">Java</a></li>
                 <li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>
                 <li role="presentation"><a href="#bti" aria-controls="bti" role="tab" data-toggle="tab">BTI</a></li>
               </ul>
@@ -117,7 +117,7 @@
                     }
                     else
                     {
-                        $useri = Profesori::returnProfesoriById($row["FK_Studenti"]);
+                        $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
                     }
                     
                     
@@ -128,7 +128,7 @@
                                         ."<div class='col-sm-2'>"
                                            ."<a class='post-avata-r thumbnail' href='#'>"
                                                ."<img src='img/user.png'>"
-                                               ."<div class='text-center'>".$useri["emri"]." ".$useri["Mniemri"]."</div>"
+                                               ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
                                             ."</a>"
 
                                         ."</div>"
@@ -154,7 +154,7 @@
                                         ."<div class='col-sm-2'>"
                                            ."<a class='post-avata-r thumbnail' href='#'>"
                                                ."<img src='img/user.png'>"
-                                                ."<div class='text-center'>".$useri["emri"]." ".$useri["Mniemri"]."</div>"
+                                                ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
                                             ."</a>"
 
                                         ."</div>"
