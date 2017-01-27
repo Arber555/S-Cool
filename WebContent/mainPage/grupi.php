@@ -2,29 +2,30 @@
 <html>
     <head>
         <title>Grupi</title>
-        <meta charset="UTF-8">
+        <!--<meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/student.css" />
-        <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
+        <?php include "headd.php"; ?>
         <style>
             #sidebar {
-
+                margin-top: 60px;
             }
         </style>
     </head>
     <body>
         
         <?php
+             include "headerBar.php";
             spl_autoload_register(function ($class_name) {
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
             });   
             
-            session_start();
             $idG = filter_input(INPUT_GET, "idG");
-            $idS = filter_input(INPUT_GET, $_SESSION['ID']); 
-            
+            //$idS = filter_input(INPUT_GET, $_SESSION['ID']); 
+            $idS = $_SESSION['ID'];
             $thisPage = "grupi.php?idG=".$idG."&idS=".$idS."";
         ?>
         <div id="posts" class="col-md-8 col-md-offset-1">
@@ -141,6 +142,29 @@
                                                 ."</div>"
                                                 ."<div class='pointer-border'></div>"
                                             ."</div>"
+                                            ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
+                                                                    ."<form onclick='getAction(this)' method='post'>"
+                                                                        ."<div class='modal-body'>" 
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
+                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                         
                                         ."</div>"
                                     ."</div>"
                                 ."</div>"
@@ -168,6 +192,33 @@
                                                 ."</div>"
                                                 ."<div class='pointer-border'></div>"
                                             ."</div>"
+                                            ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
+                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                                            ."<div class='modal-dialog' role='form'>"
+                                                                ."<div class='modal-content'>"
+                                                                    ."<div class='modal-header'>"
+                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
+                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
+                                                                        ."<div class='modal-body'>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
+                                                                            ."</div>"
+                                                                            ."<div class='form-group'>"
+                                                                                ."<label for='changeFile'>File</label>"
+                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
+                                                                            ."</div>"
+                                                                        ."</div>"
+                                                                        ."<div class='modal-footer'>"
+                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                                                        ."</div>"
+                                                                    ."</form>"
+                                                                ."</div>"
+                                                            ."</div>"
+                                                       ."</div>"                          
                                         ."</div>"
                                     ."</div>"
                                 ."</div>"
@@ -216,6 +267,107 @@
             </script>
             
             <!--<div class="panel panel-default post">  
+            <?php
+                //$idPostit = filter_input(INPUT_POST,"post");
+               // $idPostit = filter_input(INPUT_POST,"hiddenInput");
+                //$idPos = explode(".",$idPostit);
+                
+               // $textPost = filter_input(INPUT_POST,"textField".$idPostit);
+                //$BtnSave = filter_input(INPUT_POST, "saveBtn".$idPostit);
+                $idPostit = filter_input(INPUT_GET,"post");
+                //$BtnEdit = filter_input(INPUT_POST, "Edit");
+                if(isset($idPostit))
+                {
+                    $HTTP_HOST = filter_input(INPUT_SERVER, 'HTTP_HOST');
+                    $REQUEST_URI = filter_input(INPUT_SERVER, 'REQUEST_URI');
+                    $url = "http://$HTTP_HOST$REQUEST_URI";
+                    //var_dump(parse_url($url));
+                    $urlArray = parse_url($url);
+                    $urlSplit = explode("=", $urlArray["query"]);
+                    //echo $urlSplit[2];
+                    
+                    
+                    $textPost = filter_input(INPUT_POST,"textField".$idPostit);
+                    $BtnSave = filter_input(INPUT_POST, "saveBtn".$idPostit);
+                    $file = filter_input(INPUT_POST, "hiddenInput");
+                    if(!isset($file))
+                    {
+                        if(isset($BtnSave))
+                        {
+                            echo $idPostit;
+                            if(Postimet::updatePTekst($textPost, $idPostit))
+                            {
+                                echo "u editua";
+                            }
+                            else
+                            {
+                                echo "nuk u editua292";
+                            }
+                        }
+                        else
+                        {
+                            echo "</br>nuk u modifikua";
+                        }
+                    }
+                    else
+                    {
+                        //duhet me modifiku se sosht e bome mir!!!
+                        if(isset($BtnSave) && $_FILES['file'.$idPostit]['size'] > 0)
+                        {
+                            $fileName = $_FILES['file'.$idPostit]['name'];
+                            $tmpName  = $_FILES['file'.$idPostit]['tmp_name'];
+                            $fileSize = $_FILES['file'.$idPostit]['size'];
+                            $fileType = $_FILES['file'.$idPostit]['type'];
+                            $folder = "C:\\xampp\\htdocs\\S-Cool\\files\\";
+                            $target_file = $folder.$fileName;
+                            
+                            /*if(file_exists($target_file))
+                            {
+                                echo "Sorry, file already exists.";
+                            }*/
+                            //else
+                            //{
+                            
+                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                {
+                                    //$pos = new Postimet($textPostimi, $fileName, $fileType, $fileSize);
+                                    if(Postimet::updateP($textPost, $fileName, $fileType, $fileSize, $file, $idPostit))
+                                    {
+                                        echo "U editua postimi me file!!!";
+                                        $splitURL = explode("&", $url);
+                                        ?>
+                                            <script>
+                                                window.location.href = "<?php echo$splitURL[0]?>";
+                                            </script>
+                                        <?php
+                                        /*flush(); // Flush the buffer
+                                        ob_flush();
+                                        header("Location: $splitURL[0]");
+                                        die;*/
+                                    }
+                                    else
+                                    {
+                                        echo "nuk u editua postimi me file!!!";
+                                    }
+                                }
+                            //}
+                        }
+                        else
+                        {
+                            if(Postimet::updatePTekst($textPost, $idPostit))
+                            {
+                                echo "u editua";
+                            }
+                            else
+                            {
+                                echo "nuk u editua292";
+                            }
+                        }
+                    }
+                }
+            ?>
+            <!--
+            <div class="panel panel-default post">  
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-2">
@@ -464,7 +616,6 @@
                         }
                         
                     ?>
-           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+           
     </body>
 </html>

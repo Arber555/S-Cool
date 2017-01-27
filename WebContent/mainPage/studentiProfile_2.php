@@ -468,7 +468,7 @@
                     </ul>
                 </div>
         </div>
-        <div class="col-sm-2" class="content">
+        <!--<div class="col-sm-2" class="content">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Groups for fun</h3>
@@ -478,7 +478,7 @@
                         <li><a href="#">Kullerat</a></li>
                     </ul>
                 </div>
-        </div>
+        </div>-->
     </div><!-- col-md-10 col-md-offset-1 -->
 </body>
 </html>

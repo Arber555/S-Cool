@@ -460,6 +460,7 @@ class Profesori {
         if(mysqli_num_rows($result) > 0)
         {
             
+         
             while($row = mysqli_fetch_assoc($result))
             {
                 $post[$count++] = $row;
@@ -497,7 +498,7 @@ class Profesori {
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $sql = null;
+        $sqlp = null;
         
         if(isset($fjala) && strpos($fjala, ' ')){
             list($emri, $mbiemri) = explode(' ', $fjala);

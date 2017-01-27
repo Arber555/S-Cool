@@ -131,7 +131,7 @@ class Postimet {
         }
     }
     
-     public static function insertPTekstStudenti($tekst, $idS, $idG)
+    public static function insertPTekstStudenti($tekst, $idS, $idG)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -174,13 +174,15 @@ class Postimet {
        
         $sql = "UPDATE Postimi SET Tekst='".$tekst."' WHERE ID=".$id."";
         
+        //$sql = "UPDATE `postimi` SET `Tekst` = '".$tekst."' WHERE `postimi`.`ID` =".$id."";
+        
         if($con->query($sql) === TRUE) 
         {
             return true;
         } 
         else {
             return false;
-            //echo "Error updating record: " . $conn->error;
+            echo "Error updating record: " . $con->error;
         }
     }
     
@@ -269,5 +271,124 @@ class Postimet {
             }
         }
         return $post;
+    }
+    
+    public function getPostimetByLenda($emri) // mundem te klasa lenda me shti po se kena nihere
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $id = Postimet::getLenda($emri);
+  
+        $sql = "SELECT * FROM Postimi where FK_Lenda = '".$id."' ORDER BY ID DESC";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        
+        $count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
+    }
+    
+    public static function getLenda($emri) //klasen lenda duhet me shti kur bohet
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Lendet where Emri='".$emri."'";
+        
+        $result = mysqli_query($con, $sql);
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                return $row['ID'];
+            }
+        }
+        else
+        {
+            echo "keq!!!!";
+        }
+    }
+    
+    public static function insertPLenda(Postimet $p, $idP, $idL)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, File_Name, File_Type, File_Size, FK_Profi, FK_Lenda) values (?,?,?,?,?,?)");
+        $stmt->bind_param("sssiii",$p->tekst, $p->fileName, $p->fileType, $p->fileSize, $idP, $idL);
+        
+        if($stmt->execute())
+        {
+            $stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static function insertPTekstLenda($tekst, $idP, $idL)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Profi, FK_Lenda) values (?,?,?)");
+        $stmt->bind_param("sii",$tekst, $idP, $idL);
+        
+        if($stmt->execute())
+        {
+            $stmt->close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static function getLendet()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM lendet";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
+    }
+    
+    public static function getProfiLenda($lenda)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM lendet INNER JOIN Profesori ON lendet.FK_Profi=Profesori.ID where lendet.Emri = '".$lenda."'";
+        $result = mysqli_query($con, $sql);
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            while($row = mysqli_fetch_assoc($result))
+            {
+                return $row["FK_Profi"];
+            }
+        }
     }
 }

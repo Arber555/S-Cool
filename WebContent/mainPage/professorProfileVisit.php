@@ -269,7 +269,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Posts</h3>
                             </div>
-                            <div class="panel-body">
+                            <!--<div class="panel-body">
                                 <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
@@ -278,14 +278,14 @@
                                     <div class="post-buttons">
                                         <div class="btn-group pull-right">
                                             <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>-->
+                                            <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>
                                             <label class="btn btn-default btn-file">
                                             <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
                                 </form>
-                            </div>
+                            </div>-->
                         </div><!-- panel -->
                         <?php
                             $textPostimi = filter_input(INPUT_POST, 'textPostimi');

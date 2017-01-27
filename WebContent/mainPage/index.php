@@ -45,9 +45,19 @@
           <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lendet<span class="caret"></span></a>
               <ul class="dropdown-menu dropdown-menu-left">
-                <li role="presentation"><a href="#java" aria-controls="java" role="tab" data-toggle="tab">Java</a></li>
+                <!--<li role="presentation"><a href="http://localhost:8080/S-Cool/WebContent/mainPage/lendet.php?lenda=Java&idP=1" aria-controls="java" role="tab" data-toggle="tab">Java</a></li>
                 <li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>
-                <li role="presentation"><a href="#bti" aria-controls="bti" role="tab" data-toggle="tab">BTI</a></li>
+                <li role="presentation"><a href="#bti" aria-controls="bti" role="tab" data-toggle="tab">BTI</a></li>-->
+                <?php
+                    $lendet = Postimet::getLendet();
+                    $userId1 = Profesori::returnID($_SESSION['username']);
+                    
+                    for($i = 0; $i < count($lendet); $i++)
+                    {
+                        $row = $lendet[$i];
+                        echo "<li><a href = 'lendet.php?lenda=".$row['Emri']."&idP=".$userId1."'>".$row['Emri']."</a></li>";
+                    }
+                ?>
               </ul>
           </li>
           <li class="dropdown">
@@ -96,8 +106,9 @@
         <div class="tab-content" id="posto">
             <div role="tabpanel" class="tab-pane fade in active" id="newsfeed">
             <?php
+                //echo "99";
                 $postimet = Postimet::getPostimet();
-                            
+                //echo "101";  
                 for($i=0;$i<count($postimet);$i++)
                 { 
                     $row = $postimet[$i];     // && 
