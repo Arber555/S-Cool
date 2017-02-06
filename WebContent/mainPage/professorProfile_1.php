@@ -26,7 +26,6 @@
                         
                         //$uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "professorProfile_1.php?un=".$_SESSION['username'];
-                        $data = Profesori::returnProfesorin($_SESSION['username']);
                         $idProfit = Profesori::returnID($_SESSION['username']);
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idProfit);
                     ?>
@@ -42,6 +41,18 @@
                                     <h4 id="qyteti">Pejë</h4>-->
                                     <?php
                                         
+                                        if($_SESSION['isStudent'] === false)
+                                        {
+                                            $b = About::returnBooleanAboutProfesori($_SESSION['ID']);
+                                            if($b === false)
+                                            {
+                                                $data = Profesori::returnProfinPaAbout($_SESSION['username']);
+                                            }
+                                            else
+                                            {
+                                                $data = Profesori::returnProfesorin($_SESSION['username']);
+                                            }
+                                        }
                                         $p = new Profesori($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
                                                 ."<h4>Profesor</h4>";
@@ -89,19 +100,32 @@
                                 <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="accordion-content">
                                         <?php
-                                            echo "<h4>Vendlindja: ".$data['Vendi_Lindjes']."</h4>";
-                                            echo "<h4>Data Lindjes: ".$data['Data_Lindjes']."</h4>";
-                                            echo "<h4>Email: ".$data['email']."</h4>";
-                                            echo "<h4>vendbanimi: ".$data['vendBanimi']."</h4>";
-                                            echo "<h4>Relationship: ".$data['Relationship']."</h4>";
-                                            if($data['Gjinia'] == 'M')
+                                            if($_SESSION['isStudent'] === false)
                                             {
-                                                echo "<h4>Gjinia: Mashkull</h4>";
+                                                $b = About::returnBooleanAboutProfesori($_SESSION['ID']);
+                                                if($b === false)
+                                                {
+                                                    echo "Ju lutem te shtoni te dhenat tjera.";
+                                                }
+                                                else
+                                                {
+                                                    echo "<h4>Vendlindja: ".$data['Vendi_Lindjes']."</h4>";
+                                                    echo "<h4>Data Lindjes: ".$data['Data_Lindjes']."</h4>";
+                                                    echo "<h4>Email: ".$data['email']."</h4>";
+                                                    echo "<h4>vendbanimi: ".$data['vendBanimi']."</h4>";
+                                                    echo "<h4>Relationship: ".$data['Relationship']."</h4>";
+                                                    if($data['Gjinia'] == 'M')
+                                                    {
+                                                        echo "<h4>Gjinia: Mashkull</h4>";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "<h4>Gjinia: Femer</h4>";
+                                                    }
+                                                }
                                             }
-                                            else
-                                            {
-                                                echo "<h4>Gjinia: Femer</h4>";
-                                            }
+                                        
+                                            
                                         ?>
                                     </div>
                                 </div>
@@ -112,99 +136,169 @@
                         <i class="fa fa-cog"></i>
                     </button>
                         
-                    <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="form">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
-                                </div>                                 
-                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
-                                    <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="changeEmri">Emri</label>
-                                                <input name="emri" type="text" id="changeEmri" class="form-control" value="<?php echo $data['Emri'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeMbiemri">Mbiemri</label>
-                                                <input name="mbiemri" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['Mbiemri'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeMbiemri">Username</label>
-                                                <input name="userName" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['UserName'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Vendlindja</label>
-                                                <input name="vendlindja" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Vendi_Lindjes'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Data lindjes</label>
-                                                <input name="dataLindjes" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Data_Lindjes'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Email</label>
-                                                <input name="email" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['email'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Vendbanimi</label>
-                                                <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['vendBanimi'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Adresa </label>
-                                                <input name="adresa" type="text" id="adresa" class="form-control" value="<?php echo $data['adresa'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Relationship</label>
-                                                <input name="relationship" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Relationship'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Nr. Telefonit</label>
-                                                <input name="nrTel" type="text" id="nrTel" class="form-control" value="<?php echo $data['Nr_tel'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Gjinia</label>
-                                                    <?php 
-                                                        if($data['Gjinia'] == 'M')
-                                                        {
-                                                            echo "<label class='radio radio-inline'>
-                                                                <input name='gjinia' value='M' type='radio' checked='true'>Mashkull
-                                                            </label>";
-                                                            echo "<label class='radio radio-inline'>
-                                                            <input name='gjinia' value='F' type='radio'>Femer</label>";
-                                                        }
-                                                        else
-                                                        {
-                                                            echo "<label class='radio radio-inline'>
-                                                                <input name='gjinia' value='M' type='radio'>Mashkull
-                                                            </label>";
-                                                            echo "<label class='radio radio-inline'>
-                                                            <input name='gjinia' value='F' type='radio' checked='true'>Femer</label>";
-                                                        }    
-                                                            
-                                                    ?>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Detaje tjera</label>
-                                                <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for=changeFoto">Fotoja Profilit
-                                                <br>
-                                                <label class="btn btn-default btn-file">
-                                                <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
-                                            </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="usBtn" type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                              </form>
+                    <?php
+                        if($_SESSION['isStudent'] === false)
+                        {
+                            $b = About::returnBooleanAboutProfesori($_SESSION['ID']);
+                            if($b === true)
+                            {
+                    ?>
+                        <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="form">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
+                                    </div>                                 
+                                    <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="changeEmri">Emri</label>
+                                                    <input name="emri" type="text" id="changeEmri" class="form-control" value="<?php echo $data['Emri'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeMbiemri">Mbiemri</label>
+                                                    <input name="mbiemri" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['Mbiemri'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeMbiemri">Username</label>
+                                                    <input name="userName" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['UserName'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Vendlindja</label>
+                                                    <input name="vendlindja" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Vendi_Lindjes'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Data lindjes</label>
+                                                    <input name="dataLindjes" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Data_Lindjes'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Email</label>
+                                                    <input name="email" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['email'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Vendbanimi</label>
+                                                    <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['vendBanimi'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Adresa </label>
+                                                    <input name="adresa" type="text" id="adresa" class="form-control" value="<?php echo $data['adresa'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Relationship</label>
+                                                    <input name="relationship" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Relationship'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Nr. Telefonit</label>
+                                                    <input name="nrTel" type="text" id="nrTel" class="form-control" value="<?php echo $data['Nr_tel'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Gjinia</label>
+                                                        <?php 
+                                                            if($data['Gjinia'] == 'M')
+                                                            {
+                                                                echo "<label class='radio radio-inline'>
+                                                                    <input name='gjinia' value='M' type='radio' checked='true'>Mashkull
+                                                                </label>";
+                                                                echo "<label class='radio radio-inline'>
+                                                                <input name='gjinia' value='F' type='radio'>Femer</label>";
+                                                            }
+                                                            else
+                                                            {
+                                                                echo "<label class='radio radio-inline'>
+                                                                    <input name='gjinia' value='M' type='radio'>Mashkull
+                                                                </label>";
+                                                                echo "<label class='radio radio-inline'>
+                                                                <input name='gjinia' value='F' type='radio' checked='true'>Femer</label>";
+                                                            }    
+
+                                                        ?>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="changeQyteti">Detaje tjera</label>
+                                                    <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for=changeFoto">Fotoja Profilit
+                                                    <br>
+                                                    <label class="btn btn-default btn-file">
+                                                    <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button name="usBtn" type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                  </form>
+                                </div>
                             </div>
-                        </div>
-                    </div><!-- modal -->
+                        </div><!-- modal -->
                     
                     <?php
                         
+                    }
+                            else if($b === false)
+                            {
+                                ?>
+                                    <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="form">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
+                                                </div>                                 
+                                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Vendlindja</label>
+                                                            <input name="vendlindja" type="text" id="changeQyteti" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Data lindjes</label>
+                                                            <input name="dataLindjes" type="text" id="changeQyteti" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Email</label>
+                                                            <input name="email" type="text" id="changeQyteti" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Vendbanimi</label>
+                                                            <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Adresa </label>
+                                                            <input name="adresa" type="text" id="adresa" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Relationship</label>
+                                                            <input name="relationship" type="text" id="changeQyteti" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Nr. Telefonit</label>
+                                                            <input name="nrTel" type="text" id="nrTel" class="form-control" value=""/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="changeQyteti">Detaje tjera</label>
+                                                            <input name="detaje" type="text" id="detaje" class="form-control" value=""/>
+                                                        </div>
+                                                        <!--<div class="form-group">
+                                                            <label for=changeFoto">Fotoja Profilit
+                                                            <br>
+                                                            <label class="btn btn-default btn-file">
+                                                            <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
+                                                        </div>-->
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button name="usBtn" type="sumit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div><!-- modal -->
+                                <?php
+                            }
+                        }
                         $emri = filter_input(INPUT_POST, 'emri');
                         $mbiemri = filter_input(INPUT_POST, 'mbiemri');
                         $userName = filter_input(INPUT_POST, 'userName');
@@ -215,52 +309,73 @@
                         $email = filter_input(INPUT_POST, 'email');
                         $vendbanimi = filter_input(INPUT_POST, 'vendbanimi');
                         $relationship = filter_input(INPUT_POST, 'relationship');
+                        $nrTel = filter_input(INPUT_POST, 'nrTel');
+                        $adresa = filter_input(INPUT_POST, 'adresa');
+                        $detajet = filter_input(INPUT_POST, 'detaje');
                         $usBtn = filter_input(INPUT_POST, 'usBtn');
-                        $idProfit = Profesori::returnID($userName);
 
                         if(isset($usBtn))
                         {
-                            if($_FILES['file']['size'] > 0)
-                            {
-                                $fileName = $_FILES['file']['name'];
-                                $tmpName  = $_FILES['file']['tmp_name'];
-                                $fileSize = $_FILES['file']['size'];
-                                $fileType = $_FILES['file']['type'];
-                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
-                                $target_file = $folderFoto.$fileName;
-                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                            if($_SESSION['isStudent'] === false)
                                 {
-                                    $f = new Foto($fileName, $fileType, $fileSize);
-                                    if($f->insertP($f, $idProfit))
+                                    $b = About::returnBooleanAboutProfesori($_SESSION['ID']);
+                                    if($b === true)
                                     {
-                                        echo "U upload foto!!!";
+                                        if($_FILES['file']['size'] > 0)
+                                        {
+                                            $fileName = $_FILES['file']['name'];
+                                            $tmpName  = $_FILES['file']['tmp_name'];
+                                            $fileSize = $_FILES['file']['size'];
+                                            $fileType = $_FILES['file']['type'];
+                                            $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                            $target_file = $folderFoto.$fileName;
+                                            if(move_uploaded_file($tmpName,$target_file) !== null)
+                                            {
+                                                $f = new Foto($fileName, $fileType, $fileSize);
+                                                if($f->insertP($f, $idProfit))
+                                                {
+                                                    echo "U upload foto!!!";
+                                                }
+                                                else
+                                                {
+                                                    echo "nuk u bo foto";
+                                                }
+                                            }
+
+                                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                            {
+                                                Echo "<h3>U editua Profili i studentit</h3>";
+                                            }
+                                            else
+                                            {
+                                                Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                            {
+                                                Echo "<h3>U editua Profili i profit</h3>";
+                                            }
+                                            else
+                                            {
+                                                Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                            }
+                                        }
                                     }
-                                    else
+                                    else if($b === false)
                                     {
-                                        echo "nuk u bo foto";
+                                        $a = new About($dataLindjes, $vendlindja, $nrTel, $email, $adresa, $vendbanimi, $relationship, $detajet);
+                                        if($a->insertP($a, $_SESSION['ID']))
+                                        {
+                                            Echo "<h3>U shtu Profili i profit</h3>";
+                                        }
+                                        else
+                                        {
+                                            Echo "<h3>Nuk u shtu Profili i profit</h3>";
+                                        }
                                     }
                                 }
-                                    
-                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
-                                {
-                                    Echo "<h3>U editua Profili i studentit</h3>";
-                                }
-                                else
-                                {
-                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
-                                }
-                            }
-                            else
-                            {
-                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, 10101, "adresa", "detajet"))
-                                {
-                                    Echo "<h3>U editua Profili i profit</h3>";
-                                }
-                                else
-                                {
-                                    Echo "<h3>Nuk u editua Profili i profit</h3>";
-                                }
-                            }
                         } 
                     ?>
                     

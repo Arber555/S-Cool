@@ -247,6 +247,29 @@ class Studenti{
         }
     }
     
+    public static function returnStudentinPaAbout($userName)
+    {
+        $id = Studenti::returnID($userName);
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $sql = "Select * from Studenti as s where s.ID =".$id."";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
     public static function returnStudentiKryetar($userName)
     {
         $sqlConnection = new SQLConnection();
@@ -462,4 +485,5 @@ class Studenti{
             return "No results found.";
         }
     }
+    
 }

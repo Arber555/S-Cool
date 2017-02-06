@@ -141,7 +141,6 @@
                 if($s->insert($s))
                 {
                     Echo "<h3>U regjistrua Studenti</h3>";
-                    echo $hash;
                 }
                 else
                 {

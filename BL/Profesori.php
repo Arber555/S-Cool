@@ -239,6 +239,29 @@ class Profesori {
         }
     }
     
+    public static function returnProfinPaAbout($userName)
+    {
+        $id = Profesori::returnID($userName);
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        $sql = "Select * from Profesori as s where s.ID =".$id."";
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row;
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
+    
     public function updateMeAbout($id, $e, $m, $uN, $gj, $VL, $DL, $em, $VB, $r, $nTel, $a, $d)
     {
         $sqlConnection = new SQLConnection();

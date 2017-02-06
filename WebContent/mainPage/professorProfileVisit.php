@@ -54,6 +54,50 @@
                                             echo "Nuk u shtu postimi!!!";
                                         }*/
                                     ?>
+                                    
+                                    <form action="<?php echo $thisPage; ?>" method="post" > 
+                                        
+                                        <?php
+                                            $cf = new IsFollowing($_SESSION['ID'], $idProfit);
+
+                                            if($cf->isFollow($_SESSION['ID'], $idProfit) === false)
+                                            {
+                                        ?>
+                                            <button type="submit" name='follow'>Follow</button>
+                                        <?php
+                                            }
+                                            else if($cf->isFollow($_SESSION['ID'], $idProfit) === true)
+                                            {
+                                                ?>
+                                                    <button type="submit" name='follow'>Unfollow</button>
+                                                <?php
+                                            }
+                                            
+                                            $follow = filter_input(INPUT_POST, 'follow');
+                                            
+                                                    
+                                            if(isset($follow))
+                                            {
+                                                if($cf->isFollow($_SESSION['ID'], $idProfit) === false)
+                                                {
+                                                    if($cf->insert($cf))
+                                                    {
+                                                        echo 'u bo follow. Veq bone refresh faqen.';
+                                                        echo $_SESSION['ID']." - ". $idProfit;
+                                                    }
+                                                }
+                                                else if($cf->isFollow($_SESSION['ID'], $idProfit) === true)
+                                                {
+                                                    if($cf->delete($_SESSION['ID'], $idProfit))
+                                                    {
+                                                        echo 'o hek follow. Veq bone refresh faqen.';
+                                                    }
+                                                }
+                                            }
+
+                                        ?>
+                                    
+                                    </form>
                                 </div>
                             </div><!-- col-md-12 -->
                             <div class="col-md-12" id="accordion" role="tablist" aria-multiselectable="true">

@@ -235,4 +235,42 @@ class About {
             return "No results found.";
         }
     }
+    
+    public static function returnBooleanAboutStudenti($fk_Studenti)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from About where fk_Studenti=".$fk_Studenti."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static function returnBooleanAboutProfesori($fk_Profi)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select * from About where fk_Profesori=".$fk_Profi."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

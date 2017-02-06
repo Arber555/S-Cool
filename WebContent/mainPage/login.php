@@ -130,6 +130,7 @@
                                     while($row = mysqli_fetch_assoc($result))
                                     {
                                         session_start();
+                                        $_SESSION['ID'] = $row['ID'];
                                         $_SESSION['username'] = $row['UserName'];
                                         $_SESSION['emri'] = $row['Emri'];
                                         $_SESSION['mbiemri'] = $row['Mbiemri'];

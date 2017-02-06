@@ -32,8 +32,8 @@
       </style>
   </head>
   <body>
-    <?php include "headerBar.php"  ?>
-    
+    <?php include "headerBar.php"  ?>      
+      
     <div class="page-container">
         <div class="col-md-2 main-sidebar" id="ll">
         <ul class="nav nav-pills nav-stacked">
