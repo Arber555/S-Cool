@@ -486,4 +486,34 @@ class Studenti{
         }
     }
     
+    
+    public static function getFollowing($id) //kthen array te id-jave te followerave te studentit
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        //echo $id; 
+        $sql = "SELECT isFollowing FROM isfollowing where follower =".$id."";
+        
+        $idFollowing = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0;
+        //echo $result;
+        if($result)//is_bool($result))//is_object($result))//is_numeric($result))
+        {
+            //echo "kali";
+            if(mysqli_num_rows($result) > 0)
+            {
+                while($row = mysqli_fetch_assoc($result))
+                {
+                    $idFollowing[$count++] = $row["isFollowing"];
+                }
+            }
+        }
+        else
+        {
+            return null;
+        }
+        return $idFollowing;
+    }
 }

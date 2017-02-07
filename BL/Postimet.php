@@ -391,4 +391,25 @@ class Postimet {
             }
         }
     }
+    
+    public static function getPostimetByFollo($tempId)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM postimi where FK_Profi = ".$tempId." ORDER BY ID DESC";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        $count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {     
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $post[$count++] = $row;
+            }
+        }
+        return $post;
+    }
 }

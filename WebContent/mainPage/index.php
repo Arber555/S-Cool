@@ -106,75 +106,176 @@
         <div class="tab-content" id="posto">
             <div role="tabpanel" class="tab-pane fade in active" id="newsfeed">
             <?php
-                //echo "99";
-                $postimet = Postimet::getPostimet();
-                //echo "101";  
-                for($i=0;$i<count($postimet);$i++)
-                { 
-                    $row = $postimet[$i];     // && 
-                   // echo $row['File_Name'];
-                    $useri;
-                    if(isset($row["FK_Studenti"]))
-                    {
-                        $useri = Studenti::getStudentiById($row["FK_Studenti"]);
-                    }
-                    else
-                    {
-                        $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
-                    }
-                    
-                    
-                    if(!isset($row['File_Name'])){
-                        echo "<div class='panel panel-default post'>" 
-                                ."<div class='panel-body'>"
-                                    ."<div class='row'>"
-                                        ."<div class='col-sm-2'>"
-                                           ."<a class='post-avata-r thumbnail' href='#'>"
-                                               ."<img src='img/user.png'>"
-                                               ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
-                                            ."</a>"
+            
+                //=============================
+                $useri;
+                if($_SESSION['isStudent'])
+                {
+                    //$useri = Profesori::returnProfesoriById($row["FK_Profi"]);
+                    $arrayID = Studenti::getFollowing($userId);
+                        if(!$arrayID == null)
+                        {
+                            $postimetF = array();
+                            for($j=0;$j<sizeof($arrayID);$j++) //mir
+                            {
+                                $postimetF += Postimet::getPostimetByFollo($arrayID[$j]);//mir
+                            }
+                            
+                            $temp = array();
+                            for($j=0;$j<sizeof($postimetF);$j++)//mir
+                            {
+                                $row1 = $postimetF[$j];
+                                //echo $row1["Tekst"];
+                                $temp[$row1["ID"]] = $row1;
+                            }
+                            
+                            asort($temp,1); //sorton prej mat madhes te ma e vogla
+                            //print_r($temp);
+                            $keys = array_keys($temp);
+                            foreach($keys as $key) {
+                                //echo $key."</br>";  //me key i gjen sendet ne temp edhe i printon postimet
+                                $row2 = $temp[$key];
+                                //echo $row2["Tekst"];
+                                $useri = Profesori::returnProfesoriById($row2["FK_Profi"]);
+                                if(!isset($row2['File_Name'])){
+                                    echo "<div class='panel panel-default post'>" 
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                       ."<a class='post-avata-r thumbnail' href='#'>"
+                                                           ."<img src='img/user.png'>"
+                                                           ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
+                                                        ."</a>"
 
-                                        ."</div>"
-                                        ."<div class='col-sm-10'>"
-                                            ."<div class='bubble'>"
-                                                ."<div class='pointer'>"
-                                                    ."<p>"
-                                                        .$row['Tekst']
-                                                    ."</p>"
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p>"
+                                                                    .$row2['Tekst']
+                                                                ."</p>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
                                                 ."</div>"
-                                                ."<div class='pointer-border'></div>"
+                                            ."</div>"
+                                        ."</div>";
+                                }
+                                else
+                                {
+                                    echo "<div class='panel panel-default post'>" 
+                                            ."<div class='panel-body'>"
+                                                ."<div class='row'>"
+                                                    ."<div class='col-sm-2'>"
+                                                       ."<a class='post-avata-r thumbnail' href='#'>"
+                                                           ."<img src='img/user.png'>"
+                                                            ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
+                                                        ."</a>"
+
+                                                    ."</div>"
+                                                    ."<div class='col-sm-10'>"
+                                                        ."<div class='bubble'>"
+                                                            ."<div class='pointer'>"
+                                                                ."<p>"
+                                                                    .$row2['Tekst']
+                                                                ."</p>"
+                                                                ."<a href='/../S-Cool/files/".$row2['File_Name']."' download>".$row2['File_Name']."</a>"
+                                                            ."</div>"
+                                                            ."<div class='pointer-border'></div>"
+                                                        ."</div>"
+                                                    ."</div>"
+                                                ."</div>"
+                                            ."</div>"
+                                        ."</div>";
+                                }
+                                
+                            }
+                        }
+                        else
+                        {
+                            echo "No Following!!!"; 
+                            return;
+                        }
+                }
+                else
+                {
+                    //echo "99";
+                    $postimet = Postimet::getPostimet();
+                    //echo "101";  
+                    for($i=0;$i<count($postimet);$i++)
+                    { 
+                        $row = $postimet[$i];     // && 
+                       // echo $row['File_Name'];
+                        $useri;
+                        if(isset($row["FK_Studenti"]))
+                        {
+                            $useri = Studenti::getStudentiById($row["FK_Studenti"]);
+                        }
+                        else
+                        {
+                            $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
+                        }
+
+                        /*
+                         * qetu vjen kodi!
+                         *  else
+                        {
+                         */
+
+
+                        if(!isset($row['File_Name'])){
+                            echo "<div class='panel panel-default post'>" 
+                                    ."<div class='panel-body'>"
+                                        ."<div class='row'>"
+                                            ."<div class='col-sm-2'>"
+                                               ."<a class='post-avata-r thumbnail' href='#'>"
+                                                   ."<img src='img/user.png'>"
+                                                   ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
+                                                ."</a>"
+
+                                            ."</div>"
+                                            ."<div class='col-sm-10'>"
+                                                ."<div class='bubble'>"
+                                                    ."<div class='pointer'>"
+                                                        ."<p>"
+                                                            .$row2['Tekst']
+                                                        ."</p>"
+                                                    ."</div>"
+                                                    ."<div class='pointer-border'></div>"
+                                                ."</div>"
                                             ."</div>"
                                         ."</div>"
                                     ."</div>"
-                                ."</div>"
-                            ."</div>";
-                    }
-                    else
-                    {
-                        echo "<div class='panel panel-default post'>" 
-                                ."<div class='panel-body'>"
-                                    ."<div class='row'>"
-                                        ."<div class='col-sm-2'>"
-                                           ."<a class='post-avata-r thumbnail' href='#'>"
-                                               ."<img src='img/user.png'>"
-                                                ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
-                                            ."</a>"
+                                ."</div>";
+                        }
+                        else
+                        {
+                            echo "<div class='panel panel-default post'>" 
+                                    ."<div class='panel-body'>"
+                                        ."<div class='row'>"
+                                            ."<div class='col-sm-2'>"
+                                               ."<a class='post-avata-r thumbnail' href='#'>"
+                                                   ."<img src='img/user.png'>"
+                                                    ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
+                                                ."</a>"
 
-                                        ."</div>"
-                                        ."<div class='col-sm-10'>"
-                                            ."<div class='bubble'>"
-                                                ."<div class='pointer'>"
-                                                    ."<p>"
-                                                        .$row['Tekst']
-                                                    ."</p>"
-                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                            ."</div>"
+                                            ."<div class='col-sm-10'>"
+                                                ."<div class='bubble'>"
+                                                    ."<div class='pointer'>"
+                                                        ."<p>"
+                                                            .$row['Tekst']
+                                                        ."</p>"
+                                                        ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                    ."</div>"
+                                                    ."<div class='pointer-border'></div>"
                                                 ."</div>"
-                                                ."<div class='pointer-border'></div>"
                                             ."</div>"
                                         ."</div>"
                                     ."</div>"
-                                ."</div>"
-                            ."</div>";
+                                ."</div>";
+                        }
                     }
                 }
             ?>               

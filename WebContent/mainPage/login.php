@@ -64,85 +64,92 @@
                     
                     if(isset($login))
                     {
-                        if($stu === "S")
+                        if(filter_input(INPUT_POST, 'username') == "Admin" && filter_input(INPUT_POST, 'password') === "Admin")
                         {
-                            $userNameField = filter_input(INPUT_POST, 'username');
-                            $passwordField = filter_input(INPUT_POST, 'password');
-                            $hash = Studenti::returnPassword($userNameField);
-
-                            if(password_verify($passwordField, $hash))
-                            {
-                                $sqlConnection = new SQLConnection();
-                                $con = $sqlConnection->connection();
-
-                                $sql = "SELECT * from studenti s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
-
-                                $result = mysqli_query($con, $sql);
-
-                                if(mysqli_num_rows($result) > 0)
-                                {
-                                    while($row = mysqli_fetch_assoc($result))
-                                    {
-                                        session_start();
-                                        $_SESSION['ID'] = $row['ID'];
-                                        $_SESSION['username'] = $row['UserName'];
-                                        $_SESSION['emri'] = $row['Emri'];
-                                        $_SESSION['mbiemri'] = $row['Mbiemri'];
-                                        $_SESSION['btnLogin_status'] = true;
-                                        $_SESSION['isStudent'] = true;
-                                        $_SESSION['Kryetar'] = $row['Kryetar'];
-                                        
-                                        /*if($row['Kryetar'] == 1)
-                                        {
-                                            echo "Hini";
-                                        }
-                                        else
-                                        {
-                                            echo "sosht";
-                                        }*/
-                                        
-                                        header('Location: index.php?un='.$_SESSION['username']);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                echo "Student does not exist";
-                            }
+                             header('Location: ../../WebContent/adminPage/index.php');
                         }
                         else
                         {
-                            $userNameField = filter_input(INPUT_POST, 'username');
-                            $passwordField = filter_input(INPUT_POST, 'password');
-                            $hash = Profesori::returnPassword($userNameField);
-
-                            if(password_verify($passwordField, $hash))
+                            if($stu === "S")
                             {
-                                $sqlConnection = new SQLConnection();
-                                $con = $sqlConnection->connection();
+                                $userNameField = filter_input(INPUT_POST, 'username');
+                                $passwordField = filter_input(INPUT_POST, 'password');
+                                $hash = Studenti::returnPassword($userNameField);
 
-                                $sql = "SELECT * from profesori s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
-
-                                $result = mysqli_query($con, $sql);
-
-                                if(mysqli_num_rows($result) > 0)
+                                if(password_verify($passwordField, $hash))
                                 {
-                                    while($row = mysqli_fetch_assoc($result))
+                                    $sqlConnection = new SQLConnection();
+                                    $con = $sqlConnection->connection();
+
+                                    $sql = "SELECT * from studenti s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
+
+                                    $result = mysqli_query($con, $sql);
+
+                                    if(mysqli_num_rows($result) > 0)
                                     {
-                                        session_start();
-                                        $_SESSION['ID'] = $row['ID'];
-                                        $_SESSION['username'] = $row['UserName'];
-                                        $_SESSION['emri'] = $row['Emri'];
-                                        $_SESSION['mbiemri'] = $row['Mbiemri'];
-                                        $_SESSION['btnLogin_status'] = true;
-                                        $_SESSION['isStudent'] = false;
-                                        header('Location: index.php?un='.$_SESSION['username']);
+                                        while($row = mysqli_fetch_assoc($result))
+                                        {
+                                            session_start();
+                                            $_SESSION['ID'] = $row['ID'];
+                                            $_SESSION['username'] = $row['UserName'];
+                                            $_SESSION['emri'] = $row['Emri'];
+                                            $_SESSION['mbiemri'] = $row['Mbiemri'];
+                                            $_SESSION['btnLogin_status'] = true;
+                                            $_SESSION['isStudent'] = true;
+                                            $_SESSION['Kryetar'] = $row['Kryetar'];
+
+                                            /*if($row['Kryetar'] == 1)
+                                            {
+                                                echo "Hini";
+                                            }
+                                            else
+                                            {
+                                                echo "sosht";
+                                            }*/
+
+                                            header('Location: index.php?un='.$_SESSION['username']);
+                                        }
                                     }
+                                }
+                                else
+                                {
+                                    echo "Student does not exist";
                                 }
                             }
                             else
                             {
-                                echo "Proffessor does not exist ".$hash;
+                                $userNameField = filter_input(INPUT_POST, 'username');
+                                $passwordField = filter_input(INPUT_POST, 'password');
+                                $hash = Profesori::returnPassword($userNameField);
+
+                                if(password_verify($passwordField, $hash))
+                                {
+                                    $sqlConnection = new SQLConnection();
+                                    $con = $sqlConnection->connection();
+
+                                    $sql = "SELECT * from profesori s WHERE s.UserName = '".$userNameField."'  and s.Password ='".$hash."'";
+
+                                    $result = mysqli_query($con, $sql);
+
+                                    if(mysqli_num_rows($result) > 0)
+                                    {
+                                        while($row = mysqli_fetch_assoc($result))
+                                        {
+                                            session_start();
+                                            $_SESSION['ID'] = $row['ID'];
+                                            $_SESSION['username'] = $row['UserName'];
+                                            $_SESSION['emri'] = $row['Emri'];
+                                            $_SESSION['mbiemri'] = $row['Mbiemri'];
+                                            $_SESSION['btnLogin_status'] = true;
+                                            $_SESSION['isStudent'] = false;
+                                            header('Location: index.php?un='.$_SESSION['username']);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    echo "Proffessor does not exist ".$hash;
+                                }
                             }
                         }
                     }
