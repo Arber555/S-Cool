@@ -27,11 +27,29 @@
                         //$uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "studentiProfile_2.php?un=".$_SESSION['username'];
                         $idStudentit = Studenti::returnID($_SESSION['username']);
+                        //$fotoS = "../../foto/".Foto::getFotoS($idStudentit);
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
+                        //echo $fotoS;
                     ?>
                     <div id="imgContainer" class="col-md-4 col-md-offset-1">
-                        <img id="profileImage" src="<?php echo $fotoS?>">
-                        <!--<img id="profileImage" src="/../S-Cool/foto/486373086.png">-->
+                        <?php
+                            
+                            if($_SESSION['isStudent'] === true)
+                            {
+                                if(Foto::getIdS($_SESSION['ID']))
+                                {
+                        ?>
+                                    <img id="profileImage" src="<?php echo $fotoS; ?>">
+                        <?php
+                                }
+                                else
+                                {
+                        ?>
+                                    <img id="profileImage" src="/../S-Cool/WebContent/mainPage/img/user.png">
+                        <?php
+                                }
+                            }
+                        ?>
                     </div><!-- col-md-5 -->
                     <div class="col-md-5">
                         <div class="row">
@@ -327,47 +345,83 @@
                                     $b = About::returnBooleanAboutStudenti($_SESSION['ID']);
                                     if($b === true)
                                     {
-                                        if($_FILES['file']['size'] > 0)
+                                        if(Foto::getIdS($_SESSION['ID']))
                                         {
-                                            $fileName = $_FILES['file']['name'];
-                                            $tmpName  = $_FILES['file']['tmp_name'];
-                                            $fileSize = $_FILES['file']['size'];
-                                            $fileType = $_FILES['file']['type'];
-                                            $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
-                                            $target_file = $folderFoto.$fileName;
-                                            if(move_uploaded_file($tmpName,$target_file) !== null)
+                                            if($_FILES['file']['size'] > 0)
                                             {
-                                                $f = new Foto($fileName, $fileType, $fileSize);
-                                                if($f->insertS($f, $idStudentit))
+                                                $fileName = $_FILES['file']['name'];
+                                                $tmpName  = $_FILES['file']['tmp_name'];
+                                                $fileSize = $_FILES['file']['size'];
+                                                $fileType = $_FILES['file']['type'];
+                                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                                $target_file = $folderFoto.$fileName;
+                                                if(move_uploaded_file($tmpName,$target_file) !== null)
                                                 {
-                                                    echo "U upload foto!!!";
+                                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                                    $aa = Foto::getFotoSs($_SESSION['ID']);
+                                                    if($f->update($fileName, $fileType, $fileSize, $aa[1], $aa[0]))
+                                                    {
+                                                        echo "U upload foto!!!";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "nuk u bo foto";
+                                                    }
+                                                }
+                                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i studentit</h3>";
                                                 }
                                                 else
                                                 {
-                                                    echo "nuk u bo foto";
+                                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
                                                 }
-                                            }
-
-                                            if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
-                                            {
-                                                Echo "<h3>U editua Profili i studentit</h3>";
                                             }
                                             else
                                             {
-                                                Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i studentit</h3>";
+                                                }
+                                                else
+                                                {
+                                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                }
                                             }
-
-
                                         }
                                         else
                                         {
-                                            if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                            if($_FILES['file']['size'] > 0)
                                             {
-                                                Echo "<h3>U editua Profili i studentit</h3>";
+                                                $fileName = $_FILES['file']['name'];
+                                                $tmpName  = $_FILES['file']['tmp_name'];
+                                                $fileSize = $_FILES['file']['size'];
+                                                $fileType = $_FILES['file']['type'];
+                                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                                $target_file = $folderFoto.$fileName;
+                                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                                {
+                                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                                    if($f->insertS($f, $idStudentit))
+                                                    {
+                                                        echo "U upload foto!!!";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "nuk u bo foto";
+                                                    }
+                                                }
                                             }
                                             else
                                             {
-                                                Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i studentit</h3>";
+                                                }
+                                                else
+                                                {
+                                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                }
                                             }
                                         }
                                     }

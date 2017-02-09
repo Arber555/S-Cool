@@ -239,7 +239,7 @@
                                                 ."<div class='bubble'>"
                                                     ."<div class='pointer'>"
                                                         ."<p>"
-                                                            .$row2['Tekst']
+                                                            .$row['Tekst']
                                                         ."</p>"
                                                     ."</div>"
                                                     ."<div class='pointer-border'></div>"

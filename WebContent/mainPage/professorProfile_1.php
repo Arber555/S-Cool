@@ -27,11 +27,28 @@
                         //$uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "professorProfile_1.php?un=".$_SESSION['username'];
                         $idProfit = Profesori::returnID($_SESSION['username']);
-                        $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idProfit);
+                        $fotoS = "/../S-Cool/foto/".Foto::getFotoP($idProfit);
+                        //echo $fotoS;
                     ?>
                     <div id="imgContainer" class="col-md-5">
-                        <img id="profileImage" src="<?php echo $fotoS?>">
-                        <!--<img id="profileImage" src="/../S-Cool/foto/220px-Antonio_Conte.jpg">-->
+                        <?php
+                            
+                            if($_SESSION['isStudent'] === false)
+                            {
+                                if(Foto::getIdP($_SESSION['ID']))
+                                {
+                        ?>
+                                    <img id="profileImage" src="<?php echo $fotoS; ?>">
+                        <?php
+                                }
+                                else
+                                {
+                        ?>
+                                    <img id="profileImage" src="/../S-Cool/WebContent/mainPage/img/user.png">
+                        <?php
+                                }
+                            }
+                        ?>
                     </div><!-- col-md-5 -->
                     <div class="col-md-7">
                         <div class="row">
@@ -321,45 +338,94 @@
                                     $b = About::returnBooleanAboutProfesori($_SESSION['ID']);
                                     if($b === true)
                                     {
-                                        if($_FILES['file']['size'] > 0)
+                                        if(Foto::getIdP($_SESSION['ID']))
                                         {
-                                            $fileName = $_FILES['file']['name'];
-                                            $tmpName  = $_FILES['file']['tmp_name'];
-                                            $fileSize = $_FILES['file']['size'];
-                                            $fileType = $_FILES['file']['type'];
-                                            $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
-                                            $target_file = $folderFoto.$fileName;
-                                            if(move_uploaded_file($tmpName,$target_file) !== null)
+                                            if($_FILES['file']['size'] > 0)
                                             {
-                                                $f = new Foto($fileName, $fileType, $fileSize);
-                                                if($f->insertP($f, $idProfit))
+                                                $fileName = $_FILES['file']['name'];
+                                                $tmpName  = $_FILES['file']['tmp_name'];
+                                                $fileSize = $_FILES['file']['size'];
+                                                $fileType = $_FILES['file']['type'];
+                                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                                $target_file = $folderFoto.$fileName;
+                                                if(move_uploaded_file($tmpName,$target_file) !== null)
                                                 {
-                                                    echo "U upload foto!!!";
+                                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                                    $aa = Foto::getFotoSp($_SESSION['ID']);
+                                                    
+                                                    if($f->update($fileName, $fileType, $fileSize, $aa[1], $aa[0]))
+                                                    {
+                                                        echo "U upload foto!!!";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "nuk u bo foto";
+                                                    }
+                                                }
+
+                                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i studentit</h3>";
                                                 }
                                                 else
                                                 {
-                                                    echo "nuk u bo foto";
+                                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
                                                 }
-                                            }
-
-                                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
-                                            {
-                                                Echo "<h3>U editua Profili i studentit</h3>";
                                             }
                                             else
                                             {
-                                                Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i profit</h3>";
+                                                }
+                                                else
+                                                {
+                                                    Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                                }
                                             }
                                         }
                                         else
                                         {
-                                            if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                            if($_FILES['file']['size'] > 0)
                                             {
-                                                Echo "<h3>U editua Profili i profit</h3>";
+                                                $fileName = $_FILES['file']['name'];
+                                                $tmpName  = $_FILES['file']['tmp_name'];
+                                                $fileSize = $_FILES['file']['size'];
+                                                $fileType = $_FILES['file']['type'];
+                                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                                                $target_file = $folderFoto.$fileName;
+                                                if(move_uploaded_file($tmpName,$target_file) !== null)
+                                                {
+                                                    $f = new Foto($fileName, $fileType, $fileSize);
+                                                    if($f->insertP($f, $idProfit))
+                                                    {
+                                                        echo "U upload foto!!!";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "nuk u bo foto";
+                                                    }
+                                                }
+
+                                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i studentit</h3>";
+                                                }
+                                                else
+                                                {
+                                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                                                }
                                             }
                                             else
                                             {
-                                                Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                                if($p->updateMeAbout($idProfit, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                                                {
+                                                    Echo "<h3>U editua Profili i profit</h3>";
+                                                }
+                                                else
+                                                {
+                                                    Echo "<h3>Nuk u editua Profili i profit</h3>";
+                                                }
                                             }
                                         }
                                     }

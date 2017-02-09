@@ -83,7 +83,7 @@ class Foto {
         }
     }
     
-    public static function updateP($fileName, $fileType, $fileSize, $oldFile, $id)
+    public static function update($fileName, $fileType, $fileSize, $oldFile, $id)
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
@@ -105,6 +105,52 @@ class Foto {
             return false;
             //echo "Error updating record: " . $conn->error;
         }
+    }
+    
+    public static function getFotoSs($idS)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Foto Where FK_Studenti = ".$idS."";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        //$count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result)) // mundem if
+            {
+                $post[0] =  $row['ID'];
+                $post[1] =  $row['File_Name'];
+            }
+        }
+        
+        return $post;
+    }
+    
+    public static function getFotoSp($idP)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Foto Where FK_Profi = ".$idP."";
+        
+        $post = array();
+        
+        $result = mysqli_query($con, $sql);
+        //$count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_assoc($result)) // mundem if
+            {
+                $post[0] =  $row['ID'];
+                $post[1] =  $row['File_Name'];
+            }
+        }
+        
+        return $post;
     }
     
     public static function getFotoS($idS)
@@ -144,6 +190,48 @@ class Foto {
             {
                 return $row['File_Name'];
             }
+        }
+    }
+    
+    public static function getIdS($idS)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Foto Where FK_Studenti = ".$idS."";
+        
+        //$post = array();
+        
+        $result = mysqli_query($con, $sql);
+        //$count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static function getIdP($idP)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM Foto Where FK_Profi = ".$idP."";
+        
+        //$post = array();
+        
+        $result = mysqli_query($con, $sql);
+        //$count = 0;
+        if(mysqli_num_rows($result) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
