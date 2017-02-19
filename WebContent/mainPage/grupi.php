@@ -2,76 +2,215 @@
 <html>
     <head>
         <title>Grupi</title>
-        <!--<meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/student.css" />
-        <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
         <?php include "headd.php"; ?>
-        <style>
-            #sidebar {
-                margin-top: 60px;
-            }
-        </style>
+
+        <link rel="stylesheet" href="css/lendet.css">
     </head>
     <body>
-        
         <?php
-             include "headerBar.php";
-            spl_autoload_register(function ($class_name) {
-                include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-            });   
+            include "headerBar.php";
             
             $idG = filter_input(INPUT_GET, "idG");
             //$idS = filter_input(INPUT_GET, $_SESSION['ID']); 
             $idS = $_SESSION['ID'];
             $thisPage = "grupi.php?idG=".$idG."&idS=".$idS."";
         ?>
-        <div id="posts" class="col-md-8 col-md-offset-1">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!--<a href="studentiProfile.php?un=ArberM"><h3 class="panel-title" style="float: right;">Back to profile</h3></a>-->
-                    <h3 class="panel-title">Grupi</h3>
-                </div>
+        <div class="container">
+            <div id="extraRow" class="row">
+                <div id="posts" class="col-lg-10 col-lg-offset-1 col-md-7 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
                 
                 <?php
                     if($_SESSION['Kryetar'] == 1)
                     {
                 ?>
-                    <div class="panel-body">      
-                        <div>
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <form action="<?php echo $thisPage?>" method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
-                                         <div class="post-buttons">
-                                            <div class="btn-group pull-right">
-                                                <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
+                        <div class="col-xs-12">
+                            <button id="editButton" type="button" class="btn btn-default" data-toggle="modal" data-target="#changeInfoAdd">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add Students</a>
+                            </button>
 
-                                                <label class="btn btn-default btn-file">
-                                                <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                            <div class="modal fade" id="changeInfoAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="form">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                            <h4 class="modal-title" id="myModalLabel">Add Students</h4>
+                                        </div>  
+
+                                        <form action= "<?php echo $thisPage; ?>" method="post">
+                                            <div class="modal-body">
+                                                <div>
+                                                    <div class="search-bar">
+                                                        <h3>Search for students</h3>
+                                                        <div id="custom-search-input">
+                                                            <div class="input-group col-md-12">
+                                                                <input type="text" class="form-control input-lg" placeholder="Search" />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-info btn-lg" type="button">
+                                                                        <i class="glyphicon glyphicon-search"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table" id="example">
+                                                            <tr>
+                                                                <!--<th>User</th>-->
+                                                                <th>Id</th>
+                                                                <th>Emri</th>
+                                                                <th>Mbiemri</th>
+                                                                <th>Drejtimi</th>
+                                                                <th>E-mail</th>
+                                                            </tr>
+                                                            <?php
+
+                                                                    Studenti::selectAllStudentsForGroupA();
+                                                            ?>
+                                                        </table>
+                                                        
+                                                        <input type="hidden" id="hPost" class="form-control" name="hiddenInput"/>  
+                                                    </div>
+                                                </div>
+
                                             </div>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button name="addBtn" onclick="reshtiTabele()" type="submit" class="btn btn-primary">Add</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
+                            </div><!-- modal -->
+                    <script>
+                        var tabelja = document.getElementById("example");
+                        var reshti;
+                        var z = [];
+                        var v = document.getElementById('hPost');
+                        function indeksiReshtit(x) 
+                        {
+                            reshti = x.rowIndex;
+                        }
+
+                        function reshtiTabele() 
+                        {
+                            var x = tabelja.rows[reshti].cells.length;
+                            for (var i = 0; i < 5; i++) 
+                            {
+                                z[i] = tabelja.rows[reshti].cells[i].innerHTML;
+                            }
+                            console.log(reshti);
+                            v.value = z[0];
+                            
+                        }
+                        
+                    </script>
+                    <?php
+                        $addBtn = filter_input(INPUT_POST, "addBtn");
+                        $id = filter_input(INPUT_POST, 'hiddenInput');
+                        if(isset($addBtn))
+                        {
+                            Studenti::shtoStudentNeGrup($idG, $id);
+                        }
+                        
+                    ?>
+                    
+                            <button id="editButton" type="button" class="btn btn-default" data-toggle="modal" data-target="#changeInfoRemove">
+                                <a class="btn btn-danger" href="#"><i class="fa fa-trash-o fa-lg"></i> Remove Students</a>
+                            </button>
+
+                            <div class="modal fade" id="changeInfoRemove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="form">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                            <h4 class="modal-title" id="myModalLabel">Remove Students</h4>
+                                        </div>                                 
+                                        <form action= "<?php echo $thisPage; ?>" method="post">
+                                            <div class="modal-body">
+                                                <div>
+                                                    <div class="search-bar">
+                                                        <h3>Search for students</h3>
+                                                        <div id="custom-search-input">
+                                                            <div class="input-group col-md-12">
+                                                                <input type="text" class="form-control input-lg" placeholder="Search" />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-info btn-lg" type="button">
+                                                                        <i class="glyphicon glyphicon-search"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="table-responsive">
+                                                            <table class="table" id="tablee">
+                                                            <tr>
+                                                                <!--<th>User</th>-->
+                                                                <th>Id</th>
+                                                                <th>Emri</th>
+                                                                <th>Mbiemri</th>
+                                                                <th>Drejtimi</th>
+                                                                <th>E-mail</th>
+                                                            </tr>
+                                                            <?php
+                                                                Studenti::selectAllStudentsForGroupR($idG);
+                                                            ?>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="hPost1" class="form-control" name="hInput"/>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button name="rBtn" type="sumit" class='btn btn-danger' onclick="reshtiTabele1()">Remove</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- modal -->
                         </div>
-                    </div>
+
+                <?php
+                    if($_SESSION['Kryetar'] == 1)
+                    {
+                ?>
+                    <div id="extraRow" class="row">
+                                <div class="panel col-xs-12">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Grupi</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
+                                            </div>
+                                            
+                                            <div class="post-buttons">
+                                                <div class="btn-group pull-right">
+                                                    <label class="btn btn-default btn-file">
+                                                        <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
+                                        </form>
+                                    </div>
                 <?php
                     }
                 ?>
                 
-            </div>
+                        </div><!-- row -->
+                    </div><!-- extraRow -->
             
             <?php
                 $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                 $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
-                
+                $idSt = IsFollowing::getFollowProfi($idG);
                 if(isset($submitPostimi) && $_FILES['file']['size'] > 0)
                 {
                     $fileName = $_FILES['file']['name'];
@@ -119,110 +258,107 @@
                 for($i=0;$i<count($postimet);$i++)
                 { 
                     $row = $postimet[$i];
+                    $useri = Studenti::getStudentiById($row["FK_Studenti"]);
+                    $fotoMirStu = "/../S-Cool/foto/".Foto::getFotoS($useri['ID']);
+                    $fff = "/../S-Cool/WebContent/mainPage/img/user.png";
+                    $rezultati2 = Foto::getIdS($useri['ID'])? $fotoMirStu: $fff;
                     
                     if(!isset($row['File_Name']))
                     {
                         
-                        echo "<div class='panel panel-default post'>" 
-                                ."<div class='panel-body'>"
-                                    ."<div class='row'>"
-                                        ."<div class='col-sm-2'>"
-                                           ."<a class='post-avata-r thumbnail' href='#'>"
-                                               ."<img src='img/user.png'>"
-                                                ."<div class='text-center'>User2</div>"
-                                            ."</a>"
+                        echo  
 
-                                        ."</div>"
-                                        ."<div class='col-sm-10'>"
-                                            ."<div class='bubble'>"
-                                                ."<div class='pointer'>"
-                                                    ."<p>"
-                                                        .$row['Tekst']
-                                                    ."</p>"
-                                                ."</div>"
-                                                ."<div class='pointer-border'></div>"
-                                            ."</div>"
-                                            ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
-                                                                    ."<form onclick='getAction(this)' method='post'>"
-                                                                        ."<div class='modal-body'>" 
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
-                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                         
-                                        ."</div>"
+                        "<div id='post' class='row'>"
+                            ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                ."<div class='profile-picture'>"
+                                    ."<img id='user-image' class='img-circle' src='".$rezultati2."'>"
+                                    ."<a>".$useri["Emri"]." ".$useri["Mbiemri"]."</a>"
+                                ."</div>"
+                            ."</div>"
+                            ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                ."<div class='bubble'>"
+                                    ."<div class='pointer'>"
+                                        ."<p>"
+                                            .$row['Tekst']
+                                        ."</p>"
                                     ."</div>"
                                 ."</div>"
-                            ."</div>";
+                            ."</div>"
+
+                            ."<a class='edit' data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)'>Edit</a>"
+
+                            ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                ."<div class='modal-dialog' role='form'>"
+                                    ."<div class='modal-content'>"
+                                        ."<div class='modal-header'>"
+                                            ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                            ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                        ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
+                                        ."<form onclick='getAction(this)' method='post'>"
+                                            ."<div class='modal-body'>" 
+                                                ."<div class='form-group'>"
+                                                    ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                    //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
+                                                ."</div>"
+                                            ."</div>"
+                                            ."<div class='modal-footer'>"
+                                                ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
+                                                ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                            ."</div>"
+                                        ."</form>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div><!-- modal -->"
+                        ."</div><!-- row -->";
+
                     }
                     else
                     {
-                        echo "<div class='panel panel-default post'>" 
-                                ."<div class='panel-body'>"
-                                    ."<div class='row'>"
-                                        ."<div class='col-sm-2'>"
-                                           ."<a class='post-avata-r thumbnail' href='#'>"
-                                               ."<img src='img/user.png'>"
-                                                ."<div class='text-center'>User2</div>"
-                                            ."</a>"
+                        echo 
 
-                                        ."</div>"
-                                        ."<div class='col-sm-10'>"
-                                            ."<div class='bubble'>"
-                                                ."<div class='pointer'>"
-                                                    ."<p>"
-                                                        .$row['Tekst']
-                                                    ."</p>"
-                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
-                                                ."</div>"
-                                                ."<div class='pointer-border'></div>"
-                                            ."</div>"
-                                            ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
-                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
-                                                                        ."<div class='modal-body'>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
-                                                                            ."</div>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<label for='changeFile'>File</label>"
-                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
-                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                          
-                                        ."</div>"
+                        "<div id='post' class='row'>"
+                            ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                ."<div class='profile-picture'>"
+                                    ."<img id='user-image' class='img-circle' src='".$rezultati2."'>"
+                                    ."<a>".$useri["Emri"]." ".$useri["Mbiemri"]."</a>"
+                                ."</div>"
+                            ."</div>"
+                            ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                ."<div class='bubble'>"
+                                    ."<div class='pointer'>"
+                                        ."<p>"
+                                            .$row['Tekst']
+                                            ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                        ."</p>"
                                     ."</div>"
                                 ."</div>"
-                            ."</div>";
+                            ."</div>"
+
+                            ."<a class='edit' data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)'>Edit</a>"
+
+                            ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
+                                ."<div class='modal-dialog' role='form'>"
+                                    ."<div class='modal-content'>"
+                                        ."<div class='modal-header'>"
+                                            ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+                                            ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
+                                        ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
+                                        ."<form onclick='getAction(this)' method='post'>"
+                                            ."<div class='modal-body'>" 
+                                                ."<div class='form-group'>"
+                                                    ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
+                                                    //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
+                                                ."</div>"
+                                            ."</div>"
+                                            ."<div class='modal-footer'>"
+                                                ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
+                                                ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
+                                            ."</div>"
+                                        ."</form>"
+                                    ."</div>"
+                                ."</div>"
+                            ."</div><!-- modal -->"
+                        ."</div><!-- row -->";
                     }
                 }
             ?>
@@ -366,219 +502,8 @@
                     }
                 }
             ?>
-            <!--
-            <div class="panel panel-default post">  
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <a class="post-avatar thumbnail" href="#">
-                                    <img src="img/user.png">
-                                    <div class="text-center">User2</div>
-                                </a>
-                                
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="bubble">
-                                    <div class="pointer">
-                                        <p>
-                                            BLLAH BLLAH BLLAH POSTE PER MATEMATIK
-                                        </p>
-                                    </div>
-                                    <div class="pointer-border"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    <div class="clearfix"></div>
-                <div class="panel panel-default post">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <a class="post-avatar thumbnail" href="#">
-                                    <img src="img/user.png">
-                                    <div class="text-center">User2</div>
-                                </a>
-                                
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="bubble">
-                                    <div class="pointer">
-                                        <p>
-                                            BLLAH BLLAH BLLAH POSTE PER MATEMATIK
-                                        </p>
-                                    </div>
-                                    <div class="pointer-border"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>-->
-                    
+                </div><!-- posts -->
                 
-                </div>
-                
-                <?php
-                    if($_SESSION['Kryetar'] == 1)
-                    {
-                ?>
-                <div id="sidebar">
-                    <div class="col-sm-2">
-                        <button id="editButton" type="button" class="btn btn-default" data-toggle="modal" data-target="#changeInfoAdd">
-                            <a class="btn btn-primary" href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add Students</a>
-                        </button>
-
-                        <div class="modal fade" id="changeInfoAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="form">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                                    <h4 class="modal-title" id="myModalLabel">Add Students</h4>
-                                </div>                                 
-                                <form action= "<?php echo $thisPage; ?>" method="post">
-                                    <div class="modal-body">
-                                        <div>
-                                            <div class="search-bar">
-                                                <h3>Search for students</h3>
-                                                <div id="custom-search-input">
-                                                    <div class="input-group col-md-12">
-                                                        <input type="text" class="form-control input-lg" placeholder="Search" />
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-info btn-lg" type="button">
-                                                                <i class="glyphicon glyphicon-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table" id="example">
-                                                        <tr>
-                                                            <!--<th>User</th>-->
-                                                            <th>Id</th>
-                                                            <th>Emri</th>
-                                                            <th>Mbiemri</th>
-                                                            <th>Drejtimi</th>
-                                                            <th>E-mail</th>
-                                                        </tr>
-                                                        <?php
-
-                                                                Studenti::selectAllStudentsForGroupA();
-                                                        ?>
-                                                    </table>
-                                                    <input type="hidden" id="hPost" class="form-control" name="hiddenInput"/>
-                                                     
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="addBtn" onclick="reshtiTabele()" type="submit" class="btn btn-primary">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div><!-- modal -->
-                    </div>
-                    <br>
-                    <br>
-                    
-                    <script>
-                        var tabelja = document.getElementById("example");
-                        var reshti;
-                        var z = [];
-                        var v = document.getElementById('hPost');
-                        function indeksiReshtit(x) 
-                        {
-                            reshti = x.rowIndex;
-                        }
-
-                        function reshtiTabele() 
-                        {
-                            var x = tabelja.rows[reshti].cells.length;
-                            for (var i = 0; i < 5; i++) 
-                            {
-                                z[i] = tabelja.rows[reshti].cells[i].innerHTML;
-                            }
-                            console.log(reshti);
-                            v.value = z[0];
-                            
-                        }
-                        
-                    </script>
-                    <?php
-                        $addBtn = filter_input(INPUT_POST, "addBtn");
-                        $id = filter_input(INPUT_POST, 'hiddenInput');
-                        if(isset($addBtn))
-                        {
-                            Studenti::shtoStudentNeGrup($idG, $id);
-                        }
-                        
-                    ?>
-                    
-                    
-                    <div class="col-sm-2">
-                        <button id="editButton" type="button" class="btn btn-default" data-toggle="modal" data-target="#changeInfoRemove">
-                            <a class="btn btn-danger" href="#"><i class="fa fa-trash-o fa-lg"></i> Remove Students</a>
-                        </button>
-
-                        <div class="modal fade" id="changeInfoRemove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="form">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                                    <h4 class="modal-title" id="myModalLabel">Remove Students</h4>
-                                </div>                                 
-                                <form action= "<?php echo $thisPage; ?>" method="post">
-                                    <div class="modal-body">
-                                        <div>
-                                            <div class="search-bar">
-                                                <h3>Search for students</h3>
-                                                <div id="custom-search-input">
-                                                    <div class="input-group col-md-12">
-                                                        <input type="text" class="form-control input-lg" placeholder="Search" />
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-info btn-lg" type="button">
-                                                                <i class="glyphicon glyphicon-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table" id="tablee">
-                                                    <tr>
-                                                        <!--<th>User</th>-->
-                                                        <th>Id</th>
-                                                        <th>Emri</th>
-                                                        <th>Mbiemri</th>
-                                                        <th>Drejtimi</th>
-                                                        <th>E-mail</th>
-                                                    </tr>
-                                                    <?php
-                                                        Studenti::selectAllStudentsForGroupR($idG);
-                                                    ?>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="hPost1" class="form-control" name="hInput"/>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="rBtn" type="sumit" class='btn btn-danger' onclick="reshtiTabele1()">Remove</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        </div><!-- modal -->
-                    </div>
-                </div>
-        
                 <?php
                 }
                 ?>

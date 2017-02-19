@@ -47,13 +47,13 @@ class Notification {
     }
 
     
-    public static function insertProfi($idP, $idPos)
+    public static function insertProfi($idP, $idPos, $idS)
     {    
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $stmt = $con->prepare("INSERT tempnotification INTO(Fk_Postimi, Fk_Profi) values (?,?)");
-        $stmt->bind_param("ii", $idPos, $idP);
+        $stmt = $con->prepare("INSERT INTO tempnotification (Fk_Postimi, Fk_Profi, FK_Studenti) values (?,?,?)");
+        $stmt->bind_param("iii", $idPos, $idP, $idS);
         
         if($stmt->execute())
         {
@@ -66,13 +66,13 @@ class Notification {
         }
     }
     
-    public static function insertGrupi($idG, $idPos)
+    public static function insertGrupi($idG, $idPos, $idS)
     {    
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         
-        $stmt = $con->prepare("INSERT tempnotification INTO(Fk_Postimi, Fk_Grupi) values (?,?)");
-        $stmt->bind_param("ii", $idPos, $idG);
+        $stmt = $con->prepare("INSERT tempnotification INTO(Fk_Postimi, Fk_Grupi, FK_Studenti) values (?,?,?)");
+        $stmt->bind_param("iii", $idPos, $idG, $idS);
         
         if($stmt->execute())
         {
@@ -85,30 +85,78 @@ class Notification {
         }
     }
     
-    public static function returnPostProfi($idP)  //qikjo metod e kthen numrin e postimeve qati profit.... atona duhet me bo foren si te postimet me follov pra mi rujt qet send qe e kthen qikjo metod ne array edhe mi qit te notifikacion edhe numrat mi rujt qeti notifikations
+    public static function returnPostProfi($idS)  //qikjo metod e kthen numrin e postimeve qati profit.... atona duhet me bo foren si te postimet me follov pra mi rujt qet send qe e kthen qikjo metod ne array edhe mi qit te notifikacion edhe numrat mi rujt qeti notifikations
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         //getFollowing($id);
         
-        $sql = "SELECT * FROM tempnotification where Fk_Profi=".$idP."";
-        
+        $idParray = Studenti::getFollowing($idS);
         $post = array();
-        
-        $result = mysqli_query($con, $sql);
+        $idProfesorit = array();
         $count = 0;
-        if(mysqli_num_rows($result) > 0)
+ 
+        foreach($idParray as $idP)
         {
-            while($row = mysqli_fetch_assoc($result))
+            
+            $sql = "SELECT * FROM tempnotification where Fk_Profi=".$idP." and FK_Studenti=".$idS." ORDER BY ID DESC";
+
+            $result = mysqli_query($con, $sql);
+
+            if(mysqli_num_rows($result) > 0)
             {
-                $post[$count++] = $row;
+                while($row = mysqli_fetch_assoc($result))
+                {
+                    $idProfesorit[$count] = Profesori::returnEmriMbiemriProfesorit($row["Fk_Profi"]);
+                    $post[$count++] = Postimet::getPostText($row["Fk_Postimi"]);
+                }
+                //print_r($post);
             }
         }
         $arrayX = array();
-        $nr = $count+1;
         
-        $arrayX[0] = $nr;
+        $arrayX[0] = $count;
         $arrayX[1] = $post;
+        $arrayX[2] = $idProfesorit;
         return $arrayX;
+    }
+    
+    public static function x($idP,$idS)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        //getFollowing($id);
+        
+        $sql = "SELECT * FROM tempnotification where Fk_Profi=".$idP." and FK_Studenti=".$idS."";
+        
+        $result = mysqli_query($con, $sql);
+        if(mysqli_num_rows($result) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
+    public static function deleteN($idS)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        //getFollowing($id);
+        
+        $sql = "DELETE FROM tempnotification WHERE FK_Studenti='".$idS."'";
+       
+        if($con->query($sql) === true) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+            //echo "Error deleting record: " . $conn->error;
+        }
     }
 }

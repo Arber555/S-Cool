@@ -2,27 +2,18 @@
 <html>
 <head>
     <title>Profile</title>
-    <!--<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
-    <link rel="stylesheet" href="css/student.css" />
     <?php include "headd.php" ?>
-    
+
+    <link rel="stylesheet" href="css/student.css" />
 </head>
-<body style="padding-top: 65px;">
+<body>
     <?php include "headerBar.php" ?>
  
-    <div class="col-md-10" class="content">
+    <div class="container">
         <div class="row">
-            <div id="profile" class="col-md-12">
+            <div id="profile" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10">
                 <div class="row">
                     <?php
-                        spl_autoload_register(function ($class_name) {
-                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-                        });
                         
                         $uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "studentProfileVisit.php?un=".$uN;
@@ -30,16 +21,13 @@
                         $idStudentit = Studenti::returnID($uN);
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
                     ?>
-                    <div id="imgContainer" class="col-md-4 col-md-offset-1">
-                        <img id="profileImage" src="<?php echo $fotoS?>">
-                        <!--<img id="profileImage" src="/../S-Cool/foto/486373086.png">-->
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <img id="profileImage" class="img-circle" src="<?php echo $fotoS?>">
                     </div><!-- col-md-5 -->
-                    <div class="col-md-5">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <div class="row">
                             <div class="col-md-12">
                                 <div>
-                                    <!--<h1 id="emri">Ragip Topalli</h1>
-                                    <h4 id="qyteti">Pejë</h4>-->
                                     <?php
                                         $p = new Studenti($data['Emri'], $data['Mbiemri'], $data['UserName'], $data['Password'], $data['Nr_personal'], $data['Gjinia'], $data['Kryetar']);
                                         echo "<h1 id='emri' name='emri'>".$data['Emri']." ".$data['Mbiemri']."</h1>"
@@ -56,7 +44,7 @@
                                         
                                         
                                     ?>
-                                    <form action="<?php echo $thisPage; ?>" method="post" > 
+                                    <!--<form action="<?php echo $thisPage; ?>" method="post" > 
                                         
                                         <?php
                                             $cf = new IsFollowing($_SESSION['ID'], $idStudentit);
@@ -97,23 +85,17 @@
 
                                         ?>
                                     
-                                    </form>
+                                    </form>-->
                                     
-                                </div>
                             </div><!-- col-md-12 -->
+
                             <div class="col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div role="tab" id="headingOne">
                                     <h4>
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            <div class="interactive"><div class="interactive2"></div></div>
-                                        </a>
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Show more...</a>
                                     </h4>
-                                </div><!-- panel-heading -->
-                                <!--<div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="accordion-content">
-                                        Nothing for now
-                                    </div>
-                                </div>-->
+                                </div>
+
                                 <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="accordion-content">
                                         <?php
@@ -136,186 +118,78 @@
                             </div><!-- accordion -->
                         </div><!-- row -->
                     </div><!-- col-md-7 -->
-                    <!--<button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
-                        <i class="fa fa-cog"></i>
-                    </button>-->
-                    <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="form">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Info Editing</h4>
-                                </div>                                 
-                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
-                                    <div class="modal-body">
-                                        <!--<div class="form-group">
-                                            <label for="changeEmri">Name</label>
-                                            <input type="text" id="changeEmri" class="form-control" placeholder="Enter Name" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeMbiemri">Surname</label>
-                                            <input type="text" id="changeMbiemri" name="changeMbiemri" class="form-control" placeholder="Enter Surname" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeQyteti">City</label>
-                                            <input type="text" id="changeQyteti"  name="changeQyteti"  class="form-control" placeholder="Enter City" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="changeProfilePicture">Profile Picture</label>
-                                            <input type="file" id="changeProfilePicture" class="form-control" placeholder="Upload Your Picture" />
-                                        </div>-->
-                                        <div class="form-group">
-                                                <label for="changeEmri">Emri</label>
-                                                <input name="emri" type="text" id="changeEmri" class="form-control" value="<?php echo $data['Emri'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeMbiemri">Mbiemri</label>
-                                                <input name="mbiemri" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['Mbiemri'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeMbiemri">Username</label>
-                                                <input name="userName" type="text" id="changeMbiemri" class="form-control" value="<?php echo $data['UserName'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Vendlindja</label>
-                                                <input name="vendlindja" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Vendi_Lindjes'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Data lindjes</label>
-                                                <input name="dataLindjes" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Data_Lindjes'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Email</label>
-                                                <input name="email" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['email'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Vendbanimi</label>
-                                                <input name="vendbanimi" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['vendBanimi'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Adresa </label>
-                                                <input name="adresa" type="text" id="adresa" class="form-control" value="<?php echo $data['adresa'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Relationship</label>
-                                                <input name="relationship" type="text" id="changeQyteti" class="form-control" value="<?php echo $data['Relationship'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Nr. Telefonit</label>
-                                                <input name="nrTel" type="text" id="nrTel" class="form-control" value="<?php echo $data['Nr_tel'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Gjinia</label>
-                                                    <?php 
-                                                        if($data['Gjinia'] == 'M')
-                                                        {
-                                                            echo "<label class='radio radio-inline'>
-                                                                <input name='gjinia' value='M' type='radio' checked='true'>Mashkull
-                                                            </label>";
-                                                            echo "<label class='radio radio-inline'>
-                                                            <input name='gjinia' value='F' type='radio'>Femer</label>";
-                                                        }
-                                                        else
-                                                        {
-                                                            echo "<label class='radio radio-inline'>
-                                                                <input name='gjinia' value='M' type='radio'>Mashkull
-                                                            </label>";
-                                                            echo "<label class='radio radio-inline'>
-                                                            <input name='gjinia' value='F' type='radio' checked='true'>Femer</label>";
-                                                        }    
-                                                            
-
-                                                    ?>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="changeQyteti">Detaje tjera</label>
-                                                <input name="detaje" type="text" id="detaje" class="form-control" value="<?php echo $data['Detaje'] ?>"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for=changeFoto">Fotoja Profilit
-                                                <br>
-                                                <label class="btn btn-default btn-file">
-                                                <i class="fa fa-camera" aria-hidden="true"></i> Ndrysho Foton e Profilit<input type="file" name="file" style="display: none;">
-                                            </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button name="usBtn" type="sumit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div><!-- modal -->
+                </div><!-- row -->
+            </div><!-- profile -->
                     
-                    <?php
-                        
-                        $emri = filter_input(INPUT_POST, 'emri');
-                        $mbiemri = filter_input(INPUT_POST, 'mbiemri');
-                        $userName = filter_input(INPUT_POST, 'userName');
-                        $gjinia = filter_input(INPUT_POST, 'gjinia');
-                        //$password = filter_input(INPUT_POST, 'paswword');
-                        $vendlindja = filter_input(INPUT_POST, 'vendlindja');
-                        $dataLindjes = filter_input(INPUT_POST, 'dataLindjes');
-                        $email = filter_input(INPUT_POST, 'email');
-                        $vendbanimi = filter_input(INPUT_POST, 'vendbanimi');
-                        $relationship = filter_input(INPUT_POST, 'relationship');
-                        $nrTel = filter_input(INPUT_POST, 'nrTel');
-                        $adresa = filter_input(INPUT_POST, 'adresa');
-                        $detajet = filter_input(INPUT_POST, 'detaje');
-                        $usBtn = filter_input(INPUT_POST, 'usBtn');
-                        //$idStudentit = Studenti::returnID($userName);
-                        $kryetar = Studenti::returnStudentiKryetar($userName);
-                        ///
-                        $foto;
-                        
-                        ///
-                        if(isset($usBtn))
-                        {        
-                            if($_FILES['file']['size'] > 0)
+            <?php
+                
+                $emri = filter_input(INPUT_POST, 'emri');
+                $mbiemri = filter_input(INPUT_POST, 'mbiemri');
+                $userName = filter_input(INPUT_POST, 'userName');
+                $gjinia = filter_input(INPUT_POST, 'gjinia');
+                //$password = filter_input(INPUT_POST, 'paswword');
+                $vendlindja = filter_input(INPUT_POST, 'vendlindja');
+                $dataLindjes = filter_input(INPUT_POST, 'dataLindjes');
+                $email = filter_input(INPUT_POST, 'email');
+                $vendbanimi = filter_input(INPUT_POST, 'vendbanimi');
+                $relationship = filter_input(INPUT_POST, 'relationship');
+                $nrTel = filter_input(INPUT_POST, 'nrTel');
+                $adresa = filter_input(INPUT_POST, 'adresa');
+                $detajet = filter_input(INPUT_POST, 'detaje');
+                $usBtn = filter_input(INPUT_POST, 'usBtn');
+                //$idStudentit = Studenti::returnID($userName);
+                $kryetar = Studenti::returnStudentiKryetar($userName);
+                ///
+                $foto;
+                
+                ///
+                if(isset($usBtn))
+                {        
+                    if($_FILES['file']['size'] > 0)
+                    {
+                        $fileName = $_FILES['file']['name'];
+                        $tmpName  = $_FILES['file']['tmp_name'];
+                        $fileSize = $_FILES['file']['size'];
+                        $fileType = $_FILES['file']['type'];
+                        $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
+                        $target_file = $folderFoto.$fileName;
+                        if(move_uploaded_file($tmpName,$target_file) !== null)
+                        {
+                            $f = new Foto($fileName, $fileType, $fileSize);
+                            if($f->insertS($f, $idStudentit))
                             {
-                                $fileName = $_FILES['file']['name'];
-                                $tmpName  = $_FILES['file']['tmp_name'];
-                                $fileSize = $_FILES['file']['size'];
-                                $fileType = $_FILES['file']['type'];
-                                $folderFoto = "C:\\xampp\\htdocs\\S-Cool\\foto\\";
-                                $target_file = $folderFoto.$fileName;
-                                if(move_uploaded_file($tmpName,$target_file) !== null)
-                                {
-                                    $f = new Foto($fileName, $fileType, $fileSize);
-                                    if($f->insertS($f, $idStudentit))
-                                    {
-                                        echo "U upload foto!!!";
-                                    }
-                                    else
-                                    {
-                                        echo "nuk u bo foto";
-                                    }
-                                }
-                                    
-                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
-                                {
-                                    Echo "<h3>U editua Profili i studentit</h3>";
-                                }
-                                else
-                                {
-                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
-                                }
+                                echo "U upload foto!!!";
                             }
                             else
                             {
-                                if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
-                                {
-                                    Echo "<h3>U editua Profili i studentit</h3>";
-                                }
-                                else
-                                {
-                                    Echo "<h3>Nuk u editua Profili i studentit</h3>";
-                                }
+                                echo "nuk u bo foto";
                             }
                         }
-                    ?>
+                            
+                        if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                        {
+                            Echo "<h3>U editua Profili i studentit</h3>";
+                        }
+                        else
+                        {
+                            Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                        }
+                    }
+                    else
+                    {
+                        if($p->updateMeAbout($idStudentit, $kryetar, $emri, $mbiemri, $userName, $gjinia, $vendlindja, $dataLindjes, $email, $vendbanimi, $relationship, $nrTel, $adresa, $detajet))
+                        {
+                            Echo "<h3>U editua Profili i studentit</h3>";
+                        }
+                        else
+                        {
+                            Echo "<h3>Nuk u editua Profili i studentit</h3>";
+                        }
+                    }
+                }
+            ?>
 
-                   <div id="posts" class="col-md-10 col-md-offset-1" style="padding-left: 0px;">
+           <div id="posts" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" >
 
                         <!--<div class="panel panel-default">
                             <div class="panel-heading">
@@ -427,57 +301,55 @@
                             { 
                                 $row = $postimet[$i];     // && 
                                // echo $row['File_Name'];
+                                $useri = Studenti::getStudentiById($row["FK_Studenti"]);
+                        $fotoMirStu = "/../S-Cool/foto/".Foto::getFotoS($useri['ID']);
+                        $fff = "/../S-Cool/WebContent/mainPage/img/user.png";
+                        $rezultati2 = Foto::getIdS($useri['ID'])? $fotoMirStu: $fff;
                                 if(!isset($row['File_Name'])){
-                                    echo "<div class='panel panel-default post'>" 
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                       ."<a class='post-avata-r thumbnail' href='#'>"
-                                                           ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>User2</div>"
-                                                        ."</a>"
+                                    echo 
 
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p>"
-                                                                    .$row['Tekst']
-                                                                ."</p>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
+                                    "<div id='post' class='row'>"
+                                        ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                            ."<div class='profile-picture'>"
+                                                ."<img id='user-image' class='img-circle' src='".$rezultati2."'>"
+                                                ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                            ."</div>"
+                                        ."</div>"
+                                        ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                      .$row['Tekst']
+                                                    ."</p>"
                                                 ."</div>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div><!-- row -->";
                                 }
+
                                 else
                                 {
-                                    echo "<div class='panel panel-default post'>" 
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                       ."<a class='post-avata-r thumbnail' href='#'>"
-                                                           ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>User2</div>"
-                                                        ."</a>"
+                                    echo 
 
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p>"
-                                                                    .$row['Tekst']
-                                                                ."</p>"
-                                                                ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
+                                    "<div id='post' class='row'>"
+                                        ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                            ."<div class='profile-picture'>"
+                                                ."<img id='user-image' class='img-circle' src='".$rezultati2."'>"
+                                                ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                            ."</div>"
+                                        ."</div>"
+                                        ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                        .$row['Tekst']
+                                                        ."<br>"
+                                                        ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                    ."</p>"
                                                 ."</div>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div><!-- row -->";
                                 }
                             }
                         ?>
@@ -522,6 +394,8 @@
                     </ul>
                 </div>
         </div>-->
-    </div><!-- col-md-10 col-md-offset-1 -->
+            </div><!-- posts -->
+        </div><!-- mainRow -->
+    </div><!-- container -->
 </body>
 </html>

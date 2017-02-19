@@ -516,6 +516,29 @@ class Profesori {
         }
     }
     
+    public static function returnEmriMbiemriProfesorit($id)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "Select Emri, Mbiemri from Profesori as p where p.ID =".$id."";
+        
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+
+        if(mysqli_num_rows($result) > 0)
+        {
+            
+            $row = mysqli_fetch_assoc($result);
+            if(isset($row))
+            {
+                return $row['Emri']." ".$row["Mbiemri"];
+            }
+        }
+        else
+        {
+            return "No results found.";
+        }
+    }
     
     public static function findByEmriAndMbiemri($fjala)
     {

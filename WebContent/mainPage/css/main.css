@@ -1,18 +1,13 @@
-body {
+body{
+    padding-top: 60px;
     font-size: 12px;
-    padding-top: 65px;
 }
 
 .navbar-default{
-    max-height: 50px;
     background: #015249;
     border: none;
     border-radius: 0;
     font-family: "Roboto", sans-serif;
-}
-
-.navbar-collapse{
-    background-color: #015249;
 }
 
 a.navbar-brand{
@@ -27,7 +22,7 @@ a.navbar-brand{
 .navbar-default .navbar-nav > .open > a, 
 .navbar-default .navbar-nav > .open > a:focus, 
 .navbar-default .navbar-nav > .open > a:hover{
-    background-color: #77c9d4;
+    background-color: transparent;
 }
 
 .navbar-default .navbar-nav li{
@@ -39,7 +34,7 @@ a.navbar-brand{
 }
 
 .navbar-default .navbar-nav li:hover a{
-    color: #015249 !important;
+    color: black !important;
 }
 
 .navbar-default > a{
@@ -72,26 +67,76 @@ a.navbar-brand{
     display: inline;
 }
 
-h1 {
-    color: rgb(105, 139, 166);
+.main-sidebar, .main-sidebar ul{
+    padding: 0;
 }
 
-h4 {
-    color: gray;
+.main-sidebar li{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    list-style-type: none;
+    width: 100%;
+    height: 50px;
+    padding-left: 30px;
+    font-family: "Roboto", sans-serif;
+    color: white;
+    background: linear-gradient(to right, rgba(1,82,75,1), rgba(1,82,75,0.5));
+    font-size: 12px;
+    border-bottom: 1px solid rgb(13, 13, 13);
+    transition-duration: 0.5s;
 }
 
-#post{
+.main-sidebar li.main-list{
+    padding-left: 15px;
+}
+
+.main-sidebar li.active a{
+    color: white;
+}
+
+.main-sidebar a{
+    color: white;
+}
+
+.main-sidebar a:hover{
+    text-decoration: none;
+}
+
+.main-sidebar li:hover{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    background: #77c9d4;//linear-gradient(to right, rgb(0, 102, 34), rgb(0, 128, 43));
+    cursor: pointer;
+}
+
+.main-sidebar li:hover a{
+    color: black;
+}
+
+.main-sidebar i{
+    margin-right: 5px;
+}
+
+
+.main-sidebar li.active, .main-sidebar li.active:hover{
+    color: white !important;
+    font-weight: bold;
+    background: #015249 !important;
+    cursor: default !important;
+}
+
+.row{
     padding: 10px;
     margin-bottom: 30px;
     border-radius: 10px;
     background: radial-gradient(rgba(1, 82, 73, 0.3), rgba(1,82,73,0.8));
 }
 
-.profile-picture a{
+#post a{
     display: block;
-    margin: 10px auto;
     text-decoration: none;
-    text-align: center;
     color: white;
     font-weight: bold;
 }
@@ -101,11 +146,9 @@ h4 {
     cursor: pointer;
 }
 
-#post .edit{
-    float: right;
-    margin-right: 20px;
-    color: white;
-    margin-top: 5px;
+#extraRow{
+    background: transparent;
+    margin-bottom: 0;
 }
 
 .profile-picture{
@@ -120,10 +163,6 @@ h4 {
     text-align: center;
 }
 
-#profileImage{
-    max-width: 300px;
-}
-
 .bubble {
     position: relative;
     width: 100%;
@@ -134,72 +173,13 @@ h4 {
     border-radius: 10px;
 }
 
-.pointer a{
-    color: white;
-    text-decoration: underline;
-}
-
-#editButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
-    background: none;
-    border: none;
-    color: silver;
-    transition-duration: 0.3s;
-}
-
-    #editButton:hover {
-        color: black;
-    }
-
-    #editButton:focus {
-        outline: none;
-        background: none;
-    }
-
-textarea {
-    resize: none;
-    min-height: 50px;
-}
-
-.panel-title a {
-    text-decoration: none;
-}
-
-    .panel-title a:hover {
-        text-decoration: none;
-        border: none;
-    }
-
-.panel{
-    border-radius: 10px;
-}
-
-.panel-heading{
-    background-color: #015249;
-    font-weight: bold;
-    color: white;
-}
-
-.panel-body{
-    background: radial-gradient(rgba(1, 82, 73, 0.3), rgba(1,82,73,0.8));
-}
-
 #flex{
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
-#profile{
-    margin-bottom: 30px !important;
-}
-
-@media only screen and (max-width: 480px){
-    #profileImage{
-        max-width: 200px !important;
-    }
+.around{
+    border-radius: 50% !important;
+    background: red !important;
 }

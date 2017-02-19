@@ -3,75 +3,54 @@
 <html>
     <head>
         <title>Lenda</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/student.css" />
-        <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
-        <style>
-            #posts {
-                margin-top: 60px;
-            }
-        </style>
         <?php include "headd.php" ?>
+
+        <link rel="stylesheet" href="css/lendet.css">
     </head>
     <body>
         <?php include "headerBar.php" ?>
         
-        <?php
-            spl_autoload_register(function ($class_name) {
-                include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-            });
+        <div class="container">
+            <div id="extraRow" class="row">
+                <div id="posts" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
 
-            $lenda= filter_input(INPUT_GET, 'lenda');
-            $idP = filter_input(INPUT_GET, 'idP');
-            //$idP = $_SESSION['ID'];
-            $thisPage = "lendet.php?lenda=".$lenda."&idP=".$idP;
-            //lenda=java&idP=1
-        ?>
-        
-        
-        <div id="posts" class="col-md-8 col-md-offset-1">
-            
-            
-            <div class="panel panel-default">
-                <?php
+                    <?php
+
+                        $lenda= filter_input(INPUT_GET, 'lenda');
+                        $idP = filter_input(INPUT_GET, 'idP');
+                        //$idP = $_SESSION['ID'];
+                        $thisPage = "lendet.php?lenda=".$lenda."&idP=".$idP;
                 
-                    if(!$_SESSION['isStudent'])
-                    {
-                        $idd = Postimet::getProfiLenda($lenda);
-                        
-                        if($idd == $idP)
+                        if(!$_SESSION['isStudent'])
                         {
-                    
-                ?>
-                <div class="panel-heading">
-                    <a href="studentiProfile.php?un=ArberM"><h3 class="panel-title" style="float: right;">Back to profile</h3></a>
-                    <h3 class="panel-title">Lenda</h3>
-                </div>
-                
-                <div class="panel-body">      
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
-                                     <div class="post-buttons">
-                                        <div class="btn-group pull-right">
-                                            <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            <label class="btn btn-default btn-file">
-                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                            $idd = Postimet::getProfiLenda($lenda);
+                            
+                            if($idd == $idP)
+                            {
+                        
+                    ?>
+
+                                <div id="extraRow" class="row">
+                                    <div class="panel col-xs-12">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Posts</h3>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div><!-- panel -->
-                    </div>
-                </div>
+                                        <div class="panel-body">
+                                            <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
+                                                </div>
+                                                
+                                                <div class="post-buttons">
+                                                    <div class="btn-group pull-right">
+                                                        <label class="btn btn-default btn-file">
+                                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
+                                            </form>
+                                        </div>
                 <?php
                         }
                     }
@@ -121,8 +100,8 @@
                         }
                     }
                 ?>
-            </div><!-- panel -->
-            <div class="panel panel-default post">  
+                            </div><!-- panel -->
+                        </div><!-- extraRow -->  
                <?php
                     $postimet = Postimet::getPostimetByLenda($lenda);
                             
@@ -134,61 +113,54 @@
                         $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
                         
                         if(!isset($row['File_Name'])){
-                            echo "<div class='panel panel-default post'>" 
-                                    ."<div class='panel-body'>"
-                                        ."<div class='row'>"
-                                            ."<div class='col-sm-2'>"
-                                               ."<a class='post-avata-r thumbnail' href='#'>"
-                                                   ."<img src='img/user.png'>"
-                                                   ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
-                                                ."</a>"
+                            echo 
 
-                                            ."</div>"
-                                            ."<div class='col-sm-10'>"
-                                                ."<div class='bubble'>"
-                                                    ."<div class='pointer'>"
-                                                        ."<p>"
-                                                            .$row['Tekst']
-                                                        ."</p>"
-                                                    ."</div>"
-                                                    ."<div class='pointer-border'></div>"
-                                                ."</div>"
-                                            ."</div>"
+                            "<div id='post' class='row'>"
+                                ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                        ."<div class='profile-picture'>"
+                                        ."<img id='user-image' class='img-circle' src='img/arber.jpg'>"
+                                        ."<a>".$useri["Emri"]." ".$useri["Mbiemri"]."</a>"
+                                    ."</div>"
+                                ."</div>"
+                                ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                    ."<div class='bubble'>"
+                                        ."<div class='pointer'>"
+                                            ."<p>"
+                                                .$row['Tekst']
+                                            ."</p>"
                                         ."</div>"
                                     ."</div>"
-                                ."</div>";
+                                ."</div>"
+                            ."</div>";
                         }
+
                         else
                         {
-                            echo "<div class='panel panel-default post'>" 
-                                    ."<div class='panel-body'>"
-                                        ."<div class='row'>"
-                                            ."<div class='col-sm-2'>"
-                                               ."<a class='post-avata-r thumbnail' href='#'>"
-                                                   ."<img src='img/user.png'>"
-                                                    ."<div class='text-center'>".$useri["Emri"]." ".$useri["Mbiemri"]."</div>"
-                                                ."</a>"
+                            echo 
 
-                                            ."</div>"
-                                            ."<div class='col-sm-10'>"
-                                                ."<div class='bubble'>"
-                                                    ."<div class='pointer'>"
-                                                        ."<p>"
-                                                            .$row['Tekst']
-                                                        ."</p>"
-                                                        ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
-                                                    ."</div>"
-                                                    ."<div class='pointer-border'></div>"
-                                                ."</div>"
-                                            ."</div>"
+                            "<div id='post' class='row'>"
+                                ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                    ."<div class='profile-picture'>"
+                                        ."<img id='user-image' class='img-circle' src='img/arber.jpg'>"
+                                        ."<a>".$useri["Emri"]." ".$useri["Mbiemri"]."</a>"
+                                    ."</div>"
+                                ."</div>"
+                                ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                    ."<div class='bubble'>"
+                                        ."<div class='pointer'>"
+                                            ."<p>"
+                                                .$row['Tekst']
+                                                ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                            ."</p>"
                                         ."</div>"
                                     ."</div>"
-                                ."</div>";
+                                ."</div>"
+                            ."</div>";
                         }
                     }
-               ?>     
-            </div>
-                
-        </div>
+               ?>       
+                </div><!-- posts -->
+            </div><!-- row -->
+        </div><!-- container -->
     </body>
 </html>

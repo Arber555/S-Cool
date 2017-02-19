@@ -139,27 +139,6 @@ h4 {
     text-decoration: underline;
 }
 
-#editButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
-    background: none;
-    border: none;
-    color: silver;
-    transition-duration: 0.3s;
-}
-
-    #editButton:hover {
-        color: black;
-    }
-
-    #editButton:focus {
-        outline: none;
-        background: none;
-    }
-
 textarea {
     resize: none;
     min-height: 50px;
@@ -173,10 +152,6 @@ textarea {
         text-decoration: none;
         border: none;
     }
-
-.panel{
-    border-radius: 10px;
-}
 
 .panel-heading{
     background-color: #015249;
@@ -194,8 +169,39 @@ textarea {
     justify-content: center;
 }
 
-#profile{
-    margin-bottom: 30px !important;
+.row{
+    padding: 10px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    background: radial-gradient(rgba(1, 82, 73, 0.3), rgba(1,82,73,0.8));
+}
+
+#post a{
+    display: block;
+    margin: 10px auto;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.row a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#extraRow{
+    background: transparent;
+    margin-bottom: 0;
+}
+
+#editButton{
+    border:none;
+}
+
+#editButton:hover{
+    background: none
+    border: none;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 480px){
@@ -203,3 +209,4 @@ textarea {
         max-width: 200px !important;
     }
 }
+

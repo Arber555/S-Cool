@@ -2,27 +2,18 @@
 <html>
 <head>
     <title>Profile</title>
-    <!--<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
-    <link rel="stylesheet" href="css/student.css" />
     <?php include "headd.php" ?>
-    
+
+    <link rel="stylesheet" href="css/student.css" />
 </head>
-<body style="padding-top: 65px;">
+<body>
     <?php include "headerBar.php" ?>
  
-    <div class="col-md-10" class="content">
+    <div class="container">
         <div class="row">
-            <div id="profile" class="col-md-12">
+            <div id="profile" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10">
                 <div class="row">
                     <?php
-                        spl_autoload_register(function ($class_name) {
-                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-                        });
 
                         //$uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "studentiProfile_2.php?un=".$_SESSION['username'];
@@ -31,7 +22,7 @@
                         $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idStudentit);
                         //echo $fotoS;
                     ?>
-                    <div id="imgContainer" class="col-md-4 col-md-offset-1">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <?php
                             
                             if($_SESSION['isStudent'] === true)
@@ -51,12 +42,10 @@
                             }
                         ?>
                     </div><!-- col-md-5 -->
-                    <div class="col-md-5">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <div class="row">
                             <div class="col-md-12">
                                 <div>
-                                    <!--<h1 id="emri">Ragip Topalli</h1>
-                                    <h4 id="qyteti">Pejë</h4>-->
                                     <?php
                                         if($_SESSION['isStudent'] === true)
                                         {
@@ -88,16 +77,10 @@
                             <div class="col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div role="tab" id="headingOne">
                                     <h4>
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            <div class="interactive"><div class="interactive2"></div></div>
-                                        </a>
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Show more...</a>
                                     </h4>
-                                </div><!-- panel-heading -->
-                                <!--<div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="accordion-content">
-                                        Nothing for now
-                                    </div>
-                                </div>-->
+                                </div>
+
                                 <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="accordion-content">
                                         <?php
@@ -132,9 +115,14 @@
                             </div><!-- accordion -->
                         </div><!-- row -->
                     </div><!-- col-md-7 -->
-                    <button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
-                        <i class="fa fa-cog"></i>
-                    </button>
+                </div><!-- row -->
+            </div><!-- profile -->
+
+            <div id="flex" class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                <button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
+                    <i class="fa fa-cog"></i>
+                </button>
+            </div>
                     
                     <?php
                         if($_SESSION['isStudent'] === true)
@@ -311,6 +299,7 @@
                                             </div>
                                         </div>
                                     </div><!-- modal -->
+
                                 <?php
                             }
                         }
@@ -443,7 +432,7 @@
                         }
                     ?>
 
-                   <div id="posts" class="col-md-10 col-md-offset-1" style="padding-left: 0px;">
+                   <div id="posts" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" >
 
                         <!--<div class="panel panel-default">
                             <div class="panel-heading">
@@ -556,103 +545,54 @@
                                 $row = $postimet[$i];     // && 
                                // echo $row['File_Name'];
                                 if(!isset($row['File_Name'])){
-                                    echo "<div class='panel panel-default post'>" 
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                       ."<a class='post-avata-r thumbnail' href='#'>"
-                                                           ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>User2</div>"
-                                                        ."</a>"
+                                    echo 
 
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p>"
-                                                                    .$row['Tekst']
-                                                                ."</p>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
+                                    "<div id='post' class='row'>"
+                                        ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                            ."<div class='profile-picture'>"
+                                                ."<img id='user-image' class='img-circle' src='img/arber.jpg'>"
+                                                ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                            ."</div>"
+                                        ."</div>"
+                                        ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                      .$row['Tekst']
+                                                    ."</p>"
                                                 ."</div>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div><!-- row -->";
                                 }
                                 else
                                 {
-                                    echo "<div class='panel panel-default post'>" 
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                       ."<a class='post-avata-r thumbnail' href='#'>"
-                                                           ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>User2</div>"
-                                                        ."</a>"
+                                    echo 
 
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p>"
-                                                                    .$row['Tekst']
-                                                                ."</p>"
-                                                                ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
+                                    "<div id='post' class='row'>"
+                                        ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                            ."<div class='profile-picture'>"
+                                                ."<img id='user-image' class='img-circle' src='img/arber.jpg'>"
+                                                ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                            ."</div>"
+                                        ."</div>"
+                                        ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                        .$row['Tekst']
+                                                        ."<br>"
+                                                        ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                    ."</p>"
                                                 ."</div>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div><!-- row -->";
                                 }
                             }
                         ?>
-                    </div>
-                        </div><!-- panel -->
-
-                </div><!-- row -->
-
-            </div><!-- profile -->
-            
-        </div> <!-- row -->
-        <div class="col-sm-2" class="content">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Faculty Groups</h3>
-                    </div>
-                    <ul class="nav nav-pills nav-stacked">
-                        <!--<li><a href="javaPage.html">Java</a></li>
-                        <li><a href="#">Math</a></li>
-                        <li><a href="#">BTI</a></li>
-                        <li><a href="#">BQK</a></li>-->
-                        <?php
-                            
-                            $grupet = Grupi::getGrupet();
-                            $userId = Studenti::returnID($_SESSION['username']);
-
-                            for($i = 0; $i < count($grupet); $i++)
-                            {
-                                $row = $grupet[$i];
-                                echo "<li><a href = 'grupi.php?idG=".$row['ID']."&idS=".$userId."'>".$row['Emri_g']."</a></li>";
-                            }
-                        
-                        ?>
-                    </ul>
-                </div>
-        </div>
-        <!--<div class="col-sm-2" class="content">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Groups for fun</h3>
-                    </div>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li><a href="dizellasht.html">Dizellasht</a></li>
-                        <li><a href="#">Kullerat</a></li>
-                    </ul>
-                </div>
-        </div>-->
-    </div><!-- col-md-10 col-md-offset-1 -->
+            </div><!-- posts -->
+        </div><!-- mainRow -->
+    </div><!-- container -->
 </body>
 </html>

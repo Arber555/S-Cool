@@ -234,4 +234,5 @@ class Foto {
             return false;
         }
     }
+    
 }

@@ -118,7 +118,7 @@ class Postimet {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
         $stmt = $con->prepare("INSERT INTO Postimi(Tekst, FK_Profi) values (?,?)");
-        $stmt->bind_param("si",$tekst, $idS);
+        $stmt->bind_param("si",$tekst, $idP);
         
         if($stmt->execute())
         {
@@ -411,5 +411,48 @@ class Postimet {
             }
         }
         return $post;
+    }
+    
+    
+    public static function getPostText($tempId)
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM postimi where id = '".$tempId."'";
+
+        
+        $result = mysqli_query($con, $sql);
+        
+        if(mysqli_num_rows($result) > 0)
+        {     
+            while($row = mysqli_fetch_assoc($result))
+            {
+                //echo $row["Tekst"];
+                return $row["Tekst"];
+            }
+        }
+        //return $post;
+    }
+    
+    public static function getPostLastID()
+    {
+        $sqlConnection = new SQLConnection();
+        $con = $sqlConnection->connection();
+        
+        $sql = "SELECT * FROM postimi";
+
+        
+        $result = mysqli_query($con, $sql);
+        $id = 0;
+        if(mysqli_num_rows($result) > 0)
+        {     
+            while($row = mysqli_fetch_assoc($result))
+            {
+                //echo $row["Tekst"];
+                $id = $row["ID"];
+            }
+        }
+        return $id;
     }
 }

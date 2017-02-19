@@ -1,5 +1,6 @@
 body {
-    background: linear-gradient(orange, black) no-repeat;
+    background-color: rgb(38, 38, 38);
+    color: white;
 }
 
 .container {
@@ -7,42 +8,32 @@ body {
     height: 100%;
 }
 
+h1{
+	font-family: "Montserrat", sans-serif;
+	color: rgb(0, 153, 51);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 60px;
+}
+
 #loginbox {
-    margin-top:50px;
+    margin-top:100px;
 }
 
-.panel-body {
-    padding-top:30px;
-}
-
-.input-group {
+input{
     margin-bottom: 25px;
 }
 
+input:focus, input:active{
+	outline: none;
+}
+
 #btn-login{
-    margin-top: 10px !important;
+	display: block;
+	width: 100%;
+    margin-top: 25px;
 }
 
-/*#intro-writing {
-	font-family: 'Freight Sans Bold', Helvetica, sans-serif;
-	font-size: 28px;
-	line-height: 36px;
-	background: -webkit-linear-gradient(#4B79A1, #283E51);
-	-webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+#btn-login:focus, #btn-login:active{
+	outline: none;
 }
-
-#intro-wall {
-	float: right;
-	margin-right: 310px;
-}
-
-.panel-heading .panel-title {
-	font-family: 'Freight Sans Bold', Helvetica, sans-serif;
-	font-size: 22px;
-}
-
-#btn-login {
-	font-family: 'Freight Sans Bold', Helvetica, sans-serif;
-	font-size: 18px;
-}*/

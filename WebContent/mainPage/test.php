@@ -15,7 +15,7 @@ and open the template in the editor.
                 include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
             });
             
-            $postimetF = Postimet::getPostimetByFollo(1);
+           /* $postimetF = Postimet::getPostimetByFollo(1);
             $temp = array();
             
             for($i=0;$i<sizeof($postimetF);$i++)
@@ -38,10 +38,36 @@ and open the template in the editor.
             
             $path = $_SERVER['SERVER_NAME'];
             echo $path."<br>";
-            echo $_SERVER['DOCUMENT_ROOT'];
+            echo $_SERVER['DOCUMENT_ROOT'];*/
             
             
-             
+         //phpinfo();
+            //Notification::insertProfi(5, 33);
+            
+            
+            $arrayID = Studenti::getFollowing(18);
+            
+            $notification = array();
+            for($j=0;$j<sizeof($arrayID);$j++) //mir
+            {
+                //$notification += Notification::returnPostProfi($arrayID[$j]);//mir
+                if(Notification::x($arrayID[$j], 18))
+                {
+                    array_push($notification,Notification::returnPostProfi($arrayID[$j], 18));
+                }
+            }
+            
+            print_r($notification);
+            if(Notification::deleteN(18))
+                echo 'u fshi';
         ?>
+        <div>
+            <p name="nr">
+                
+            </p>
+            <p name="post">
+                
+            </p>
+        </div>
     </body>
 </html>

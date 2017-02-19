@@ -32,7 +32,7 @@ class Drejtimi
     {
         $sqlConnection = new SQLConnection();
         $con = $sqlConnection->connection();
-        $stmt = $con->prepare("INSERT INTO Drejtimi(Emri) values (?)");
+        $stmt = $con->prepare("INSERT INTO Drejtimi(Emri_Drejtimit) values (?)");
         $stmt->bind_param("s",$f->emri);
         
         if($stmt->execute())

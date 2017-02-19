@@ -2,39 +2,30 @@
 <html>
 <head>
     <title>Profile</title>
-    <!--<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="font/font awesome/css/font-awesome.min.css" />-->
     
     <?php include "headd.php" ?>
+
     <link rel="stylesheet" href="css/professor.css" />
 </head>
 <body style="padding-top: 65px;">
     <?php include "headerBar.php" ?>
     <div class="container">
         <div class="row">
-            <div id="profile" class="col-md-8">
+            <div id="profile" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10">
                 <div class="row">
                     <?php
-                        spl_autoload_register(function ($class_name) 
-                        {
-                            include 'C:\xampp\htdocs\S-Cool\BL/'.$class_name . '.php';
-                        });
 
                         
                         $uN= filter_input(INPUT_GET, 'un');
                         $thisPage = "professorProfileVisit.php?un=".$uN;
                         $data = Profesori::returnProfesorin($uN);
                         $idProfit = Profesori::returnID($uN);
-                        $fotoS = "/../S-Cool/foto/".Foto::getFotoS($idProfit);
+                        $fotoS = "/../S-Cool/foto/".Foto::getFotoP($idProfit);
                     ?>
-                    <div id="imgContainer" class="col-md-5">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <img id="profileImage" src="<?php echo $fotoS?>">
-                        <!--<img id="profileImage" src="/../S-Cool/foto/220px-Antonio_Conte.jpg">-->
                     </div><!-- col-md-5 -->
-                    <div class="col-md-7">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <div class="row">
                             <div class="col-md-12">
                                 <div>
@@ -103,32 +94,8 @@
                             <div class="col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div role="tab" id="headingOne">
                                     <h4>
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            <div class="interactive"><div class="interactive2"></div></div>
-                                        </a>
-                                       <!-- <button id="editAbout" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeAbout">
-                                            <i class="fa fa-cog"></i>
-                                        </button>-->
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Show more...</a>
                                     </h4>
-                                    <!--<div class="modal fade" id="changeAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" role="form">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">About Editing</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        black
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                 </div><!-- panel-heading -->
                                 <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="accordion-content">
@@ -152,9 +119,8 @@
                             </div><!-- accordion -->
                         </div><!-- row -->
                     </div><!-- col-md-7 -->
-                    <!--<button id="editButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeInfo">
-                        <i class="fa fa-cog"></i>
-                    </button>-->
+                </div><!-- row -->
+            </div><!-- profile -->
                         
                     <div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="form">
@@ -308,29 +274,7 @@
                         } 
                     ?>
                     
-                    <div id="posts" class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Posts</h3>
-                            </div>
-                            <!--<div class="panel-body">
-                                <form action="<?php echo $thisPage; ?>" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="inputPost" placeholder="What's on your mind?" name="textPostimi"></textarea>
-                                    </div>
-                                    
-                                    <div class="post-buttons">
-                                        <div class="btn-group pull-right">
-                                            <button type="button" class="btn btn-default"><i class="fa fa-camera" aria-hidden="true"></i> Image</button>
-                                            <!--<button class="btn btn-default btn-file" type="file" name="file"><i class="fa fa-file" aria-hidden="true"></i> File</button>
-                                            <label class="btn btn-default btn-file">
-                                            <i class="fa fa-file" aria-hidden="true"></i> File<input type="file" name="file" style="display: none;">
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-default pull-left" name="submitPostimi">Submit</button>
-                                </form>
-                            </div>-->
-                        </div><!-- panel -->
+                    <div id="posts" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" >
                         <?php
                             $textPostimi = filter_input(INPUT_POST, 'textPostimi');
                             $submitPostimi = filter_input(INPUT_POST, 'submitPostimi');
@@ -394,79 +338,30 @@
                             { 
                                 $row = $postimet[$i];     // && 
                                // echo $row['File_Name'];
+                                $useri = Profesori::returnProfesoriById($row["FK_Profi"]);
+                                $fotoMir = "/../S-Cool/foto/".Foto::getFotoP($useri['ID']);
+                                $fff = "/../S-Cool/WebContent/mainPage/img/user.png";
+                                $rezultati = Foto::getIdP($useri['ID'])? $fotoMir: $fff;
                                 if(!isset($row['File_Name'])){
-                                echo "<div class='panel panel-default post'>"
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                        ."<a class='post-avatar thumbnail' href='#'>"
-                                                            ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
-                                                        ."</a>"
-                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p id='textP'>"
-                                                                    .$row["Tekst"]."</br>"
-                                                                ."</p>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>" //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                                
-                                                                    ."<form onclick='getAction(this)' method='post'>"
-                                                                        ."<div class='modal-body'>" 
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                //."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" //".$row['ID']."
-                                                                            ."<button type='submit' class='btn btn-primary' onclick='getName(this)' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                          
-                                                        ."<div class='comment-form'>"
-                                                            ."<form class='form-inline'>"
-                                                                ."<div class='form-group'>"
-                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
-                                                                ."</div>"
-                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
-                                                            ."</form>"
-                                                        ."</div><!-- comment-form end -->"
-                                                        ."<div class='clearfix'></div>"
-                                                        ."<div class='comments'>"
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
+                                echo 
 
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                               ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
-                                                ."</div>"
+                                "<div id='post' class='row'>"
+                                    ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                        ."<div class='profile-picture'>"
+                                            ."<img id='user-image' class='img-circle' src='".$rezultati."'>"
+                                            ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                        ."</div>"
+                                    ."</div>"
+                                    ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                        ."<div class='bubble'>"
+                                            ."<div class='pointer'>"
+                                                ."<p>"
+                                                    .$row['Tekst']
+                                                ."</p>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div>"
+                                ."</div><!-- row -->";
 
                                         /*. "<?php"
                                         . " $editText = filter_input(INPUT_POST, 'postime".$count++."');"
@@ -479,89 +374,34 @@
                                 }
                                 else
                                 {
-                                    echo "<div class='panel panel-default post'>"
-                                            ."<div class='panel-body'>"
-                                                ."<div class='row'>"
-                                                    ."<div class='col-sm-2'>"
-                                                        ."<a class='post-avatar thumbnail' href='#'>"
-                                                            ."<img src='img/user.png'>"
-                                                            ."<div class='text-center'>".$row['Emri']." ".$row['Mbiemri']."</div>"
-                                                        ."</a>"
-                                                        ."<div class='likes text-center'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> 20 likes</div>"
-                                                    ."</div>"
-                                                    ."<div class='col-sm-10'>"
-                                                        ."<div class='bubble'>"
-                                                            ."<div class='pointer'>"
-                                                                ."<p>"
-                                                                    .$row["Tekst"]."</br>"
-                                                                    ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
-                                                                ."</p>"
-                                                            ."</div>"
-                                                            ."<div class='pointer-border'></div>"
-                                                        ."</div>"
-                                                        ."<p class='post-actions'><a href='#'>Comment</a> - <a href='#'>Like</a> - <a data-toggle='modal' data-target='#editPost".$row['ID']."' href='#' id='".$row['ID']."' onclick='getID(this)' >Edit</a></p>"
-                                                        ."<div class='modal fade' id='editPost".$row['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>"
-                                                            ."<div class='modal-dialog' role='form'>"
-                                                                ."<div class='modal-content'>"
-                                                                    ."<div class='modal-header'>"
-                                                                        ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-                                                                        ."<h4 class='modal-title' id='myModalLabel'>Editing Post</h4>"
-                                                                   ."</div>"   //action='". $thisPage/*.filter_input(INPUT_GET, 'post')*/ ."'                              
-                                                                    ."<form onclick='getAction(this)' method='post' enctype='multipart/form-data'>"
-                                                                        ."<div class='modal-body'>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<input type='text' id='editPost' class='form-control' name='textField".$row['ID']."'/>"
-                                                                                ."<input type='hidden' id='hPost' class='form-control' name='hiddenInput' value='".$row['File_Name']."'/>"
-                                                                            ."</div>"
-                                                                            ."<div class='form-group'>"
-                                                                                ."<label for='changeFile'>File</label>"
-                                                                                ."<input type='file' id='changeFile' class='form-control' placeholder='Upload a file' name='file".$row['ID']."'/>"
-                                                                            ."</div>"
-                                                                        ."</div>"
-                                                                        ."<div class='modal-footer'>"
-                                                                            ."<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
-                                                                            ."<button type='submit' class='btn btn-primary' name='saveBtn".$row['ID']."'>Save changes</button>"
-                                                                        ."</div>"
-                                                                    ."</form>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                       ."</div>"                          
-                                                        ."<div class='comment-form'>"
-                                                            ."<form class='form-inline'>"
-                                                                ."<div class='form-group'>"
-                                                                    ."<input type='text' class='form-control' id='inputComment' placeholder='Write a comment...'>"
-                                                                ."</div>"
-                                                                ."<button type='submit' class='btn btn-default'>Add</button>"
-                                                            ."</form>"
-                                                        ."</div><!-- comment-form end -->"
-                                                        ."<div class='clearfix'></div>"
-                                                        ."<div class='comments'>"
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                                ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
+                                    echo 
 
-                                                            ."<div class='comment'>"
-                                                                ."<a class='comment-avatar pull-left' href='#'><img src='img/user.png'></a>"
-                                                                ."<div class='comment-text'>"
-                                                                    ."<p>Sed convallis est in ante sodales</p>"
-                                                               ."</div>"
-                                                            ."</div>"
-                                                            ."<div class='clearfix'></div>"
-                                                        ."</div>"
-                                                    ."</div>"
+                                    "<div id='post' class='row'>"
+                                        ."<div class='col-lg-2 col-md-3 col-sm-2 col-xs-12'>"
+                                            ."<div class='profile-picture'>"
+                                                ."<img id='user-image' class='img-circle' src='".$rezultati."'>"
+                                                ."<a>".$row["Emri"]." ".$row["Mbiemri"]."</a>"
+                                            ."</div>"
+                                        ."</div>"
+                                        ."<div class='col-lg-10 col-md-9 col-sm-10 col-xs-12'>"
+                                            ."<div class='bubble'>"
+                                                ."<div class='pointer'>"
+                                                    ."<p>"
+                                                        .$row['Tekst']
+                                                        ."<br>"
+                                                        ."<a href='/../S-Cool/files/".$row['File_Name']."' download>".$row['File_Name']."</a>"
+                                                    ."</p>"
                                                 ."</div>"
                                             ."</div>"
-                                        ."</div>";
+                                        ."</div>"
+                                    ."</div><!-- row -->";
                                 }
                             }
                         ?>
-                    </div>
-                </div>
-            </div>
+                    </div><!-- posts -->
+                </div><!-- mainRow -->
+            </div><!-- container -->
+
             <script>
                 //var x = document.getElementById("editPost");
                 var idPost;
@@ -687,44 +527,5 @@
                     }
                 }
             ?>
-            <div id="sidebar" class="col-md-4">
-                <button class="btn btn-primary">Test button 1</button>
-                <button class="btn btn-primary">Test button 2</button>
-                <ul id="others">
-                    <li>HR Blog<i class="pull-right fa fa-chevron-right"></i></li>
-                    <li>Published Articles<i class="pull-right fa fa-chevron-right"></i></li>
-                    <li>Rate my professor profile<i class="pull-right fa fa-chevron-right"></i></li>
-                    <li>Articles of interest<i class="pull-right fa fa-chevron-right"></i></li>
-                </ul>
-                <ul id="social">
-                    <li id="youtube"><a><i class="fa fa-youtube-play fa-lg"></i></a></li>
-                    <li id="facebook"><a><i class="fa fa-facebook fa-lg"></i></a></li>
-                    <li id="linkedin"><a><i class="fa fa-linkedin fa-lg"></i></a></li>
-                    <li id="twitter"><a><i class="fa fa-twitter fa-lg"></i></a></li>
-                    <li id="flickr"><a><i class="fa fa-flickr fa-lg"></i></a><</li>
-                </ul>
-                <ul id="others">
-                    <li>Curriculum Vitae<i class="pull-right fa fa-chevron-circle-down"></i></li>
-                    <li>Resume<i class="pull-right fa fa-chevron-circle-down"></i></li>
-                    <li>Transcripts<i class="pull-right fa fa-chevron-circle-down"></i></li>
-                    <li>Letters of Recommendation<i class="pull-right fa fa-chevron-circle-down"></i></li>
-                    <li>Pedagogical Statement<i class="pull-right fa fa-chevron-circle-down"></i></li>
-                </ul>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-
-                </div>
-                <div class="col-md-8">
-
-                </div>
-                <div class="col-md-8">
-
-                </div>
-            </div>
-
-
-        </div>
-    </div>
 </body>
 </html>
